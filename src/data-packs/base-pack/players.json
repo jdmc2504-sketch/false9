@@ -3,1347 +3,918 @@
     "id": "player-1",
     "name": "Erling Haaland",
     "type": "player",
-    "hintEasy": "Manchester City striker",
-    "hintMedium": "Norwegian goal machine",
-    "hintHard": "Wears No. 9",
-    "categories": [
-      "Premier League",
-      "Manchester City",
-      "Current Players",
-      "Norway"
-    ]
+    "hintEasy": "Robot",
+    "hintMedium": "Dortmund",
+    "hintHard": "Father's footsteps",
+    "categories": ["Premier League", "Manchester City", "Current Players", "Norway"]
   },
   {
     "id": "player-2",
     "name": "Mohamed Salah",
     "type": "player",
-    "hintEasy": "Liverpool's Egyptian King",
-    "hintMedium": "Famous for cutting in from the right",
-    "hintHard": "Egypt's all-time top scorer",
-    "categories": [
-      "Premier League",
-      "Liverpool",
-      "Current Players",
-      "Egypt"
-    ]
+    "hintEasy": "Egypt",
+    "hintMedium": "Chelsea reject",
+    "hintHard": "Rome",
+    "categories": ["Premier League", "Liverpool", "Current Players", "Egypt"]
   },
   {
     "id": "player-3",
     "name": "Bukayo Saka",
     "type": "player",
-    "hintEasy": "Arsenal academy graduate",
-    "hintMedium": "England's No. 7",
-    "hintHard": "Hails from Ealing, London",
-    "categories": [
-      "Premier League",
-      "Arsenal",
-      "Current Players",
-      "England"
-    ]
+    "hintEasy": "Penalty miss",
+    "hintMedium": "Left-back",
+    "hintHard": "Ealing",
+    "categories": ["Premier League", "Arsenal", "Current Players", "England"]
   },
   {
     "id": "player-4",
     "name": "Kevin De Bruyne",
     "type": "player",
-    "hintEasy": "Belgian playmaking genius",
-    "hintMedium": "Known for pinpoint crosses",
-    "hintHard": "Former Chelsea reject",
-    "categories": [
-      "Premier League",
-      "Belgium",
-      "Current Players"
-    ]
+    "hintEasy": "Belgium",
+    "hintMedium": "Rejected",
+    "hintHard": "Genk",
+    "categories": ["Premier League", "Belgium", "Current Players"]
   },
   {
     "id": "player-5",
     "name": "Declan Rice",
     "type": "player",
-    "hintEasy": "Arsenal's defensive midfielder",
-    "hintMedium": "Former West Ham captain",
-    "hintHard": "England international from Kingston",
-    "categories": [
-      "Premier League",
-      "Arsenal",
-      "Current Players",
-      "England"
-    ]
+    "hintEasy": "Ireland switch",
+    "hintMedium": "West Ham",
+    "hintHard": "Kingston",
+    "categories": ["Premier League", "Arsenal", "Current Players", "England"]
   },
   {
     "id": "player-6",
     "name": "Cole Palmer",
     "type": "player",
-    "hintEasy": "Chelsea's ice-cold finisher",
-    "hintMedium": "Famous cold celebration pose",
-    "hintHard": "Came through Man City academy",
-    "categories": [
-      "Premier League",
-      "Chelsea",
-      "Current Players",
-      "England"
-    ]
+    "hintEasy": "Icy",
+    "hintMedium": "City reject",
+    "hintHard": "Four goals",
+    "categories": ["Premier League", "Chelsea", "Current Players", "England"]
   },
   {
     "id": "player-7",
     "name": "Phil Foden",
     "type": "player",
-    "hintEasy": "Manchester City's homegrown talent",
-    "hintMedium": "Nicknamed Stockport Iniesta",
-    "hintHard": "England's No. 47 growing up",
-    "categories": [
-      "Premier League",
-      "Manchester City",
-      "Current Players",
-      "England"
-    ]
+    "hintEasy": "One club",
+    "hintMedium": "Stockport",
+    "hintHard": "U17 winner",
+    "categories": ["Premier League", "Manchester City", "Current Players", "England"]
   },
   {
     "id": "player-8",
     "name": "Son Heung-min",
     "type": "player",
-    "hintEasy": "Tottenham's South Korean captain",
-    "hintMedium": "Famous for his speed and finishing",
-    "hintHard": "Military service in South Korea",
-    "categories": [
-      "Premier League",
-      "Tottenham",
-      "Current Players"
-    ]
+    "hintEasy": "Korea",
+    "hintMedium": "Military service",
+    "hintHard": "Burnley solo",
+    "categories": ["Premier League", "Tottenham", "Current Players"]
   },
   {
     "id": "player-9",
     "name": "Harry Kane",
     "type": "player",
-    "hintEasy": "England's record goalscorer",
-    "hintMedium": "Moved to Bavaria in 2023",
-    "hintHard": "Tottenham legend turned Bayern striker",
-    "categories": [
-      "Premier League",
-      "Bundesliga",
-      "Current Players",
-      "England"
-    ]
+    "hintEasy": "Five loans",
+    "hintMedium": "No trophies",
+    "hintHard": "Record scorer",
+    "categories": ["Premier League", "Bundesliga", "Current Players", "England"]
   },
   {
     "id": "player-10",
     "name": "Virgil van Dijk",
     "type": "player",
-    "hintEasy": "Liverpool's commanding captain",
-    "hintMedium": "Dutch defensive colossus",
-    "hintHard": "Signed from Southampton for a then-record fee",
-    "categories": [
-      "Premier League",
-      "Liverpool",
-      "Current Players",
-      "Netherlands"
-    ]
+    "hintEasy": "Scotland first",
+    "hintMedium": "Record fee",
+    "hintHard": "Tapping up",
+    "categories": ["Premier League", "Liverpool", "Current Players", "Netherlands"]
   },
   {
     "id": "player-11",
     "name": "Bruno Fernandes",
     "type": "player",
-    "hintEasy": "Manchester United's captain",
-    "hintMedium": "Portuguese set-piece specialist",
-    "hintHard": "Known for animated celebrations",
-    "categories": [
-      "Premier League",
-      "Manchester United",
-      "Current Players",
-      "Portugal"
-    ]
+    "hintEasy": "Captain",
+    "hintMedium": "Penalties",
+    "hintHard": "Udinese",
+    "categories": ["Premier League", "Manchester United", "Current Players", "Portugal"]
   },
   {
     "id": "player-12",
     "name": "Marcus Rashford",
     "type": "player",
-    "hintEasy": "Manchester-born forward",
-    "hintMedium": "Campaigned for free school meals",
-    "hintHard": "England academy graduate from Wythenshawe",
-    "categories": [
-      "Premier League",
-      "Current Players",
-      "England"
-    ]
+    "hintEasy": "Free meals",
+    "hintMedium": "Debut scorer",
+    "hintHard": "Wythenshawe",
+    "categories": ["Premier League", "Current Players", "England"]
   },
   {
     "id": "player-13",
     "name": "Bernardo Silva",
     "type": "player",
-    "hintEasy": "Manchester City's tireless winger",
-    "hintMedium": "Tiny but technically brilliant",
-    "hintHard": "Came up through Benfica's academy",
-    "categories": [
-      "Premier League",
-      "Manchester City",
-      "Current Players",
-      "Portugal"
-    ]
+    "hintEasy": "Tireless",
+    "hintMedium": "Never sold",
+    "hintHard": "Benfica",
+    "categories": ["Premier League", "Manchester City", "Current Players", "Portugal"]
   },
   {
     "id": "player-14",
     "name": "Rodri",
     "type": "player",
-    "hintEasy": "Manchester City's deep midfield anchor",
-    "hintMedium": "Won Ballon d'Or in 2024",
-    "hintHard": "Spain's midfield metronome",
-    "categories": [
-      "Premier League",
-      "Manchester City",
-      "Current Players",
-      "Spain"
-    ]
+    "hintEasy": "Ballon d'Or",
+    "hintMedium": "Unbeaten run",
+    "hintHard": "Villarreal",
+    "categories": ["Premier League", "Manchester City", "Current Players", "Spain"]
   },
   {
     "id": "player-15",
     "name": "Alexander Isak",
     "type": "player",
-    "hintEasy": "Newcastle's elegant striker",
-    "hintMedium": "Swedish forward with silky touch",
-    "hintHard": "Came through Real Sociedad",
-    "categories": [
-      "Premier League",
-      "Newcastle",
-      "Current Players",
-      "Sweden"
-    ]
+    "hintEasy": "Record signing",
+    "hintMedium": "Sweden",
+    "hintHard": "Dortmund loan",
+    "categories": ["Premier League", "Newcastle", "Current Players", "Sweden"]
   },
   {
     "id": "player-16",
     "name": "William Saliba",
     "type": "player",
-    "hintEasy": "Arsenal's French centre-back",
-    "hintMedium": "Loaned to Marseille before breaking through",
-    "hintHard": "Part of France's World Cup squad",
-    "categories": [
-      "Premier League",
-      "Arsenal",
-      "Current Players",
-      "France"
-    ]
+    "hintEasy": "Three loans",
+    "hintMedium": "Saint-Etienne",
+    "hintHard": "Marseille",
+    "categories": ["Premier League", "Arsenal", "Current Players", "France"]
   },
   {
     "id": "player-17",
     "name": "James Maddison",
     "type": "player",
-    "hintEasy": "Tottenham's creative spark",
-    "hintMedium": "Known for his set-piece deliveries",
-    "hintHard": "Leicester academy product",
-    "categories": [
-      "Premier League",
-      "Tottenham",
-      "Current Players",
-      "England"
-    ]
+    "hintEasy": "Set pieces",
+    "hintMedium": "Leicester",
+    "hintHard": "Late call-up",
+    "categories": ["Premier League", "Tottenham", "Current Players", "England"]
   },
   {
     "id": "player-18",
     "name": "Trent Alexander-Arnold",
     "type": "player",
-    "hintEasy": "Liverpool academy graduate turned Madrid star",
-    "hintMedium": "Famous for inch-perfect crosses",
-    "hintHard": "Local Scouse lad who became a galactico",
-    "categories": [
-      "Premier League",
-      "Real Madrid",
-      "England"
-    ]
+    "hintEasy": "Crosses",
+    "hintMedium": "Local boy",
+    "hintHard": "Galactico",
+    "categories": ["Premier League", "Real Madrid", "England"]
   },
   {
     "id": "player-19",
     "name": "Jack Grealish",
     "type": "player",
-    "hintEasy": "Flashy English winger",
-    "hintMedium": "Famous for his rolled-down socks",
-    "hintHard": "Aston Villa boyhood hero turned title winner",
-    "categories": [
-      "Premier League",
-      "Current Players",
-      "England"
-    ]
+    "hintEasy": "Socks",
+    "hintMedium": "Irish eligible",
+    "hintHard": "Britain's record",
+    "categories": ["Premier League", "Current Players", "England"]
   },
   {
     "id": "player-20",
     "name": "Ollie Watkins",
     "type": "player",
-    "hintEasy": "Aston Villa's clinical striker",
-    "hintMedium": "Scored a famous Euro 2024 semi winner",
-    "hintHard": "Former Brentford forward",
-    "categories": [
-      "Premier League",
-      "Aston Villa",
-      "Current Players",
-      "England"
-    ]
+    "hintEasy": "Semi winner",
+    "hintMedium": "Non-league",
+    "hintHard": "Exeter",
+    "categories": ["Premier League", "Aston Villa", "Current Players", "England"]
   },
   {
     "id": "player-21",
     "name": "Martin Odegaard",
     "type": "player",
-    "hintEasy": "Arsenal's Norwegian captain",
-    "hintMedium": "Real Madrid's youngest ever debutant",
-    "hintHard": "Known for his calm composure",
-    "categories": [
-      "Premier League",
-      "Arsenal",
-      "Current Players",
-      "Norway"
-    ]
+    "hintEasy": "Wonderkid",
+    "hintMedium": "Four loans",
+    "hintHard": "Youngest debut",
+    "categories": ["Premier League", "Arsenal", "Current Players", "Norway"]
   },
   {
     "id": "player-22",
     "name": "Nicolas Jackson",
     "type": "player",
-    "hintEasy": "Chelsea's lively Senegalese striker",
-    "hintMedium": "Known for pace over precision",
-    "hintHard": "Came through Villarreal",
-    "categories": [
-      "Premier League",
-      "Chelsea",
-      "Current Players"
-    ]
+    "hintEasy": "Misses",
+    "hintMedium": "Villarreal",
+    "hintHard": "Senegal",
+    "categories": ["Premier League", "Chelsea", "Current Players"]
   },
   {
     "id": "player-23",
     "name": "Moises Caicedo",
     "type": "player",
-    "hintEasy": "Chelsea's record-fee midfielder",
-    "hintMedium": "Ecuadorian ball-winner",
-    "hintHard": "Joined from Brighton for a huge fee",
-    "categories": [
-      "Premier League",
-      "Chelsea",
-      "Current Players"
-    ]
+    "hintEasy": "British record",
+    "hintMedium": "Brighton",
+    "hintHard": "Ecuador",
+    "categories": ["Premier League", "Chelsea", "Current Players"]
   },
   {
     "id": "player-24",
     "name": "Bryan Mbeumo",
     "type": "player",
-    "hintEasy": "Cameroonian winger known for clinical finishing",
-    "hintMedium": "Captained Brentford before a big move",
-    "hintHard": "Renowned for cutting inside on his left",
-    "categories": [
-      "Premier League",
-      "Manchester United",
-      "Current Players"
-    ]
+    "hintEasy": "Brentford",
+    "hintMedium": "Ligue 2",
+    "hintHard": "Dad played",
+    "categories": ["Premier League", "Manchester United", "Current Players"]
   },
   {
     "id": "player-25",
     "name": "Morgan Rogers",
     "type": "player",
-    "hintEasy": "Aston Villa's versatile attacker",
-    "hintMedium": "Came through Manchester City's academy",
-    "hintHard": "Loan spells shaped his rise",
-    "categories": [
-      "Premier League",
-      "Aston Villa",
-      "Current Players",
-      "England"
-    ]
+    "hintEasy": "Multiple loans",
+    "hintMedium": "City reject",
+    "hintHard": "Midlands",
+    "categories": ["Premier League", "Aston Villa", "Current Players", "England"]
   },
   {
     "id": "player-26",
     "name": "Kylian Mbappe",
     "type": "player",
-    "hintEasy": "Real Madrid's French superstar",
-    "hintMedium": "Known for blistering pace",
-    "hintHard": "World Cup winner at 19",
-    "categories": [
-      "La Liga",
-      "Real Madrid",
-      "Current Players",
-      "France"
-    ]
+    "hintEasy": "Teenager",
+    "hintMedium": "Bondy",
+    "hintHard": "Charity donation",
+    "categories": ["La Liga", "Real Madrid", "Current Players", "France"]
   },
   {
     "id": "player-27",
     "name": "Vinicius Junior",
     "type": "player",
-    "hintEasy": "Real Madrid's Brazilian winger",
-    "hintMedium": "Famous for his dancing celebrations",
-    "hintHard": "Came through Flamengo's academy",
-    "categories": [
-      "La Liga",
-      "Real Madrid",
-      "Current Players",
-      "Brazil"
-    ]
+    "hintEasy": "Dancer",
+    "hintMedium": "Racism",
+    "hintHard": "Pre-debut signing",
+    "categories": ["La Liga", "Real Madrid", "Current Players", "Brazil"]
   },
   {
     "id": "player-28",
     "name": "Jude Bellingham",
     "type": "player",
-    "hintEasy": "Real Madrid's English midfield star",
-    "hintMedium": "Left Birmingham as a teenager",
-    "hintHard": "Known for arriving late into the box",
-    "categories": [
-      "La Liga",
-      "Real Madrid",
-      "Current Players",
-      "England"
-    ]
+    "hintEasy": "Birmingham",
+    "hintMedium": "Dortmund teen",
+    "hintHard": "Dad played",
+    "categories": ["La Liga", "Real Madrid", "Current Players", "England"]
   },
   {
     "id": "player-29",
     "name": "Robert Lewandowski",
     "type": "player",
-    "hintEasy": "Barcelona's Polish goal machine",
-    "hintMedium": "Once scored five in nine minutes",
-    "hintHard": "Bundesliga's all-time top scorer before LaLiga",
-    "categories": [
-      "La Liga",
-      "Barcelona",
-      "Current Players",
-      "Poland"
-    ]
+    "hintEasy": "Five minutes",
+    "hintMedium": "No UCL",
+    "hintHard": "Rejected early",
+    "categories": ["La Liga", "Barcelona", "Current Players", "Poland"]
   },
   {
     "id": "player-30",
     "name": "Lamine Yamal",
     "type": "player",
-    "hintEasy": "Barcelona's teenage sensation",
-    "hintMedium": "Youngest ever Spain international",
-    "hintHard": "Wears the iconic No. 10 at a young age",
-    "categories": [
-      "La Liga",
-      "Barcelona",
-      "Current Players",
-      "Spain"
-    ]
+    "hintEasy": "Youngest",
+    "hintMedium": "Birth photo",
+    "hintHard": "Final birthday",
+    "categories": ["La Liga", "Barcelona", "Current Players", "Spain"]
   },
   {
     "id": "player-31",
     "name": "Pedri",
     "type": "player",
-    "hintEasy": "Barcelona's tireless midfield metronome",
-    "hintMedium": "Canary Islands native",
-    "hintHard": "Compared to Andres Iniesta",
-    "categories": [
-      "La Liga",
-      "Barcelona",
-      "Current Players",
-      "Spain"
-    ]
+    "hintEasy": "Gran Canaria",
+    "hintMedium": "No rest",
+    "hintHard": "Kopa twice",
+    "categories": ["La Liga", "Barcelona", "Current Players", "Spain"]
   },
   {
     "id": "player-32",
     "name": "Antoine Griezmann",
     "type": "player",
-    "hintEasy": "Atletico Madrid's veteran forward",
-    "hintMedium": "Famous Fortnite celebration",
-    "hintHard": "World Cup winner with France",
-    "categories": [
-      "La Liga",
-      "Atletico Madrid",
-      "Current Players",
-      "France"
-    ]
+    "hintEasy": "Fortnite",
+    "hintMedium": "Stayed",
+    "hintHard": "Knockout king",
+    "categories": ["La Liga", "Atletico Madrid", "Current Players", "France"]
   },
   {
     "id": "player-33",
     "name": "Thibaut Courtois",
     "type": "player",
-    "hintEasy": "Real Madrid's towering goalkeeper",
-    "hintMedium": "Belgian shot-stopper",
-    "hintHard": "Former Chelsea and Atletico keeper",
-    "categories": [
-      "La Liga",
-      "Real Madrid",
-      "Current Players",
-      "Belgium"
-    ]
+    "hintEasy": "Golden Glove",
+    "hintMedium": "Bitter exit",
+    "hintHard": "Final hero",
+    "categories": ["La Liga", "Real Madrid", "Current Players", "Belgium"]
   },
   {
     "id": "player-34",
     "name": "Jan Oblak",
     "type": "player",
-    "hintEasy": "Atletico Madrid's Slovenian wall",
-    "hintMedium": "Known for his shot-stopping reflexes",
-    "hintHard": "One of the best paid goalkeepers ever",
-    "categories": [
-      "La Liga",
-      "Atletico Madrid",
-      "Current Players"
-    ]
+    "hintEasy": "Slovenia",
+    "hintMedium": "Untriggered clause",
+    "hintHard": "Untouchable",
+    "categories": ["La Liga", "Atletico Madrid", "Current Players"]
   },
   {
     "id": "player-35",
     "name": "Frenkie de Jong",
     "type": "player",
-    "hintEasy": "Barcelona's elegant Dutch midfielder",
-    "hintMedium": "Famous for his signature turn",
-    "hintHard": "Came through Ajax's academy",
-    "categories": [
-      "La Liga",
-      "Barcelona",
-      "Current Players",
-      "Netherlands"
-    ]
+    "hintEasy": "Ajax turn",
+    "hintMedium": "Wages issue",
+    "hintHard": "Failed move",
+    "categories": ["La Liga", "Barcelona", "Current Players", "Netherlands"]
   },
   {
     "id": "player-36",
     "name": "Pau Cubarsi",
     "type": "player",
-    "hintEasy": "Barcelona's teenage centre-back prodigy",
-    "hintMedium": "Composed on the ball beyond his years",
-    "hintHard": "Broke into the side aged just 17",
-    "categories": [
-      "La Liga",
-      "Barcelona",
-      "Current Players",
-      "Spain"
-    ]
+    "hintEasy": "Under 18",
+    "hintMedium": "Youth European",
+    "hintHard": "Composed",
+    "categories": ["La Liga", "Barcelona", "Current Players", "Spain"]
   },
   {
     "id": "player-37",
     "name": "Julian Alvarez",
     "type": "player",
-    "hintEasy": "Argentine World Cup winner",
-    "hintMedium": "Left Manchester City for Atletico",
-    "hintHard": "Known as 'La Araña'",
-    "categories": [
-      "La Liga",
-      "Atletico Madrid",
-      "Current Players",
-      "Argentina"
-    ]
+    "hintEasy": "Spider",
+    "hintMedium": "Final goal",
+    "hintHard": "Sought minutes",
+    "categories": ["La Liga", "Atletico Madrid", "Current Players", "Argentina"]
   },
   {
     "id": "player-38",
     "name": "Jamal Musiala",
     "type": "player",
-    "hintEasy": "Bayern Munich's dribbling wizard",
-    "hintMedium": "Born in Germany, raised in England",
-    "hintHard": "Came through Chelsea's academy",
-    "categories": [
-      "Bundesliga",
-      "Bayern Munich",
-      "Current Players",
-      "Germany"
-    ]
+    "hintEasy": "Two nations",
+    "hintMedium": "Chelsea youth",
+    "hintHard": "Germany chose",
+    "categories": ["Bundesliga", "Bayern Munich", "Current Players", "Germany"]
   },
   {
     "id": "player-39",
     "name": "Florian Wirtz",
     "type": "player",
-    "hintEasy": "Bayer Leverkusen's creative German star",
-    "hintMedium": "Helped his club win an unbeaten title",
-    "hintHard": "Tipped as Germany's next great No. 10",
-    "categories": [
-      "Bundesliga",
-      "Bayer Leverkusen",
-      "Current Players",
-      "Germany"
-    ]
+    "hintEasy": "Unbeaten",
+    "hintMedium": "ACL",
+    "hintHard": "Sister plays",
+    "categories": ["Bundesliga", "Bayer Leverkusen", "Current Players", "Germany"]
   },
   {
     "id": "player-40",
     "name": "Harry Kane",
     "type": "player",
-    "hintEasy": "Bayern Munich's English striker",
-    "hintMedium": "Premier League's all-time second top scorer",
-    "hintHard": "Finally won his first major trophy in Germany",
-    "categories": [
-      "Bundesliga",
-      "Bayern Munich",
-      "Current Players"
-    ]
+    "hintEasy": "First trophy",
+    "hintMedium": "Only Englishman",
+    "hintHard": "Sweetheart",
+    "categories": ["Bundesliga", "Bayern Munich", "Current Players"]
   },
   {
     "id": "player-41",
     "name": "Manuel Neuer",
     "type": "player",
-    "hintEasy": "Bayern Munich's legendary sweeper-keeper",
-    "hintMedium": "Redefined the goalkeeper role",
-    "hintHard": "Germany's 2014 World Cup winning keeper",
-    "categories": [
-      "Bundesliga",
-      "Bayern Munich",
-      "Germany"
-    ]
+    "hintEasy": "Sweeper keeper",
+    "hintMedium": "Year out",
+    "hintHard": "Reinvented role",
+    "categories": ["Bundesliga", "Bayern Munich", "Germany"]
   },
   {
     "id": "player-42",
     "name": "Joshua Kimmich",
     "type": "player",
-    "hintEasy": "Bayern Munich's versatile German engine",
-    "hintMedium": "Can play full-back or midfield",
-    "hintHard": "Came through RB Leipzig",
-    "categories": [
-      "Bundesliga",
-      "Bayern Munich",
-      "Current Players",
-      "Germany"
-    ]
+    "hintEasy": "Versatile",
+    "hintMedium": "Anti-vax",
+    "hintHard": "Originally defender",
+    "categories": ["Bundesliga", "Bayern Munich", "Current Players", "Germany"]
   },
   {
     "id": "player-43",
     "name": "Lautaro Martinez",
     "type": "player",
-    "hintEasy": "Inter Milan's Argentine captain",
-    "hintMedium": "World Cup winner in 2022",
-    "hintHard": "Known as 'El Toro'",
-    "categories": [
-      "Serie A",
-      "Inter Milan",
-      "Current Players",
-      "Argentina"
-    ]
+    "hintEasy": "El Toro",
+    "hintMedium": "Copa winner",
+    "hintHard": "Record breaker",
+    "categories": ["Serie A", "Inter Milan", "Current Players", "Argentina"]
   },
   {
     "id": "player-44",
     "name": "Victor Osimhen",
     "type": "player",
-    "hintEasy": "Nigerian striker who won Napoli a title",
-    "hintMedium": "Famous fighter-jet celebration",
-    "hintHard": "One of Africa's most prolific forwards",
-    "categories": [
-      "Serie A",
-      "Current Players"
-    ]
+    "hintEasy": "Jet celebration",
+    "hintMedium": "TikTok war",
+    "hintHard": "Player swap",
+    "categories": ["Serie A", "Current Players"]
   },
   {
     "id": "player-45",
     "name": "Rafael Leao",
     "type": "player",
-    "hintEasy": "AC Milan's explosive winger",
-    "hintMedium": "Portuguese pace merchant",
-    "hintHard": "Came through Sporting CP's academy",
-    "categories": [
-      "Serie A",
-      "AC Milan",
-      "Current Players",
-      "Portugal"
-    ]
+    "hintEasy": "Legal battle",
+    "hintMedium": "Massive clause",
+    "hintHard": "Left early",
+    "categories": ["Serie A", "AC Milan", "Current Players", "Portugal"]
   },
   {
     "id": "player-46",
     "name": "Theo Hernandez",
     "type": "player",
-    "hintEasy": "AC Milan's marauding left-back",
-    "hintMedium": "French defender with attacking flair",
-    "hintHard": "Brother also plays professionally",
-    "categories": [
-      "Serie A",
-      "AC Milan",
-      "Current Players",
-      "France"
-    ]
+    "hintEasy": "Brothers",
+    "hintMedium": "Final scorer",
+    "hintHard": "City reject",
+    "categories": ["Serie A", "AC Milan", "Current Players", "France"]
   },
   {
     "id": "player-47",
     "name": "Nicolo Barella",
     "type": "player",
-    "hintEasy": "Inter Milan's box-to-box engine",
-    "hintMedium": "Sardinian midfield dynamo",
-    "hintHard": "Key man in Italy's midfield",
-    "categories": [
-      "Serie A",
-      "Inter Milan",
-      "Current Players",
-      "Italy"
-    ]
+    "hintEasy": "Sardinia",
+    "hintMedium": "Treble engine",
+    "hintHard": "Cagliari",
+    "categories": ["Serie A", "Inter Milan", "Current Players", "Italy"]
   },
   {
     "id": "player-48",
     "name": "Ousmane Dembele",
     "type": "player",
-    "hintEasy": "French winger turned prolific striker",
-    "hintMedium": "Won Ballon d'Or contention at PSG",
-    "hintHard": "Known for explosive dribbling",
-    "categories": [
-      "Ligue 1",
-      "Current Players",
-      "France"
-    ]
+    "hintEasy": "Injury prone",
+    "hintMedium": "World champion",
+    "hintHard": "Record exit",
+    "categories": ["Ligue 1", "Current Players", "France"]
   },
   {
     "id": "player-49",
     "name": "Bradley Barcola",
     "type": "player",
-    "hintEasy": "PSG's pacy young winger",
-    "hintMedium": "Came through Lyon's academy",
-    "hintHard": "Breakout star of a Champions League run",
-    "categories": [
-      "Ligue 1",
-      "Current Players",
-      "France"
-    ]
+    "hintEasy": "Lyon",
+    "hintMedium": "Pace records",
+    "hintHard": "Surprise fee",
+    "categories": ["Ligue 1", "Current Players", "France"]
   },
   {
     "id": "player-50",
     "name": "Pele",
     "type": "player",
-    "hintEasy": "Brazilian icon, three-time World Cup winner",
-    "hintMedium": "Often called the greatest of all time",
-    "hintHard": "Scored over 1000 career goals",
-    "categories": [
-      "Legends",
-      "World Cup Winners",
-      "Brazil"
-    ]
+    "hintEasy": "Three cups",
+    "hintMedium": "War paused",
+    "hintHard": "Santos",
+    "categories": ["Legends", "World Cup Winners", "Brazil"]
   },
   {
     "id": "player-51",
     "name": "Diego Maradona",
     "type": "player",
-    "hintEasy": "Argentine icon famous for the Hand of God",
-    "hintMedium": "Carried Argentina to glory in 1986",
-    "hintHard": "Played for Napoli and Boca Juniors",
-    "categories": [
-      "Legends",
-      "World Cup Winners",
-      "Argentina"
-    ]
+    "hintEasy": "Hand of God",
+    "hintMedium": "Naples",
+    "hintHard": "Drug ban",
+    "categories": ["Legends", "World Cup Winners", "Argentina"]
   },
   {
     "id": "player-52",
     "name": "Johan Cruyff",
     "type": "player",
-    "hintEasy": "Dutch master of Total Football",
-    "hintMedium": "Has a turn named after him",
-    "hintHard": "Ajax and Barcelona icon",
-    "categories": [
-      "Legends",
-      "Netherlands"
-    ]
+    "hintEasy": "The Turn",
+    "hintMedium": "Political boycott",
+    "hintHard": "Number 14",
+    "categories": ["Legends", "Netherlands"]
   },
   {
     "id": "player-53",
     "name": "Zinedine Zidane",
     "type": "player",
-    "hintEasy": "French World Cup winning playmaker",
-    "hintMedium": "Famous for a Champions League final volley",
-    "hintHard": "Later became a championship-winning coach",
-    "categories": [
-      "Legends",
-      "World Cup Winners",
-      "France"
-    ]
+    "hintEasy": "Headbutt",
+    "hintMedium": "Algeria roots",
+    "hintHard": "Triple winner",
+    "categories": ["Legends", "World Cup Winners", "France"]
   },
   {
     "id": "player-54",
     "name": "Ronaldinho",
     "type": "player",
-    "hintEasy": "Brazilian magician known for his smile",
-    "hintMedium": "Two-time FIFA World Player of the Year",
-    "hintHard": "Famous for outrageous tricks",
-    "categories": [
-      "Legends",
-      "Brazil"
-    ]
+    "hintEasy": "Smile",
+    "hintMedium": "Fake passport",
+    "hintHard": "Released peak",
+    "categories": ["Legends", "Brazil"]
   },
   {
     "id": "player-55",
     "name": "Thierry Henry",
     "type": "player",
-    "hintEasy": "Arsenal's Invincibles era striker",
-    "hintMedium": "French World Cup winner from 1998",
-    "hintHard": "Famous for cutting in from the left",
-    "categories": [
-      "Legends",
-      "Premier League",
-      "France"
-    ]
+    "hintEasy": "Handball",
+    "hintMedium": "Statue outside",
+    "hintHard": "Winger converted",
+    "categories": ["Legends", "Premier League", "France"]
   },
   {
     "id": "player-56",
     "name": "Ronaldo Nazario",
     "type": "player",
-    "hintEasy": "Brazilian 'Phenomenon' striker",
-    "hintMedium": "Devastating in the 2002 World Cup final",
-    "hintHard": "Career shaped by serious knee injuries",
-    "categories": [
-      "Legends",
-      "World Cup Winners",
-      "Brazil"
-    ]
+    "hintEasy": "Phenomenon",
+    "hintMedium": "Mysterious seizure",
+    "hintHard": "Two comebacks",
+    "categories": ["Legends", "World Cup Winners", "Brazil"]
   },
   {
     "id": "player-57",
     "name": "Paolo Maldini",
     "type": "player",
-    "hintEasy": "AC Milan's one-club defensive icon",
-    "hintMedium": "Rarely needed to make a tackle",
-    "hintHard": "Captained Italy for over a decade",
-    "categories": [
-      "Legends",
-      "Serie A",
-      "Italy"
-    ]
+    "hintEasy": "One club",
+    "hintMedium": "Five finals",
+    "hintHard": "Father's son",
+    "categories": ["Legends", "Serie A", "Italy"]
   },
   {
     "id": "player-58",
     "name": "Franz Beckenbauer",
     "type": "player",
-    "hintEasy": "German 'Kaiser' who redefined sweeping",
-    "hintMedium": "Won the World Cup as player and manager",
-    "hintHard": "Bayern Munich legend",
-    "categories": [
-      "Legends",
-      "World Cup Winners",
-      "Germany"
-    ]
+    "hintEasy": "Kaiser",
+    "hintMedium": "Double winner",
+    "hintHard": "Libero",
+    "categories": ["Legends", "World Cup Winners", "Germany"]
   },
   {
     "id": "player-59",
     "name": "George Best",
     "type": "player",
-    "hintEasy": "Northern Irish maverick of the 1960s",
-    "hintMedium": "Manchester United's flair icon",
-    "hintHard": "Famous for his off-field lifestyle as much as skill",
-    "categories": [
-      "Legends",
-      "Premier League"
-    ]
+    "hintEasy": "Fifth Beatle",
+    "hintMedium": "No tournament",
+    "hintHard": "1968 double",
+    "categories": ["Legends", "Premier League"]
   },
   {
     "id": "player-60",
     "name": "David Beckham",
     "type": "player",
-    "hintEasy": "English icon famous for his right foot",
-    "hintMedium": "Free-kick specialist from Manchester",
-    "hintHard": "Later became a Hollywood-adjacent global brand",
-    "categories": [
-      "Legends",
-      "Premier League",
-      "England"
-    ]
+    "hintEasy": "Halfway line",
+    "hintMedium": "Sent off",
+    "hintHard": "MLS pioneer",
+    "categories": ["Legends", "Premier League", "England"]
   },
   {
     "id": "player-61",
     "name": "Andrea Pirlo",
     "type": "player",
-    "hintEasy": "Italian deep-lying playmaker",
-    "hintMedium": "Famous for his cool penalty technique",
-    "hintHard": "World Cup winner in 2006",
-    "categories": [
-      "Legends",
-      "Serie A",
-      "Italy"
-    ]
+    "hintEasy": "Free transfer",
+    "hintMedium": "Deep lying",
+    "hintHard": "Considered finished",
+    "categories": ["Legends", "Serie A", "Italy"]
   },
   {
     "id": "player-62",
     "name": "Roberto Baggio",
     "type": "player",
-    "hintEasy": "Italian 'Divin Codino' forward",
-    "hintMedium": "Famous ponytail and missed 1994 final penalty",
-    "hintHard": "Buddhist footballing artist",
-    "categories": [
-      "Legends",
-      "Serie A",
-      "Italy"
-    ]
+    "hintEasy": "Missed penalty",
+    "hintMedium": "Ponytail",
+    "hintHard": "Buddhist",
+    "categories": ["Legends", "Serie A", "Italy"]
   },
   {
     "id": "player-63",
     "name": "Marco van Basten",
     "type": "player",
-    "hintEasy": "Dutch striker with a legendary volley",
-    "hintMedium": "Career cut short by ankle injuries",
-    "hintHard": "Won three Ballons d'Or",
-    "categories": [
-      "Legends",
-      "Netherlands"
-    ]
+    "hintEasy": "Ankle ended",
+    "hintMedium": "Final volley",
+    "hintHard": "Three Ballons",
+    "categories": ["Legends", "Netherlands"]
   },
   {
     "id": "player-64",
     "name": "Eric Cantona",
     "type": "player",
-    "hintEasy": "Manchester United's collar-up Frenchman",
-    "hintMedium": "Famous for a kung-fu kick incident",
-    "hintHard": "Philosophical icon of English football",
-    "categories": [
-      "Legends",
-      "Premier League",
-      "France"
-    ]
+    "hintEasy": "Collar up",
+    "hintMedium": "Kung-fu",
+    "hintHard": "Retired 30",
+    "categories": ["Legends", "Premier League", "France"]
   },
   {
     "id": "player-65",
     "name": "Alessandro Del Piero",
     "type": "player",
-    "hintEasy": "Juventus' elegant one-club forward",
-    "hintMedium": "Famous for his curling 'Del Piero zone' shots",
-    "hintHard": "World Cup winner in 2006",
-    "categories": [
-      "Legends",
-      "Serie A",
-      "Italy"
-    ]
+    "hintEasy": "His zone",
+    "hintMedium": "Stayed loyal",
+    "hintHard": "Through relegation",
+    "categories": ["Legends", "Serie A", "Italy"]
   },
   {
     "id": "player-66",
     "name": "Luis Figo",
     "type": "player",
-    "hintEasy": "Portuguese winger who shocked fans with a transfer",
-    "hintMedium": "Moved from Barcelona to Real Madrid",
-    "hintHard": "Won the Ballon d'Or in 2000",
-    "categories": [
-      "Legends",
-      "La Liga",
-      "Portugal"
-    ]
+    "hintEasy": "Pig's head",
+    "hintMedium": "Rival transfer",
+    "hintHard": "Ballon d'Or",
+    "categories": ["Legends", "La Liga", "Portugal"]
   },
   {
     "id": "player-67",
     "name": "Rivaldo",
     "type": "player",
-    "hintEasy": "Brazilian World Cup winner known for overhead kicks",
-    "hintMedium": "Won Ballon d'Or in 1999",
-    "hintHard": "Part of Brazil's 2002 'Magic Trio'",
-    "categories": [
-      "Legends",
-      "Brazil"
-    ]
+    "hintEasy": "Fake fall",
+    "hintMedium": "Wrong year",
+    "hintHard": "Magic Trio",
+    "categories": ["Legends", "Brazil"]
   },
   {
     "id": "player-68",
     "name": "Gianluigi Buffon",
     "type": "player",
-    "hintEasy": "Italy's legendary World Cup winning keeper",
-    "hintMedium": "One-club hero at Juventus for most of his career",
-    "hintHard": "Played professionally into his forties",
-    "categories": [
-      "Legends",
-      "Serie A",
-      "Italy"
-    ]
+    "hintEasy": "Record keeper",
+    "hintMedium": "Never won UCL",
+    "hintHard": "Into 40s",
+    "categories": ["Legends", "Serie A", "Italy"]
   },
   {
     "id": "player-69",
     "name": "Xavi Hernandez",
     "type": "player",
-    "hintEasy": "Barcelona's tiki-taka conductor",
-    "hintMedium": "World Cup and double Euro winner",
-    "hintHard": "Later returned to coach his boyhood club",
-    "categories": [
-      "Legends",
-      "La Liga",
-      "Spain"
-    ]
+    "hintEasy": "Pass master",
+    "hintMedium": "Never left",
+    "hintHard": "Won everything",
+    "categories": ["Legends", "La Liga", "Spain"]
   },
   {
     "id": "player-70",
     "name": "Iker Casillas",
     "type": "player",
-    "hintEasy": "Spain's World Cup winning captain",
-    "hintMedium": "Real Madrid's homegrown goalkeeper",
-    "hintHard": "Known as 'San Iker' for his saves",
-    "categories": [
-      "Legends",
-      "La Liga",
-      "Spain"
-    ]
+    "hintEasy": "San Iker",
+    "hintMedium": "Heart attack",
+    "hintHard": "Dropped",
+    "categories": ["Legends", "La Liga", "Spain"]
   },
   {
     "id": "player-71",
     "name": "Carles Puyol",
     "type": "player",
-    "hintEasy": "Barcelona's fearless long-haired captain",
-    "hintMedium": "World Cup winning centre-back",
-    "hintHard": "Famous for a header in a World Cup semi",
-    "categories": [
-      "Legends",
-      "La Liga",
-      "Spain"
-    ]
+    "hintEasy": "Wild hair",
+    "hintMedium": "Self-sacrifice",
+    "hintHard": "Eight titles",
+    "categories": ["Legends", "La Liga", "Spain"]
   },
   {
     "id": "player-72",
     "name": "Didier Drogba",
     "type": "player",
-    "hintEasy": "Chelsea's Ivorian talisman",
-    "hintMedium": "Scored the winning penalty in a Champions League final",
-    "hintHard": "Famous for big-game performances",
-    "categories": [
-      "Legends",
-      "Premier League"
-    ]
+    "hintEasy": "Final hero",
+    "hintMedium": "War peace",
+    "hintHard": "Last touch",
+    "categories": ["Legends", "Premier League"]
   },
   {
     "id": "player-73",
     "name": "Samuel Eto'o",
     "type": "player",
-    "hintEasy": "Cameroonian striker, prolific across three leagues",
-    "hintMedium": "Won the Champions League with three different clubs",
-    "hintHard": "African Player of the Year multiple times",
-    "categories": [
-      "Legends",
-      "Serie A"
-    ]
+    "hintEasy": "Three clubs",
+    "hintMedium": "Huge contract",
+    "hintHard": "Released 16",
+    "categories": ["Legends", "Serie A"]
   },
   {
     "id": "player-74",
     "name": "Steven Gerrard",
     "type": "player",
-    "hintEasy": "Liverpool's one-club inspirational captain",
-    "hintMedium": "Famous for the 'Istanbul' comeback final",
-    "hintHard": "Known for thunderous long-range strikes",
-    "categories": [
-      "Legends",
-      "Premier League",
-      "England"
-    ]
+    "hintEasy": "The slip",
+    "hintMedium": "Almost left",
+    "hintHard": "FA Cup screamer",
+    "categories": ["Legends", "Premier League", "England"]
   },
   {
     "id": "player-75",
     "name": "Frank Lampard",
     "type": "player",
-    "hintEasy": "Chelsea's record goalscoring midfielder",
-    "hintMedium": "Known for late runs into the box",
-    "hintHard": "England's all-time top-scoring midfielder",
-    "categories": [
-      "Legends",
-      "Premier League",
-      "England"
-    ]
+    "hintEasy": "Disallowed",
+    "hintMedium": "Top scoring MF",
+    "hintHard": "Voted second",
+    "categories": ["Legends", "Premier League", "England"]
   },
   {
     "id": "player-76",
     "name": "Wayne Rooney",
     "type": "player",
-    "hintEasy": "Manchester United and England's record scorer",
-    "hintMedium": "Scored a famous overhead kick derby winner",
-    "hintHard": "Broke through as a teenager at Everton",
-    "categories": [
-      "Legends",
-      "Premier League",
-      "England"
-    ]
+    "hintEasy": "Record scorer",
+    "hintMedium": "Everton teenager",
+    "hintHard": "Family row",
+    "categories": ["Legends", "Premier League", "England"]
   },
   {
     "id": "player-77",
     "name": "Andres Iniesta",
     "type": "player",
-    "hintEasy": "Barcelona's quiet World Cup final hero",
-    "hintMedium": "Scored the winning goal in 2010",
-    "hintHard": "Tiki-taka's most balletic midfielder",
-    "categories": [
-      "Legends",
-      "La Liga",
-      "Spain"
-    ]
+    "hintEasy": "2010 goal",
+    "hintMedium": "Invisible man",
+    "hintHard": "Japan",
+    "categories": ["Legends", "La Liga", "Spain"]
   },
   {
     "id": "player-78",
     "name": "Xabi Alonso",
     "type": "player",
-    "hintEasy": "Spain's deep-lying passing maestro",
-    "hintMedium": "Scored from the halfway line memorably",
-    "hintHard": "Later became a title-winning coach",
-    "categories": [
-      "Legends",
-      "La Liga",
-      "Spain"
-    ]
+    "hintEasy": "Halfway goal",
+    "hintMedium": "Tax fraud",
+    "hintHard": "Unbeaten coach",
+    "categories": ["Legends", "La Liga", "Spain"]
   },
   {
     "id": "player-79",
     "name": "Cafu",
     "type": "player",
-    "hintEasy": "Brazilian right-back, three World Cup finals",
-    "hintMedium": "Captained Brazil to the 2002 title",
-    "hintHard": "Famous for his tireless overlapping runs",
-    "categories": [
-      "Legends",
-      "Serie A",
-      "Brazil"
-    ]
+    "hintEasy": "Three finals",
+    "hintMedium": "Full 90s",
+    "hintHard": "First club released",
+    "categories": ["Legends", "Serie A", "Brazil"]
   },
   {
     "id": "player-80",
     "name": "Roberto Carlos",
     "type": "player",
-    "hintEasy": "Brazilian left-back famous for a bending free-kick",
-    "hintMedium": "Real Madrid's attacking full-back pioneer",
-    "hintHard": "Known for thunderous shot power",
-    "categories": [
-      "Legends",
-      "La Liga",
-      "Brazil"
-    ]
+    "hintEasy": "Physics free kick",
+    "hintMedium": "Former forward",
+    "hintHard": "Four and three",
+    "categories": ["Legends", "La Liga", "Brazil"]
   },
   {
     "id": "player-81",
     "name": "Gabriel Batistuta",
     "type": "player",
-    "hintEasy": "Argentine striker famous for fist-pumping celebrations",
-    "hintMedium": "Fiorentina's prolific 'Batigol'",
-    "hintHard": "One of the great World Cup poachers",
-    "categories": [
-      "Legends",
-      "Serie A",
-      "Argentina"
-    ]
+    "hintEasy": "Batigol",
+    "hintMedium": "Three World Cups",
+    "hintHard": "Ankle surgery",
+    "categories": ["Legends", "Serie A", "Argentina"]
   },
   {
     "id": "player-82",
     "name": "Michael Owen",
     "type": "player",
-    "hintEasy": "England striker famous for a wonder goal in 1998",
-    "hintMedium": "Won the Ballon d'Or in 2001",
-    "hintHard": "Liverpool academy graduate",
-    "categories": [
-      "Legends",
-      "Premier League",
-      "England"
-    ]
+    "hintEasy": "Youngest Ballon",
+    "hintMedium": "Rival move",
+    "hintHard": "Injury defined",
+    "categories": ["Legends", "Premier League", "England"]
   },
   {
     "id": "player-83",
     "name": "Ryan Giggs",
     "type": "player",
-    "hintEasy": "Manchester United's longest-serving player",
-    "hintMedium": "Famous solo FA Cup semi-final goal",
-    "hintHard": "Welsh winger who never played in a major tournament",
-    "categories": [
-      "Legends",
-      "Premier League"
-    ]
+    "hintEasy": "Most appearances",
+    "hintMedium": "Four decades",
+    "hintHard": "No tournament",
+    "categories": ["Legends", "Premier League"]
   },
   {
     "id": "player-84",
     "name": "Paul Scholes",
     "type": "player",
-    "hintEasy": "Manchester United's understated midfield genius",
-    "hintMedium": "Praised by Zidane as the best of his generation",
-    "hintHard": "Known for raking long passes",
-    "categories": [
-      "Legends",
-      "Premier League",
-      "England"
-    ]
+    "hintEasy": "Came back",
+    "hintMedium": "Zidane praised",
+    "hintHard": "Flopped internationally",
+    "categories": ["Legends", "Premier League", "England"]
   },
   {
     "id": "player-85",
     "name": "Lothar Matthaus",
     "type": "player",
-    "hintEasy": "Germany's World Cup winning captain in 1990",
-    "hintMedium": "Most capped German international",
-    "hintHard": "Won the inaugural Ballon d'Or era award for his year",
-    "categories": [
-      "Legends",
-      "World Cup Winners",
-      "Germany"
-    ]
+    "hintEasy": "Five World Cups",
+    "hintMedium": "39 years old",
+    "hintHard": "Captain winner",
+    "categories": ["Legends", "World Cup Winners", "Germany"]
   },
   {
     "id": "player-86",
     "name": "Hristo Stoichkov",
     "type": "player",
-    "hintEasy": "Bulgarian forward, Barcelona's fiery icon",
-    "hintMedium": "Won the Ballon d'Or in 1994",
-    "hintHard": "Led Bulgaria to a shock World Cup semi",
-    "categories": [
-      "Legends",
-      "La Liga",
-      "Bulgaria"
-    ]
+    "hintEasy": "Six million nation",
+    "hintMedium": "Stamped referee",
+    "hintHard": "Double year",
+    "categories": ["Legends", "La Liga", "Bulgaria"]
   },
   {
     "id": "player-87",
     "name": "George Weah",
     "type": "player",
-    "hintEasy": "Liberian striker turned national president",
-    "hintMedium": "Only African to win the Ballon d'Or",
-    "hintHard": "AC Milan icon of the 1990s",
-    "categories": [
-      "Legends",
-      "Serie A"
-    ]
+    "hintEasy": "President",
+    "hintMedium": "No World Cup",
+    "hintHard": "Nephew too",
+    "categories": ["Legends", "Serie A"]
   },
   {
     "id": "player-88",
     "name": "Pavel Nedved",
     "type": "player",
-    "hintEasy": "Czech midfielder nicknamed 'Furia Ceca'",
-    "hintMedium": "Juventus icon known for stamina",
-    "hintHard": "Won the Ballon d'Or in 2003",
-    "categories": [
-      "Legends",
-      "Serie A",
-      "Czech Republic"
-    ]
+    "hintEasy": "Missed final",
+    "hintMedium": "Iron lungs",
+    "hintHard": "Post-scandal winner",
+    "categories": ["Legends", "Serie A", "Czech Republic"]
   },
   {
     "id": "player-89",
     "name": "Kaka",
     "type": "player",
-    "hintEasy": "Brazilian playmaker known for his calm style",
-    "hintMedium": "Won the Ballon d'Or in 2007",
-    "hintHard": "AC Milan and Real Madrid star",
-    "categories": [
-      "Legends",
-      "Serie A",
-      "Brazil"
-    ]
+    "hintEasy": "2007",
+    "hintMedium": "Back injury",
+    "hintHard": "Medical failed",
+    "categories": ["Legends", "Serie A", "Brazil"]
   },
   {
     "id": "player-90",
     "name": "Luis Suarez",
     "type": "player",
-    "hintEasy": "Uruguayan striker known for clinical, controversial play",
-    "hintMedium": "Part of Barcelona's lethal front three",
-    "hintHard": "Infamous for a World Cup goal-line handball",
-    "categories": [
-      "Legends",
-      "La Liga",
-      "Uruguay"
-    ]
+    "hintEasy": "Three bites",
+    "hintMedium": "Handball",
+    "hintHard": "31 goals",
+    "categories": ["Legends", "La Liga", "Uruguay"]
   },
   {
     "id": "player-91",
     "name": "Edwin van der Sar",
     "type": "player",
-    "hintEasy": "Towering Dutch goalkeeper",
-    "hintMedium": "Holds a Premier League clean sheet record",
-    "hintHard": "Manchester United's calm last line",
-    "categories": [
-      "Legends",
-      "Premier League",
-      "Netherlands"
-    ]
+    "hintEasy": "14 hours",
+    "hintMedium": "Two UCL clubs",
+    "hintHard": "Came back",
+    "categories": ["Legends", "Premier League", "Netherlands"]
   },
   {
     "id": "player-92",
     "name": "Patrick Vieira",
     "type": "player",
-    "hintEasy": "Arsenal's Invincibles midfield enforcer",
-    "hintMedium": "World Cup winner with France",
-    "hintHard": "Later became a Premier League manager",
-    "categories": [
-      "Legends",
-      "Premier League",
-      "France"
-    ]
+    "hintEasy": "Tunnel row",
+    "hintMedium": "Acrimonious exit",
+    "hintHard": "Double winner",
+    "categories": ["Legends", "Premier League", "France"]
   },
   {
     "id": "player-93",
     "name": "Lionel Messi",
     "type": "player",
-    "hintEasy": "Argentine World Cup winning No. 10",
-    "hintMedium": "Record eight-time Ballon d'Or winner",
-    "hintHard": "Now plays in Major League Soccer",
-    "categories": [
-      "Legends",
-      "World Cup Winners",
-      "Argentina",
-      "Current Players"
-    ]
+    "hintEasy": "Finally",
+    "hintMedium": "Teenage rejection",
+    "hintHard": "Tax convicted",
+    "categories": ["Legends", "World Cup Winners", "Argentina", "Current Players"]
   },
   {
     "id": "player-94",
     "name": "Cristiano Ronaldo",
     "type": "player",
-    "hintEasy": "Portuguese all-time top international scorer",
-    "hintMedium": "Famous for the 'Siuu' celebration",
-    "hintHard": "Now plays in Saudi Arabia",
-    "categories": [
-      "Legends",
-      "Current Players",
-      "Portugal"
-    ]
+    "hintEasy": "Museum",
+    "hintMedium": "Begged for",
+    "hintHard": "50bpm",
+    "categories": ["Legends", "Current Players", "Portugal"]
   },
   {
     "id": "player-95",
     "name": "Neymar",
     "type": "player",
-    "hintEasy": "Brazilian forward famous for flair",
-    "hintMedium": "Once the world's most expensive transfer",
-    "hintHard": "Known for elaborate step-overs",
-    "categories": [
-      "Current Players",
-      "Brazil"
-    ]
+    "hintEasy": "Most expensive",
+    "hintMedium": "Broke rules",
+    "hintHard": "State funded",
+    "categories": ["Current Players", "Brazil"]
   },
   {
     "id": "player-96",
     "name": "Karim Benzema",
     "type": "player",
-    "hintEasy": "French striker who waited years for a Ballon d'Or",
-    "hintMedium": "Real Madrid's all-time great No. 9",
-    "hintHard": "Now plays in Saudi Arabia",
-    "categories": [
-      "Legends",
-      "Current Players",
-      "France"
-    ]
+    "hintEasy": "Exiled",
+    "hintMedium": "Late peak",
+    "hintHard": "Criminal case",
+    "categories": ["Legends", "Current Players", "France"]
   },
   {
     "id": "player-97",
     "name": "Sadio Mane",
     "type": "player",
-    "hintEasy": "Senegalese forward, AFCON winner",
-    "hintMedium": "Part of a deadly Liverpool front three",
-    "hintHard": "Known for his humble upbringing story",
-    "categories": [
-      "Current Players"
-    ]
+    "hintEasy": "No electricity",
+    "hintMedium": "Three partnerships",
+    "hintHard": "Struggled abroad",
+    "categories": ["Current Players"]
   },
   {
     "id": "player-98",
     "name": "Riyad Mahrez",
     "type": "player",
-    "hintEasy": "Algerian winger, Leicester title hero",
-    "hintMedium": "Famous for a cheeky chip technique",
-    "hintHard": "Now plays in Saudi Arabia",
-    "categories": [
-      "Current Players"
-    ]
+    "hintEasy": "Underdog",
+    "hintMedium": "Went AWOL",
+    "hintHard": "Ligue 2",
+    "categories": ["Current Players"]
   },
   {
     "id": "player-99",
     "name": "N'Golo Kante",
     "type": "player",
-    "hintEasy": "Tireless French midfield destroyer",
-    "hintMedium": "Won the league with two different underdog clubs",
-    "hintHard": "World Cup winner in 2018",
-    "categories": [
-      "Legends",
-      "Current Players",
-      "France"
-    ]
+    "hintEasy": "Two underdogs",
+    "hintMedium": "Amateur",
+    "hintHard": "Only missed",
+    "categories": ["Legends", "Current Players", "France"]
   },
   {
     "id": "player-100",
     "name": "Toni Kroos",
     "type": "player",
-    "hintEasy": "German passing metronome",
-    "hintMedium": "Won five Champions Leagues with Real Madrid",
-    "hintHard": "Retired after Euro 2024",
-    "categories": [
-      "Legends",
-      "Current Players",
-      "Germany"
-    ]
+    "hintEasy": "Came back",
+    "hintMedium": "Rejected returned",
+    "hintHard": "Joked trophies",
+    "categories": ["Legends", "Current Players", "Germany"]
   },
   {
     "id": "player-101",
     "name": "Sergio Ramos",
     "type": "player",
-    "hintEasy": "Spanish defender famous for late dramatic goals",
-    "hintMedium": "Real Madrid's combative captain",
-    "hintHard": "World Cup winner in 2010",
-    "categories": [
-      "Legends",
-      "Current Players",
-      "Spain"
-    ]
+    "hintEasy": "Defender goals",
+    "hintMedium": "Career foul",
+    "hintHard": "Deliberate yellow",
+    "categories": ["Legends", "Current Players", "Spain"]
   },
   {
     "id": "player-102",
     "name": "Luka Modric",
     "type": "player",
-    "hintEasy": "Croatian playmaker, 2018 Ballon d'Or winner",
-    "hintMedium": "Led Croatia to a World Cup final",
-    "hintHard": "Real Madrid's evergreen midfielder",
-    "categories": [
-      "Legends",
-      "Current Players",
-      "Croatia"
-    ]
+    "hintEasy": "Duopoly ended",
+    "hintMedium": "Four million",
+    "hintHard": "Almost sold",
+    "categories": ["Legends", "Current Players", "Croatia"]
   }
 ]
