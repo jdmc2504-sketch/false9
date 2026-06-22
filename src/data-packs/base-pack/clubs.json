@@ -3,726 +3,558 @@
     "id": "club-1",
     "name": "Manchester City",
     "type": "club",
-    "hintEasy": "Reigning Premier League powerhouse",
-    "hintMedium": "Sky blue side managed under Pep Guardiola for years",
-    "hintHard": "Based at the Etihad Stadium",
-    "categories": [
-      "Premier League",
-      "Premier League Clubs",
-      "Top European Clubs"
-    ]
+    "hintEasy": "Oasis",
+    "hintMedium": "Sheikh Mansour",
+    "hintHard": "Maine Road",
+    "categories": ["Premier League", "Premier League Clubs", "Top European Clubs"]
   },
   {
     "id": "club-2",
     "name": "Manchester United",
     "type": "club",
-    "hintEasy": "Old Trafford's Red Devils",
-    "hintMedium": "Most decorated English club by trophies",
-    "hintHard": "Famous for the 'Class of 92'",
-    "categories": [
-      "Premier League",
-      "Premier League Clubs",
-      "Top European Clubs"
-    ]
+    "hintEasy": "Munich 58",
+    "hintMedium": "Newton Heath",
+    "hintHard": "Treble 99",
+    "categories": ["Premier League", "Premier League Clubs", "Top European Clubs"]
   },
   {
     "id": "club-3",
     "name": "Liverpool",
     "type": "club",
-    "hintEasy": "Anfield's Reds",
-    "hintMedium": "Famous for 'You'll Never Walk Alone'",
-    "hintHard": "Won a historic comeback in Istanbul",
-    "categories": [
-      "Premier League",
-      "Premier League Clubs",
-      "Top European Clubs"
-    ]
+    "hintEasy": "96",
+    "hintMedium": "Shankly",
+    "hintHard": "Heysel",
+    "categories": ["Premier League", "Premier League Clubs", "Top European Clubs"]
   },
   {
     "id": "club-4",
     "name": "Arsenal",
     "type": "club",
-    "hintEasy": "North London's Gunners",
-    "hintMedium": "Went a whole season unbeaten in 2003-04",
-    "hintHard": "Plays at the Emirates Stadium",
-    "categories": [
-      "Premier League",
-      "Premier League Clubs",
-      "Top European Clubs"
-    ]
+    "hintEasy": "Woolwich",
+    "hintMedium": "Highbury",
+    "hintHard": "49 games",
+    "categories": ["Premier League", "Premier League Clubs", "Top European Clubs"]
   },
   {
     "id": "club-5",
     "name": "Chelsea",
     "type": "club",
-    "hintEasy": "West London's Blues",
-    "hintMedium": "Owned by Roman Abramovich for nearly two decades",
-    "hintHard": "Plays at Stamford Bridge",
-    "categories": [
-      "Premier League",
-      "Premier League Clubs",
-      "Top European Clubs"
-    ]
+    "hintEasy": "Roman",
+    "hintMedium": "Pensioners",
+    "hintHard": "King's Road",
+    "categories": ["Premier League", "Premier League Clubs", "Top European Clubs"]
   },
   {
     "id": "club-6",
     "name": "Tottenham Hotspur",
     "type": "club",
-    "hintEasy": "North London's Spurs",
-    "hintMedium": "Famous for 'To Dare Is To Do'",
-    "hintHard": "Moved into a new stadium in 2019",
-    "categories": [
-      "Premier League",
-      "Premier League Clubs"
-    ]
+    "hintEasy": "White Hart",
+    "hintMedium": "Cockerel",
+    "hintHard": "Park Lane",
+    "categories": ["Premier League", "Premier League Clubs"]
   },
   {
     "id": "club-7",
     "name": "Newcastle United",
     "type": "club",
-    "hintEasy": "Tyneside's Magpies",
-    "hintMedium": "Black and white striped shirts",
-    "hintHard": "Plays at St James' Park",
-    "categories": [
-      "Premier League",
-      "Premier League Clubs"
-    ]
+    "hintEasy": "Entertainers",
+    "hintMedium": "Shearer",
+    "hintHard": "Toon",
+    "categories": ["Premier League", "Premier League Clubs"]
   },
   {
     "id": "club-8",
     "name": "Aston Villa",
     "type": "club",
-    "hintEasy": "Birmingham's claret and blue side",
-    "hintMedium": "Won the European Cup in 1982",
-    "hintHard": "Plays at Villa Park",
-    "categories": [
-      "Premier League",
-      "Premier League Clubs"
-    ]
+    "hintEasy": "1982",
+    "hintMedium": "Holte End",
+    "hintHard": "Witton Lane",
+    "categories": ["Premier League", "Premier League Clubs"]
   },
   {
     "id": "club-9",
     "name": "West Ham United",
     "type": "club",
-    "hintEasy": "East London's Hammers",
-    "hintMedium": "Famous for 'I'm Forever Blowing Bubbles'",
-    "hintHard": "Moved to the London Stadium",
-    "categories": [
-      "Premier League",
-      "Premier League Clubs"
-    ]
+    "hintEasy": "Upton Park",
+    "hintMedium": "Moore's club",
+    "hintHard": "Bubbles",
+    "categories": ["Premier League", "Premier League Clubs"]
   },
   {
     "id": "club-10",
     "name": "Everton",
     "type": "club",
-    "hintEasy": "Merseyside's Toffees",
-    "hintMedium": "Liverpool's blue half of the city",
-    "hintHard": "One of only a few ever-present top-flight clubs",
-    "categories": [
-      "Premier League",
-      "Premier League Clubs"
-    ]
+    "hintEasy": "Nil Satis",
+    "hintMedium": "People's club",
+    "hintHard": "Goodison",
+    "categories": ["Premier League", "Premier League Clubs"]
   },
   {
     "id": "club-11",
     "name": "Brighton & Hove Albion",
     "type": "club",
-    "hintEasy": "South coast's Seagulls",
-    "hintMedium": "Known for sharp recruitment and resale profits",
-    "hintHard": "Plays at the Amex Stadium",
-    "categories": [
-      "Premier League",
-      "Premier League Clubs"
-    ]
+    "hintEasy": "Goldstone",
+    "hintMedium": "Seagulls",
+    "hintHard": "Amex",
+    "categories": ["Premier League", "Premier League Clubs"]
   },
   {
     "id": "club-12",
     "name": "Brentford",
     "type": "club",
-    "hintEasy": "West London's Bees",
-    "hintMedium": "Famous for data-driven transfer strategy",
-    "hintHard": "Promoted to the top flight in 2021",
-    "categories": [
-      "Premier League",
-      "Premier League Clubs"
-    ]
+    "hintEasy": "Griffin Park",
+    "hintMedium": "Bees",
+    "hintHard": "Kew Bridge",
+    "categories": ["Premier League", "Premier League Clubs"]
   },
   {
     "id": "club-13",
     "name": "Wolverhampton Wanderers",
     "type": "club",
-    "hintEasy": "Black Country's Wolves",
-    "hintMedium": "Gold and black home colors",
-    "hintHard": "Founding members of the Football League",
-    "categories": [
-      "Premier League",
-      "Premier League Clubs"
-    ]
+    "hintEasy": "Molineux",
+    "hintMedium": "Fosun",
+    "hintHard": "League founders",
+    "categories": ["Premier League", "Premier League Clubs"]
   },
   {
     "id": "club-14",
     "name": "Crystal Palace",
     "type": "club",
-    "hintEasy": "South London's Eagles",
-    "hintMedium": "Famous for the 'Glad All Over' entrance song",
-    "hintHard": "Plays at Selhurst Park",
-    "categories": [
-      "Premier League",
-      "Premier League Clubs"
-    ]
+    "hintEasy": "Glad All Over",
+    "hintMedium": "Selhurst",
+    "hintHard": "Eagles",
+    "categories": ["Premier League", "Premier League Clubs"]
   },
   {
     "id": "club-15",
     "name": "Fulham",
     "type": "club",
-    "hintEasy": "West London club by the Thames",
-    "hintMedium": "Plays at Craven Cottage",
-    "hintHard": "Known for a riverside stadium setting",
-    "categories": [
-      "Premier League",
-      "Premier League Clubs"
-    ]
+    "hintEasy": "Craven Cottage",
+    "hintMedium": "Thames side",
+    "hintHard": "Harrods owner",
+    "categories": ["Premier League", "Premier League Clubs"]
   },
   {
     "id": "club-16",
     "name": "Real Madrid",
     "type": "club",
-    "hintEasy": "The most decorated club in Champions League history",
-    "hintMedium": "Plays in all-white at the Santiago Bernabeu",
-    "hintHard": "Known as 'Los Blancos'",
-    "categories": [
-      "La Liga",
-      "Top European Clubs",
-      "Champions League Clubs"
-    ]
+    "hintEasy": "Galacticos",
+    "hintMedium": "Di Stefano",
+    "hintHard": "Santiago",
+    "categories": ["La Liga", "Top European Clubs", "Champions League Clubs"]
   },
   {
     "id": "club-17",
     "name": "Barcelona",
     "type": "club",
-    "hintEasy": "Catalan giants known for 'tiki-taka'",
-    "hintMedium": "Famous for the motto 'Mes que un club'",
-    "hintHard": "Plays at Camp Nou",
-    "categories": [
-      "La Liga",
-      "Top European Clubs",
-      "Champions League Clubs"
-    ]
+    "hintEasy": "Mes que",
+    "hintMedium": "Catalan",
+    "hintHard": "Cruyff's legacy",
+    "categories": ["La Liga", "Top European Clubs", "Champions League Clubs"]
   },
   {
     "id": "club-18",
     "name": "Atletico Madrid",
     "type": "club",
-    "hintEasy": "Madrid's red and white striped side",
-    "hintMedium": "Famous for a gritty defensive identity under Simeone",
-    "hintHard": "Plays at the Metropolitano",
-    "categories": [
-      "La Liga",
-      "Top European Clubs"
-    ]
+    "hintEasy": "Colchoneros",
+    "hintMedium": "Simeone",
+    "hintHard": "Manzanares",
+    "categories": ["La Liga", "Top European Clubs"]
   },
   {
     "id": "club-19",
     "name": "Sevilla",
     "type": "club",
-    "hintEasy": "Andalusian club famous for Europa League success",
-    "hintMedium": "Won the Europa League a record number of times",
-    "hintHard": "Plays at the Ramon Sanchez Pizjuan",
-    "categories": [
-      "La Liga"
-    ]
+    "hintEasy": "Europa six",
+    "hintMedium": "Monchi",
+    "hintHard": "Nervion",
+    "categories": ["La Liga"]
   },
   {
     "id": "club-20",
     "name": "Real Sociedad",
     "type": "club",
-    "hintEasy": "Basque club from San Sebastian",
-    "hintMedium": "Famous for an all-Basque policy for decades",
-    "hintHard": "Plays at the Reale Arena",
-    "categories": [
-      "La Liga"
-    ]
+    "hintEasy": "Txuri-urdin",
+    "hintMedium": "Basque only",
+    "hintHard": "Reale Arena",
+    "categories": ["La Liga"]
   },
   {
     "id": "club-21",
     "name": "Athletic Bilbao",
     "type": "club",
-    "hintEasy": "Basque club that only signs Basque-born players",
-    "hintMedium": "Never been relegated from the top flight",
-    "hintHard": "Plays at San Mames",
-    "categories": [
-      "La Liga"
-    ]
+    "hintEasy": "Never relegated",
+    "hintMedium": "Cantera",
+    "hintHard": "San Mames",
+    "categories": ["La Liga"]
   },
   {
     "id": "club-22",
     "name": "Villarreal",
     "type": "club",
-    "hintEasy": "Known as the 'Yellow Submarine'",
-    "hintMedium": "Small-town club that won the Europa League",
-    "hintHard": "Based in a town of around 50,000 people",
-    "categories": [
-      "La Liga"
-    ]
+    "hintEasy": "Yellow Submarine",
+    "hintMedium": "Ceramics town",
+    "hintHard": "50,000 people",
+    "categories": ["La Liga"]
   },
   {
     "id": "club-23",
     "name": "Valencia",
     "type": "club",
-    "hintEasy": "Spain's third most successful club historically",
-    "hintMedium": "Plays at the Mestalla",
-    "hintHard": "Known by the nickname 'Los Che'",
-    "categories": [
-      "La Liga"
-    ]
+    "hintEasy": "Bat badge",
+    "hintMedium": "Mestalla",
+    "hintHard": "Los Che",
+    "categories": ["La Liga"]
   },
   {
     "id": "club-24",
     "name": "Bayern Munich",
     "type": "club",
-    "hintEasy": "Germany's most dominant club",
-    "hintMedium": "Won the Bundesliga title for over a decade straight",
-    "hintHard": "Plays at the Allianz Arena",
-    "categories": [
-      "Bundesliga",
-      "Top European Clubs",
-      "Champions League Clubs"
-    ]
+    "hintEasy": "Mia San Mia",
+    "hintMedium": "11 straight",
+    "hintHard": "Stern des Sudens",
+    "categories": ["Bundesliga", "Top European Clubs", "Champions League Clubs"]
   },
   {
     "id": "club-25",
     "name": "Borussia Dortmund",
     "type": "club",
-    "hintEasy": "Famous for the 'Yellow Wall' fan stand",
-    "hintMedium": "Plays at Signal Iduna Park",
-    "hintHard": "Known for developing young talent",
-    "categories": [
-      "Bundesliga",
-      "Top European Clubs"
-    ]
+    "hintEasy": "Yellow Wall",
+    "hintMedium": "Talent factory",
+    "hintHard": "Die Borussen",
+    "categories": ["Bundesliga", "Top European Clubs"]
   },
   {
     "id": "club-26",
     "name": "Bayer Leverkusen",
     "type": "club",
-    "hintEasy": "Nicknamed 'Werkself'",
-    "hintMedium": "Won an unbeaten Bundesliga title",
-    "hintHard": "Based in a town named after a pharmaceutical company",
-    "categories": [
-      "Bundesliga"
-    ]
+    "hintEasy": "Werkself",
+    "hintMedium": "Neverkusen",
+    "hintHard": "Pharma city",
+    "categories": ["Bundesliga"]
   },
   {
     "id": "club-27",
     "name": "RB Leipzig",
     "type": "club",
-    "hintEasy": "Modern club founded in 2009",
-    "hintMedium": "Backed by an energy drink company",
-    "hintHard": "Rose from the fifth tier to the Bundesliga in a decade",
-    "categories": [
-      "Bundesliga"
-    ]
+    "hintEasy": "Energy drink",
+    "hintMedium": "Hated club",
+    "hintHard": "Fifth tier",
+    "categories": ["Bundesliga"]
   },
   {
     "id": "club-28",
     "name": "Borussia Monchengladbach",
     "type": "club",
-    "hintEasy": "Known for a famous 'Foals' nickname",
-    "hintMedium": "Dominant German force of the 1970s",
-    "hintHard": "Plays at Borussia-Park",
-    "categories": [
-      "Bundesliga"
-    ]
+    "hintEasy": "The Foals",
+    "hintMedium": "70s power",
+    "hintHard": "Rheinstadion",
+    "categories": ["Bundesliga"]
   },
   {
     "id": "club-29",
     "name": "Juventus",
     "type": "club",
-    "hintEasy": "Turin's black-and-white striped giants",
-    "hintMedium": "Italy's most decorated league club",
-    "hintHard": "Known as 'The Old Lady'",
-    "categories": [
-      "Serie A",
-      "Top European Clubs",
-      "Champions League Clubs"
-    ]
+    "hintEasy": "Old Lady",
+    "hintMedium": "Calciopoli",
+    "hintHard": "Agnelli family",
+    "categories": ["Serie A", "Top European Clubs", "Champions League Clubs"]
   },
   {
     "id": "club-30",
     "name": "AC Milan",
     "type": "club",
-    "hintEasy": "San Siro's red-and-black Rossoneri",
-    "hintMedium": "Seven-time European Cup winners",
-    "hintHard": "Famous for legendary defensive units",
-    "categories": [
-      "Serie A",
-      "Top European Clubs",
-      "Champions League Clubs"
-    ]
+    "hintEasy": "Rossoneri",
+    "hintMedium": "Sacchi's era",
+    "hintHard": "Seven European",
+    "categories": ["Serie A", "Top European Clubs", "Champions League Clubs"]
   },
   {
     "id": "club-31",
     "name": "Inter Milan",
     "type": "club",
-    "hintEasy": "San Siro's blue-and-black Nerazzurri",
-    "hintMedium": "Won a historic treble in 2010",
-    "hintHard": "Famous for a defensive era under Mourinho",
-    "categories": [
-      "Serie A",
-      "Top European Clubs",
-      "Champions League Clubs"
-    ]
+    "hintEasy": "Nerazzurri",
+    "hintMedium": "2010 treble",
+    "hintHard": "La Beneamata",
+    "categories": ["Serie A", "Top European Clubs", "Champions League Clubs"]
   },
   {
     "id": "club-32",
     "name": "Napoli",
     "type": "club",
-    "hintEasy": "Southern Italian club Maradona made famous",
-    "hintMedium": "Won a Scudetto in 2023 after decades of waiting",
-    "hintHard": "Plays at the Diego Armando Maradona stadium",
-    "categories": [
-      "Serie A"
-    ]
+    "hintEasy": "Diego's city",
+    "hintMedium": "33 year wait",
+    "hintHard": "Partenopei",
+    "categories": ["Serie A"]
   },
   {
     "id": "club-33",
     "name": "AS Roma",
     "type": "club",
-    "hintEasy": "Capital city club with a wolf emblem",
-    "hintMedium": "Won the inaugural Europa Conference League",
-    "hintHard": "Plays at the Stadio Olimpico",
-    "categories": [
-      "Serie A"
-    ]
+    "hintEasy": "Giallorossi",
+    "hintMedium": "Wolf badge",
+    "hintHard": "Totti's club",
+    "categories": ["Serie A"]
   },
   {
     "id": "club-34",
     "name": "Atalanta",
     "type": "club",
-    "hintEasy": "Bergamo club famous for attacking football",
-    "hintMedium": "Won the Europa League in 2024",
-    "hintHard": "Punches above its weight against bigger clubs",
-    "categories": [
-      "Serie A"
-    ]
+    "hintEasy": "La Dea",
+    "hintMedium": "Gasperini",
+    "hintHard": "Bergamo",
+    "categories": ["Serie A"]
   },
   {
     "id": "club-35",
     "name": "Fiorentina",
     "type": "club",
-    "hintEasy": "Florence's purple-shirted club",
-    "hintMedium": "Known as 'La Viola'",
-    "hintHard": "Famous for Gabriel Batistuta's era",
-    "categories": [
-      "Serie A"
-    ]
+    "hintEasy": "La Viola",
+    "hintMedium": "Batigol",
+    "hintHard": "Artemio Franchi",
+    "categories": ["Serie A"]
   },
   {
     "id": "club-36",
     "name": "Paris Saint-Germain",
     "type": "club",
-    "hintEasy": "France's dominant capital city club",
-    "hintMedium": "Backed by Qatari ownership since 2011",
-    "hintHard": "Won the Champions League for the first time in 2025",
-    "categories": [
-      "Ligue 1",
-      "Top European Clubs",
-      "Champions League Clubs"
-    ]
+    "hintEasy": "Qatar owned",
+    "hintMedium": "Parc Princes",
+    "hintHard": "2025 UCL",
+    "categories": ["Ligue 1", "Top European Clubs", "Champions League Clubs"]
   },
   {
     "id": "club-37",
     "name": "Olympique Lyonnais",
     "type": "club",
-    "hintEasy": "Won seven straight French titles in the 2000s",
-    "hintMedium": "Based in France's third-largest city",
-    "hintHard": "Famous women's team won multiple Champions Leagues",
-    "categories": [
-      "Ligue 1"
-    ]
+    "hintEasy": "Seven straight",
+    "hintMedium": "Women's dynasty",
+    "hintHard": "Groupama",
+    "categories": ["Ligue 1"]
   },
   {
     "id": "club-38",
     "name": "Olympique de Marseille",
     "type": "club",
-    "hintEasy": "France's only European Cup winner",
-    "hintMedium": "Famous for passionate fans at the Velodrome",
-    "hintHard": "Mediterranean port city's club",
-    "categories": [
-      "Ligue 1"
-    ]
+    "hintEasy": "Only French UCL",
+    "hintMedium": "Tapie era",
+    "hintHard": "Velodrome",
+    "categories": ["Ligue 1"]
   },
   {
     "id": "club-39",
     "name": "AS Monaco",
     "type": "club",
-    "hintEasy": "Principality club known for academy products",
-    "hintMedium": "Plays its home games in a tiny tax haven",
-    "hintHard": "Produced Mbappe before his big transfer",
-    "categories": [
-      "Ligue 1"
-    ]
+    "hintEasy": "Tax haven",
+    "hintMedium": "Grimaldi",
+    "hintHard": "Principality",
+    "categories": ["Ligue 1"]
   },
   {
     "id": "club-40",
     "name": "Lille",
     "type": "club",
-    "hintEasy": "Stunned PSG to win the 2021 league title",
-    "hintMedium": "Northern French club near the Belgian border",
-    "hintHard": "Known for shrewd transfer business",
-    "categories": [
-      "Ligue 1"
-    ]
+    "hintEasy": "Stunned PSG",
+    "hintMedium": "LOSC",
+    "hintHard": "Belgian border",
+    "categories": ["Ligue 1"]
   },
   {
     "id": "club-41",
     "name": "Ajax",
     "type": "club",
-    "hintEasy": "Dutch club famous for Total Football",
-    "hintMedium": "Amsterdam giants with a legendary academy",
-    "hintHard": "Won three straight European Cups in the 1970s",
-    "categories": [
-      "Champions League Clubs",
-      "Top European Clubs"
-    ]
+    "hintEasy": "Total Football",
+    "hintMedium": "Three straight",
+    "hintHard": "De Toekomst",
+    "categories": ["Champions League Clubs", "Top European Clubs"]
   },
   {
     "id": "club-42",
     "name": "Benfica",
     "type": "club",
-    "hintEasy": "Lisbon giants known for a club curse legend",
-    "hintMedium": "One of Portugal's 'big three'",
-    "hintHard": "Famous for selling star players for huge fees",
-    "categories": [
-      "Champions League Clubs"
-    ]
+    "hintEasy": "Guttmann curse",
+    "hintMedium": "Sells everyone",
+    "hintHard": "Luz",
+    "categories": ["Champions League Clubs"]
   },
   {
     "id": "club-43",
     "name": "FC Porto",
     "type": "club",
-    "hintEasy": "Won the Champions League under Mourinho in 2004",
-    "hintMedium": "Northern Portugal's dragon-emblazoned club",
-    "hintHard": "Famous for shrewd scouting in South America",
-    "categories": [
-      "Champions League Clubs"
-    ]
+    "hintEasy": "Dragon badge",
+    "hintMedium": "Invicta",
+    "hintHard": "Mourinho's launch",
+    "categories": ["Champions League Clubs"]
   },
   {
     "id": "club-44",
     "name": "Sporting CP",
     "type": "club",
-    "hintEasy": "Lisbon club that gave Ronaldo his start",
-    "hintMedium": "Known by the lion emblem",
-    "hintHard": "Ended a 19-year title drought in 2021",
-    "categories": [
-      "Champions League Clubs"
-    ]
+    "hintEasy": "Ronaldo's first",
+    "hintMedium": "19 year wait",
+    "hintHard": "Alvalade",
+    "categories": ["Champions League Clubs"]
   },
   {
     "id": "club-45",
     "name": "Celtic",
     "type": "club",
-    "hintEasy": "Glasgow's green-and-white hooped giants",
-    "hintMedium": "First British club to win the European Cup",
-    "hintHard": "Famous Lisbon Lions team of 1967",
-    "categories": [
-      "Champions League Clubs"
-    ]
+    "hintEasy": "Lisbon Lions",
+    "hintMedium": "British first",
+    "hintHard": "Paradise",
+    "categories": ["Champions League Clubs"]
   },
   {
     "id": "club-46",
     "name": "Rangers",
     "type": "club",
-    "hintEasy": "Glasgow's blue-shirted rivals to Celtic",
-    "hintMedium": "One half of the 'Old Firm' rivalry",
-    "hintHard": "Plays at Ibrox Stadium",
-    "categories": [
-      "Champions League Clubs"
-    ]
+    "hintEasy": "55 titles",
+    "hintMedium": "Ibrox",
+    "hintHard": "Gers",
+    "categories": ["Champions League Clubs"]
   },
   {
     "id": "club-47",
     "name": "Galatasaray",
     "type": "club",
-    "hintEasy": "Istanbul giants known for a fierce home atmosphere",
-    "hintMedium": "Famous 'Welcome to Hell' banner",
-    "hintHard": "Turkey's most decorated European campaigner",
-    "categories": [
-      "Champions League Clubs"
-    ]
+    "hintEasy": "Welcome Hell",
+    "hintMedium": "Cimbom",
+    "hintHard": "Bosphorus",
+    "categories": ["Champions League Clubs"]
   },
   {
     "id": "club-48",
     "name": "Shakhtar Donetsk",
     "type": "club",
-    "hintEasy": "Ukrainian club known for Brazilian recruits",
-    "hintMedium": "Forced to play home games away from its city",
-    "hintHard": "Dominant force in Ukrainian football",
-    "categories": [
-      "Champions League Clubs"
-    ]
+    "hintEasy": "Homeless",
+    "hintMedium": "Brazil pipeline",
+    "hintHard": "Donbass",
+    "categories": ["Champions League Clubs"]
   },
   {
     "id": "club-49",
     "name": "Brazil",
     "type": "club",
-    "hintEasy": "Record five-time World Cup winners",
-    "hintMedium": "Famous canary-yellow jersey",
-    "hintHard": "South American football's most decorated nation",
-    "categories": [
-      "National Teams",
-      "World Cup Winners"
-    ]
+    "hintEasy": "Joga bonito",
+    "hintMedium": "Maracanazo",
+    "hintHard": "Five times",
+    "categories": ["National Teams", "World Cup Winners"]
   },
   {
     "id": "club-50",
     "name": "Argentina",
     "type": "club",
-    "hintEasy": "Sky-blue and white striped jersey",
-    "hintMedium": "Won the World Cup in 2022",
-    "hintHard": "Home of Messi and Maradona",
-    "categories": [
-      "National Teams",
-      "World Cup Winners"
-    ]
+    "hintEasy": "Albiceleste",
+    "hintMedium": "36 year wait",
+    "hintHard": "Qatar glory",
+    "categories": ["National Teams", "World Cup Winners"]
   },
   {
     "id": "club-51",
     "name": "Germany",
     "type": "club",
-    "hintEasy": "Four-time World Cup winners",
-    "hintMedium": "Known for tournament efficiency",
-    "hintHard": "Famous for a 7-1 World Cup semi-final win",
-    "categories": [
-      "National Teams",
-      "World Cup Winners"
-    ]
+    "hintEasy": "Seven one",
+    "hintMedium": "Die Mannschaft",
+    "hintHard": "Panzer",
+    "categories": ["National Teams", "World Cup Winners"]
   },
   {
     "id": "club-52",
     "name": "France",
     "type": "club",
-    "hintEasy": "Won the World Cup in 1998 and 2018",
-    "hintMedium": "Famous for a 'Black Blanc Beur' generation",
-    "hintHard": "Wears blue home shirts",
-    "categories": [
-      "National Teams",
-      "World Cup Winners"
-    ]
+    "hintEasy": "98 and 18",
+    "hintMedium": "Black Blanc Beur",
+    "hintHard": "Les Bleus",
+    "categories": ["National Teams", "World Cup Winners"]
   },
   {
     "id": "club-53",
     "name": "England",
     "type": "club",
-    "hintEasy": "Birthplace of football's modern rules",
-    "hintMedium": "Won its only World Cup on home soil in 1966",
-    "hintHard": "Known as the Three Lions",
-    "categories": [
-      "National Teams"
-    ]
+    "hintEasy": "1966 only",
+    "hintMedium": "Invented it",
+    "hintHard": "Wembley winners",
+    "categories": ["National Teams"]
   },
   {
     "id": "club-54",
     "name": "Spain",
     "type": "club",
-    "hintEasy": "Tiki-taka dominant team of 2008-2012",
-    "hintMedium": "Won the World Cup and back-to-back Euros",
-    "hintHard": "Won a record fourth European Championship in 2024",
-    "categories": [
-      "National Teams",
-      "World Cup Winners"
-    ]
+    "hintEasy": "La Furia",
+    "hintMedium": "Four Euros",
+    "hintHard": "2008 to 2012",
+    "categories": ["National Teams", "World Cup Winners"]
   },
   {
     "id": "club-55",
     "name": "Italy",
     "type": "club",
-    "hintEasy": "Four-time World Cup winners",
-    "hintMedium": "Famous for defensive 'catenaccio' style",
-    "hintHard": "Surprise Euro 2020 champions",
-    "categories": [
-      "National Teams",
-      "World Cup Winners"
-    ]
+    "hintEasy": "Azzurri",
+    "hintMedium": "Catenaccio",
+    "hintHard": "Wembley 2021",
+    "categories": ["National Teams", "World Cup Winners"]
   },
   {
     "id": "club-56",
     "name": "Portugal",
     "type": "club",
-    "hintEasy": "Home of Cristiano Ronaldo",
-    "hintMedium": "Won its first major title at Euro 2016",
-    "hintHard": "Known as 'A Seleção'",
-    "categories": [
-      "National Teams"
-    ]
+    "hintEasy": "Never won",
+    "hintMedium": "Euro 2016",
+    "hintHard": "A Selecao",
+    "categories": ["National Teams"]
   },
   {
     "id": "club-57",
     "name": "Netherlands",
     "type": "club",
-    "hintEasy": "Famous for 'Total Football'",
-    "hintMedium": "Three-time World Cup final losers",
-    "hintHard": "Known as the 'Oranje'",
-    "categories": [
-      "National Teams"
-    ]
+    "hintEasy": "Three finals",
+    "hintMedium": "Total nation",
+    "hintHard": "Never won",
+    "categories": ["National Teams"]
   },
   {
     "id": "club-58",
     "name": "Belgium",
     "type": "club",
-    "hintEasy": "Golden Generation of the 2010s",
-    "hintMedium": "Reached a World Cup semi-final in 2018",
-    "hintHard": "Known as the 'Red Devils'",
-    "categories": [
-      "National Teams"
-    ]
+    "hintEasy": "World number one",
+    "hintMedium": "Golden Gen",
+    "hintHard": "Never won",
+    "categories": ["National Teams"]
   },
   {
     "id": "club-59",
     "name": "Croatia",
     "type": "club",
-    "hintEasy": "Reached the World Cup final in 2018",
-    "hintMedium": "Famous checkered red-and-white jersey",
-    "hintHard": "Punches well above its small population",
-    "categories": [
-      "National Teams"
-    ]
+    "hintEasy": "Checkered",
+    "hintMedium": "Four million",
+    "hintHard": "Modric's nation",
+    "categories": ["National Teams"]
   },
   {
     "id": "club-60",
     "name": "Uruguay",
     "type": "club",
-    "hintEasy": "Won the very first World Cup in 1930",
-    "hintMedium": "Known as 'La Celeste'",
-    "hintHard": "South America's smallest World Cup winner",
-    "categories": [
-      "National Teams",
-      "World Cup Winners"
-    ]
+    "hintEasy": "1930",
+    "hintMedium": "La Celeste",
+    "hintHard": "Smallest winners",
+    "categories": ["National Teams", "World Cup Winners"]
   },
   {
     "id": "club-61",
     "name": "Morocco",
     "type": "club",
-    "hintEasy": "First African nation to reach a World Cup semi-final",
-    "hintMedium": "Stunning run at the 2022 World Cup",
-    "hintHard": "Known as the 'Atlas Lions'",
-    "categories": [
-      "National Teams"
-    ]
+    "hintEasy": "Atlas Lions",
+    "hintMedium": "African first",
+    "hintHard": "2022 shock",
+    "categories": ["National Teams"]
   },
   {
     "id": "club-62",
     "name": "Senegal",
     "type": "club",
-    "hintEasy": "AFCON champions in 2022",
-    "hintMedium": "Famous for Sadio Mane's leadership",
-    "hintHard": "Known as the 'Lions of Teranga'",
-    "categories": [
-      "National Teams"
-    ]
+    "hintEasy": "Teranga",
+    "hintMedium": "2022 AFCON",
+    "hintHard": "West Africa",
+    "categories": ["National Teams"]
   }
 ]
