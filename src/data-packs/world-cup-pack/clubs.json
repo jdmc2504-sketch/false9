@@ -1,0 +1,47 @@
+[
+  {
+    "id": "wc-club-1",
+    "name": "Japan",
+    "type": "club",
+    "hintEasy": "Asian nation known as the 'Samurai Blue'",
+    "hintMedium": "Knocked out Germany and Spain in 2022 group play",
+    "hintHard": "Wears a blue home jersey",
+    "categories": ["National Teams", "World Cup"]
+  },
+  {
+    "id": "wc-club-2",
+    "name": "South Korea",
+    "type": "club",
+    "hintEasy": "Co-hosted the 2002 World Cup",
+    "hintMedium": "Reached a shock World Cup semi-final on home soil",
+    "hintHard": "Home of Son Heung-min",
+    "categories": ["National Teams", "World Cup"]
+  },
+  {
+    "id": "wc-club-3",
+    "name": "Mexico",
+    "type": "club",
+    "hintEasy": "Has appeared in the most consecutive World Cups",
+    "hintMedium": "Known as 'El Tri'",
+    "hintHard": "Co-hosting the 2026 World Cup",
+    "categories": ["National Teams", "World Cup"]
+  },
+  {
+    "id": "wc-club-4",
+    "name": "Ghana",
+    "type": "club",
+    "hintEasy": "West African nation known as the 'Black Stars'",
+    "hintMedium": "Reached the World Cup quarter-finals in 2010",
+    "hintHard": "Lost on a famous missed late penalty against Uruguay",
+    "categories": ["National Teams", "World Cup"]
+  },
+  {
+    "id": "wc-club-5",
+    "name": "Australia",
+    "type": "club",
+    "hintEasy": "Oceania nation that plays in Asian qualifying",
+    "hintMedium": "Known as the 'Socceroos'",
+    "hintHard": "Reached the round of 16 in 2022",
+    "categories": ["National Teams", "World Cup"]
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "legends-extra-1",
+    "name": "Eric Cantona",
+    "type": "player",
+    "hintEasy": "Manchester United's collar-up Frenchman",
+    "hintMedium": "Famous for a kung-fu kick incident",
+    "hintHard": "Philosophical icon of English football",
+    "categories": ["Legends", "Premier League", "France"]
+  },
+  {
+    "id": "legends-extra-2",
+    "name": "Gheorghe Hagi",
+    "type": "player",
+    "hintEasy": "Romanian playmaker nicknamed 'The Maradona of the Carpathians'",
+    "hintMedium": "Famous for a halfway-line lob at the 1994 World Cup",
+    "hintHard": "Later became a club owner and coach in Romania",
+    "categories": ["Legends", "World Cup Winners"]
+  },
+  {
+    "id": "legends-extra-3",
+    "name": "Dennis Bergkamp",
+    "type": "player",
+    "hintEasy": "Arsenal's elegant Dutch forward",
+    "hintMedium": "Famous for a fear of flying",
+    "hintHard": "Scored a legendary turn-and-finish against Newcastle",
+    "categories": ["Legends", "Premier League", "Netherlands"]
+  },
+  {
+    "id": "legends-extra-4",
+    "name": "Alan Shearer",
+    "type": "player",
+    "hintEasy": "Premier League's all-time top scorer",
+    "hintMedium": "Famous arm-raised goal celebration",
+    "hintHard": "Turned down bigger clubs to join his boyhood team",
+    "categories": ["Legends", "Premier League", "England"]
+  },
+  {
+    "id": "legends-extra-5",
+    "name": "Davor Suker",
+    "type": "player",
+    "hintEasy": "Croatian striker, Golden Boot winner in 1998",
+    "hintMedium": "Led Croatia to a shock World Cup semi-final",
+    "hintHard": "Famous for a chipped goal against Denmark",
+    "categories": ["Legends", "World Cup Winners"]
+  },
+  {
+    "id": "legends-extra-6",
+    "name": "Jurgen Klinsmann",
+    "type": "player",
+    "hintEasy": "German striker famous for diving celebrations",
+    "hintMedium": "World Cup winner in 1990",
+    "hintHard": "Later coached the USA and Germany national teams",
+    "categories": ["Legends", "World Cup Winners", "Premier League"]
+  },
+  {
+    "id": "legends-extra-7",
+    "name": "Hristo Stoichkov",
+    "type": "player",
+    "hintEasy": "Bulgarian forward, Barcelona's fiery icon",
+    "hintMedium": "Won the Ballon d'Or in 1994",
+    "hintHard": "Led Bulgaria to a shock World Cup semi",
+    "categories": ["Legends", "La Liga"]
+  },
+  {
+    "id": "legends-extra-8",
+    "name": "Romario",
+    "type": "player",
+    "hintEasy": "Brazilian striker, World Cup winner in 1994",
+    "hintMedium": "Famous for clinical finishing inside the box",
+    "hintHard": "Formed a deadly partnership nicknamed 'Ro-Ro'",
+    "categories": ["Legends", "World Cup Winners", "Brazil"]
+  }
+]

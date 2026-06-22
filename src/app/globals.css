@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #f4f4f8;
+  --surface: #ffffff;
+  --surface-2: #ececf4;
+  --foreground: #08080f;
+  --muted: #70708a;
+  --border: #dcdcee;
+  --pitch: #b8f000;
+  --pitch-2: #9fd000;
+  --accent: #7b5cfa;
+  --danger: #ff3d5a;
+}
+
+.dark {
+  --background: #080810;
+  --surface: #0e0e1c;
+  --surface-2: #14142a;
+  --foreground: #ffffff;
+  --muted: #6a6a8a;
+  --border: #1e1e38;
+  --pitch: #c9f000;
+  --pitch-2: #a8cc00;
+  --accent: #7b5cfa;
+  --danger: #ff3d5a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-pitch: var(--pitch);
+  --color-pitch-2: var(--pitch-2);
+  --color-accent: var(--accent);
+  --color-danger: var(--danger);
+}
+
+* { -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  height: 100%;
+  overscroll-behavior-y: none;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* ── Glassmorphism surface ── */
+.glass {
+  background: color-mix(in srgb, var(--surface) 65%, transparent);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+}
+
+/* ── Neon glow on pitch colour ── */
+.neon-glow {
+  box-shadow: 0 0 20px color-mix(in srgb, var(--pitch) 40%, transparent),
+              0 0 60px color-mix(in srgb, var(--pitch) 15%, transparent);
+}
+
+.neon-text {
+  text-shadow: 0 0 20px color-mix(in srgb, var(--pitch) 60%, transparent);
+}
+
+.accent-glow {
+  box-shadow: 0 0 20px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+/* ── Dramatic gradient background ── */
+.hud-bg {
+  background-image:
+    radial-gradient(ellipse at 10% 0%, color-mix(in srgb, var(--accent) 12%, transparent) 0%, transparent 55%),
+    radial-gradient(ellipse at 90% 100%, color-mix(in srgb, var(--pitch) 10%, transparent) 0%, transparent 55%);
+}
+
+/* ── HUD pill badge ── */
+.hud-badge {
+  background: color-mix(in srgb, var(--surface-2) 80%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── Neon border card ── */
+.neon-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.neon-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--pitch) 30%, transparent),
+    transparent 50%,
+    color-mix(in srgb, var(--accent) 20%, transparent));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ── Player avatar circle ── */
+.avatar-ring {
+  border: 2px solid var(--border);
+  box-shadow: 0 0 0 0 transparent;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.avatar-ring.selected {
+  border-color: var(--pitch);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--pitch) 50%, transparent);
+}
+
+/* ── Scan-line texture overlay (subtle) ── */
+.scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 4px
+  );
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+.safe-top  { padding-top: env(safe-area-inset-top); }
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
