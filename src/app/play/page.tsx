@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Home, RotateCcw, Check } from "lucide-react";
+import { Home, RotateCcw, Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PassScreen } from "@/components/game/pass-screen";
 import { RevealCard } from "@/components/game/reveal-card";
@@ -19,21 +19,13 @@ type LocalPhase =
   | "voting-show"
   | "results";
 
-// Get initials from a player name
 function initials(name: string) {
-  return name
-    .split(" ")
-    .map((w) => w[0])
-    .slice(0, 2)
-    .join("")
-    .toUpperCase();
+  return name.split(" ").map((w) => w[0]).slice(0, 2).join("").toUpperCase();
 }
 
-// Simple countdown timer hook
 function useCountdown(seconds: number, running: boolean) {
   const [remaining, setRemaining] = useState(seconds);
   const ref = useRef<ReturnType<typeof setInterval> | null>(null);
-
   useEffect(() => {
     if (!running) return;
     ref.current = setInterval(() => {
@@ -41,12 +33,85 @@ function useCountdown(seconds: number, running: boolean) {
     }, 1000);
     return () => { if (ref.current) clearInterval(ref.current); };
   }, [running]);
-
   const mm = String(Math.floor(remaining / 60)).padStart(2, "0");
   const ss = String(remaining % 60).padStart(2, "0");
   return { display: `${mm}:${ss}`, remaining };
 }
 
+// ── Exit confirmation overlay ──────────────────────────────────
+function ExitConfirm({
+  onConfirm,
+  onCancel,
+}: {
+  onConfirm: () => void;
+  onCancel: () => void;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-end justify-center p-4 safe-bottom"
+      style={{ background: "rgba(0,0,0,0.75)", backdropFilter: "blur(8px)" }}
+    >
+      <motion.div
+        initial={{ y: 60, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: 60, opacity: 0 }}
+        transition={{ type: "spring", stiffness: 380, damping: 32 }}
+        className="neon-card w-full max-w-sm p-5"
+      >
+        <p className="text-xs font-black uppercase tracking-[0.25em] text-muted mb-1">
+          Quit Game
+        </p>
+        <h2 className="text-xl font-black uppercase tracking-tight mb-1">
+          Are you sure?
+        </h2>
+        <p className="text-sm text-muted mb-6">
+          The current round will be lost.
+        </p>
+        <div className="flex gap-3">
+          <Button variant="secondary" size="md" className="flex-1" onClick={onCancel}>
+            Keep Playing
+          </Button>
+          <Button variant="danger" size="md" className="flex-1" onClick={onConfirm}>
+            Quit
+          </Button>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+// ── Small HUD top bar shown on every game screen ───────────────
+function GameTopBar({
+  label,
+  sub,
+  onExit,
+}: {
+  label: string;
+  sub?: string;
+  onExit: () => void;
+}) {
+  return (
+    <div className="flex items-center justify-between px-5 pt-4 pb-2">
+      <div className="flex items-center gap-2">
+        <div className="hud-badge">{label}</div>
+        {sub && <div className="hud-badge">{sub}</div>}
+      </div>
+      <motion.button
+        whileTap={{ scale: 0.88 }}
+        onClick={onExit}
+        className="neon-card w-9 h-9 rounded-xl flex items-center justify-center"
+        aria-label="Exit game"
+      >
+        <X size={15} className="text-muted" />
+      </motion.button>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════
 export default function PlayPage() {
   const router = useRouter();
   const [round, setRound] = useState<GameRound | null>(null);
@@ -54,6 +119,7 @@ export default function PlayPage() {
   const [cursor, setCursor] = useState(0);
   const [pendingVotes, setPendingVotes] = useState<Record<number, number>>({});
   const [timerRunning, setTimerRunning] = useState(false);
+  const [showExitConfirm, setShowExitConfirm] = useState(false);
   const { display: timerDisplay, remaining: timerRemaining } = useCountdown(120, timerRunning);
 
   useEffect(() => {
@@ -62,6 +128,11 @@ export default function PlayPage() {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time hydration from sessionStorage
     setRound(r);
   }, [router]);
+
+  function handleExit() {
+    clearRound();
+    router.push("/");
+  }
 
   if (!round) {
     return (
@@ -77,11 +148,24 @@ export default function PlayPage() {
   if (localPhase === "reveal-pass") {
     return (
       <main className="flex-1 flex flex-col safe-top safe-bottom">
+        <GameTopBar
+          label={`Reveal ${cursor + 1}/${players.length}`}
+          sub={round.mode.toUpperCase()}
+          onExit={() => setShowExitConfirm(true)}
+        />
         <PassScreen
           nextPlayerName={players[cursor]}
-          subtitle={`Reveal ${cursor + 1} of ${players.length}`}
+          subtitle={`Player ${cursor + 1} of ${players.length}`}
           onReveal={() => setLocalPhase("reveal-show")}
         />
+        <AnimatePresence>
+          {showExitConfirm && (
+            <ExitConfirm
+              onConfirm={handleExit}
+              onCancel={() => setShowExitConfirm(false)}
+            />
+          )}
+        </AnimatePresence>
       </main>
     );
   }
@@ -90,6 +174,10 @@ export default function PlayPage() {
     const role = round.roles[cursor];
     return (
       <main className="flex-1 flex flex-col safe-top safe-bottom">
+        <GameTopBar
+          label={`Reveal ${cursor + 1}/${players.length}`}
+          onExit={() => setShowExitConfirm(true)}
+        />
         <RevealCard
           playerName={role.playerName}
           isFalse9={role.isFalse9}
@@ -104,53 +192,47 @@ export default function PlayPage() {
             }
           }}
         />
+        <AnimatePresence>
+          {showExitConfirm && (
+            <ExitConfirm
+              onConfirm={handleExit}
+              onCancel={() => setShowExitConfirm(false)}
+            />
+          )}
+        </AnimatePresence>
       </main>
     );
   }
 
   // ── Discussion phase ──────────────────────────────────────────
   if (localPhase === "discussion") {
-    const timerDone = timerRemaining === 0;
     return (
       <main className="flex-1 flex flex-col safe-top safe-bottom hud-bg">
-        {/* HUD header */}
-        <div className="flex items-center justify-between px-5 pt-4 pb-2">
-          <div className="hud-badge">{round.mode.toUpperCase()}</div>
-          <div className="hud-badge">{players.length} Players</div>
-        </div>
+        <GameTopBar
+          label={round.mode.toUpperCase()}
+          sub={`${players.length} Players`}
+          onExit={() => setShowExitConfirm(true)}
+        />
 
         <div className="flex-1 flex flex-col items-center justify-center px-5 text-center">
-          {/* Headline */}
-          <motion.div
-            initial={{ opacity: 0, y: -16 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mb-8"
-          >
+          <motion.div initial={{ opacity: 0, y: -16 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
             <p className="text-xs font-black uppercase tracking-[0.3em] text-muted mb-2">
               Discussion Time
             </p>
             <h1 className="text-3xl font-black uppercase tracking-tight leading-none">
-              Who is the{" "}
+              Who is the
             </h1>
             <h1 className="text-5xl font-black uppercase tracking-tight leading-tight text-pitch neon-text">
               False 9?
             </h1>
           </motion.div>
 
-          {/* Timer */}
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.15 }}
-            className="mb-8"
-          >
+          <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.15 }} className="mb-8">
             <div
               className={`neon-card px-10 py-5 text-center inline-block ${
                 timerRemaining < 20 && timerRunning ? "border-danger" : ""
               }`}
-              style={timerRunning && timerRemaining < 20
-                ? { boxShadow: "0 0 20px rgba(255,61,90,0.3)" }
-                : {}}
+              style={timerRunning && timerRemaining < 20 ? { boxShadow: "0 0 20px rgba(255,61,90,0.3)" } : {}}
             >
               <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted mb-1">
                 Time Remaining
@@ -159,58 +241,60 @@ export default function PlayPage() {
                 className={`text-5xl font-black tabular-nums tracking-tight ${
                   timerRemaining < 20 && timerRunning ? "text-danger" : "text-pitch"
                 }`}
-                style={
-                  timerRunning
-                    ? { textShadow: timerRemaining < 20
-                        ? "0 0 20px rgba(255,61,90,0.6)"
-                        : "0 0 20px rgba(201,240,0,0.5)" }
-                    : {}
-                }
+                style={timerRunning ? {
+                  textShadow: timerRemaining < 20
+                    ? "0 0 20px rgba(255,61,90,0.6)"
+                    : "0 0 20px rgba(201,240,0,0.5)"
+                } : {}}
               >
                 {timerDisplay}
               </p>
             </div>
           </motion.div>
 
-          {/* Instruction */}
           <p className="text-xs text-muted font-bold max-w-xs mb-8 leading-relaxed">
             Discuss freely — but don&apos;t say the answer outright. When ready, vote.
           </p>
 
-          {/* Actions */}
           <div className="w-full max-w-xs space-y-3">
             {!timerRunning && timerRemaining === 120 && (
-              <Button
-                variant="secondary"
-                size="md"
-                className="w-full"
-                onClick={() => setTimerRunning(true)}
-              >
+              <Button variant="secondary" size="md" className="w-full" onClick={() => setTimerRunning(true)}>
                 Start Timer
               </Button>
             )}
-            <Button
-              size="lg"
-              className="w-full"
-              onClick={() => setLocalPhase("voting-pass")}
-            >
+            <Button size="lg" className="w-full" onClick={() => setLocalPhase("voting-pass")}>
               Start Voting
             </Button>
           </div>
         </div>
+
+        <AnimatePresence>
+          {showExitConfirm && (
+            <ExitConfirm onConfirm={handleExit} onCancel={() => setShowExitConfirm(false)} />
+          )}
+        </AnimatePresence>
       </main>
     );
   }
 
-  // ── Voting phase ─────────────────────────────────────────────
+  // ── Voting phase ──────────────────────────────────────────────
   if (localPhase === "voting-pass") {
     return (
       <main className="flex-1 flex flex-col safe-top safe-bottom">
+        <GameTopBar
+          label={`Vote ${cursor + 1}/${players.length}`}
+          onExit={() => setShowExitConfirm(true)}
+        />
         <PassScreen
           nextPlayerName={players[cursor]}
           subtitle={`Vote ${cursor + 1} of ${players.length}`}
           onReveal={() => setLocalPhase("voting-show")}
         />
+        <AnimatePresence>
+          {showExitConfirm && (
+            <ExitConfirm onConfirm={handleExit} onCancel={() => setShowExitConfirm(false)} />
+          )}
+        </AnimatePresence>
       </main>
     );
   }
@@ -219,14 +303,13 @@ export default function PlayPage() {
     const currentVote = pendingVotes[cursor];
     return (
       <main className="flex-1 flex flex-col safe-top safe-bottom hud-bg">
-        {/* HUD header */}
-        <div className="flex items-center justify-between px-5 pt-4 pb-2">
-          <div className="hud-badge">Vote {cursor + 1}/{players.length}</div>
-          <div className="hud-badge">{players[cursor]}</div>
-        </div>
+        <GameTopBar
+          label={`Vote ${cursor + 1}/${players.length}`}
+          sub={players[cursor]}
+          onExit={() => setShowExitConfirm(true)}
+        />
 
         <div className="flex-1 flex flex-col px-5 pt-4 pb-6 overflow-y-auto">
-          {/* Headline */}
           <div className="text-center mb-6">
             <p className="text-xs font-black uppercase tracking-[0.25em] text-muted mb-1">
               {players[cursor]}, cast your vote
@@ -237,7 +320,6 @@ export default function PlayPage() {
             </h2>
           </div>
 
-          {/* Player grid */}
           <div className="grid grid-cols-2 gap-3 mb-6">
             {players.map((name, i) => {
               const isSelected = currentVote === i;
@@ -247,18 +329,13 @@ export default function PlayPage() {
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setPendingVotes((prev) => ({ ...prev, [cursor]: i }))}
                   className={`neon-card p-4 flex items-center gap-3 text-left transition-all ${
-                    isSelected
-                      ? "border-pitch"
-                      : "border-border"
+                    isSelected ? "border-pitch" : "border-border"
                   }`}
                   style={isSelected ? { boxShadow: "0 0 16px rgba(201,240,0,0.25)" } : {}}
                 >
-                  {/* Avatar */}
-                  <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-black shrink-0 avatar-ring ${
-                      isSelected ? "selected bg-pitch text-black" : "bg-surface-2 text-muted"
-                    }`}
-                  >
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-black shrink-0 avatar-ring ${
+                    isSelected ? "selected bg-pitch text-black" : "bg-surface-2 text-muted"
+                  }`}>
                     {initials(name)}
                   </div>
                   <div className="min-w-0">
@@ -273,16 +350,13 @@ export default function PlayPage() {
                       </p>
                     )}
                   </div>
-                  {isSelected && (
-                    <Check size={16} className="text-pitch ml-auto shrink-0" />
-                  )}
+                  {isSelected && <Check size={16} className="text-pitch ml-auto shrink-0" />}
                 </motion.button>
               );
             })}
           </div>
         </div>
 
-        {/* Submit */}
         <div className="px-5 pb-6 safe-bottom">
           <Button
             size="lg"
@@ -303,6 +377,12 @@ export default function PlayPage() {
             {cursor + 1 < players.length ? "Confirm & Pass" : "Reveal Results"}
           </Button>
         </div>
+
+        <AnimatePresence>
+          {showExitConfirm && (
+            <ExitConfirm onConfirm={handleExit} onCancel={() => setShowExitConfirm(false)} />
+          )}
+        </AnimatePresence>
       </main>
     );
   }
@@ -315,71 +395,44 @@ export default function PlayPage() {
 
   return (
     <main className="flex-1 flex flex-col safe-top safe-bottom hud-bg">
-      {/* HUD header */}
-      <div className="flex items-center justify-between px-5 pt-4 pb-2">
-        <div className="hud-badge">Results</div>
-        <div className={`hud-badge ${caught ? "text-pitch" : "text-danger"}`}>
-          {caught ? "Caught!" : "Escaped!"}
-        </div>
-      </div>
+      <GameTopBar
+        label="Results"
+        sub={caught ? "Caught!" : "Escaped!"}
+        onExit={() => setShowExitConfirm(true)}
+      />
 
       <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
 
-        {/* Verdict banner */}
+        {/* Verdict */}
         <motion.div
           initial={{ scale: 0.85, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           className={`neon-card p-6 text-center ${caught ? "border-pitch" : "border-danger"}`}
-          style={{
-            boxShadow: caught
-              ? "0 0 30px rgba(201,240,0,0.2)"
-              : "0 0 30px rgba(255,61,90,0.2)",
-          }}
+          style={{ boxShadow: caught ? "0 0 30px rgba(201,240,0,0.2)" : "0 0 30px rgba(255,61,90,0.2)" }}
         >
           <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted mb-1">
             {caught ? "The group wins" : "The false 9 escapes"}
           </p>
-          <h1
-            className={`text-5xl font-black uppercase tracking-tight ${
-              caught ? "text-pitch neon-text" : "text-danger"
-            }`}
-          >
+          <h1 className={`text-5xl font-black uppercase tracking-tight ${caught ? "text-pitch neon-text" : "text-danger"}`}>
             {caught ? "Caught!" : "Escaped!"}
           </h1>
         </motion.div>
 
-        {/* Answer reveal */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="neon-card p-5"
-        >
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted mb-1">
-            The Answer
-          </p>
-          <p className="text-2xl font-black uppercase tracking-tight text-pitch neon-text">
-            {round.entity.name}
-          </p>
+        {/* Answer */}
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="neon-card p-5">
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted mb-1">The Answer</p>
+          <p className="text-2xl font-black uppercase tracking-tight text-pitch neon-text">{round.entity.name}</p>
           <p className="text-xs text-muted mt-1 capitalize">{round.entity.type}</p>
         </motion.div>
 
         {/* False 9s */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15 }}
-          className="neon-card p-5"
-        >
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="neon-card p-5">
           <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted mb-3">
             The False 9{false9Names.length > 1 ? "s" : ""}
           </p>
           <div className="flex gap-2 flex-wrap">
             {false9Names.map((name) => (
-              <div
-                key={name}
-                className="flex items-center gap-2 bg-danger/10 border border-danger/30 rounded-xl px-3 py-2"
-              >
+              <div key={name} className="flex items-center gap-2 bg-danger/10 border border-danger/30 rounded-xl px-3 py-2">
                 <div className="w-8 h-8 rounded-full bg-danger/20 flex items-center justify-center">
                   <span className="text-xs font-black text-danger">{initials(name)}</span>
                 </div>
@@ -390,15 +443,8 @@ export default function PlayPage() {
         </motion.div>
 
         {/* Vote breakdown */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="neon-card p-5"
-        >
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted mb-3">
-            Vote Breakdown
-          </p>
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="neon-card p-5">
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted mb-3">Vote Breakdown</p>
           <div className="space-y-2">
             {players.map((name, i) => {
               const voteCount = counts[i] || 0;
@@ -406,18 +452,14 @@ export default function PlayPage() {
               const pct = players.length > 0 ? (voteCount / players.length) * 100 : 0;
               return (
                 <div key={i} className="flex items-center gap-3">
-                  <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black shrink-0 ${
-                      isFalse9 ? "bg-danger/20 text-danger" : "bg-surface-2 text-muted"
-                    }`}
-                  >
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black shrink-0 ${
+                    isFalse9 ? "bg-danger/20 text-danger" : "bg-surface-2 text-muted"
+                  }`}>
                     {initials(name)}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-center mb-1">
-                      <span className={`text-xs font-black uppercase tracking-wide ${
-                        isFalse9 ? "text-danger" : "text-foreground"
-                      }`}>
+                      <span className={`text-xs font-black uppercase tracking-wide ${isFalse9 ? "text-danger" : "text-foreground"}`}>
                         {name} {isFalse9 ? "⚠" : ""}
                       </span>
                       <span className="text-xs font-black text-muted">{voteCount}</span>
@@ -440,22 +482,19 @@ export default function PlayPage() {
 
       {/* Actions */}
       <div className="px-5 pb-6 safe-bottom flex gap-3 pt-4">
-        <Button
-          variant="secondary"
-          size="md"
-          className="flex-1"
-          onClick={() => { clearRound(); router.push("/"); }}
-        >
+        <Button variant="secondary" size="md" className="flex-1" onClick={() => { clearRound(); router.push("/"); }}>
           <Home size={15} /> Home
         </Button>
-        <Button
-          size="md"
-          className="flex-1"
-          onClick={() => { clearRound(); router.push("/create"); }}
-        >
+        <Button size="md" className="flex-1" onClick={() => { clearRound(); router.push("/create"); }}>
           <RotateCcw size={15} /> Play Again
         </Button>
       </div>
+
+      <AnimatePresence>
+        {showExitConfirm && (
+          <ExitConfirm onConfirm={handleExit} onCancel={() => setShowExitConfirm(false)} />
+        )}
+      </AnimatePresence>
     </main>
   );
 }
