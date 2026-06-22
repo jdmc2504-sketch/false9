@@ -3,490 +3,387 @@
     "id": "manager-1",
     "name": "Pep Guardiola",
     "type": "manager",
-    "hintEasy": "Manchester City's serial trophy collector",
-    "hintMedium": "Pioneered modern positional play",
-    "hintHard": "Former Barcelona and Bayern boss",
-    "categories": [
-      "Current Managers",
-      "Premier League"
-    ]
+    "hintEasy": "Possession",
+    "hintMedium": "Meticulous",
+    "hintHard": "Positional",
+    "categories": ["Current Managers", "Premier League"]
   },
   {
     "id": "manager-2",
     "name": "Jurgen Klopp",
     "type": "manager",
-    "hintEasy": "Liverpool's heavy-metal football icon",
-    "hintMedium": "Famous for 'gegenpressing'",
-    "hintHard": "Left Liverpool in 2024 after years of success",
-    "categories": [
-      "Historic Managers",
-      "Champions League Winners"
-    ]
+    "hintEasy": "Intensity",
+    "hintMedium": "Pressing",
+    "hintHard": "Gegenpressing",
+    "categories": ["Historic Managers", "Champions League Winners"]
   },
   {
     "id": "manager-3",
     "name": "Carlo Ancelotti",
     "type": "manager",
-    "hintEasy": "Real Madrid's calm trophy magnet",
-    "hintMedium": "Most Champions League titles of any coach",
-    "hintHard": "Known for a relaxed man-management style",
-    "categories": [
-      "Current Managers",
-      "Champions League Winners"
-    ]
+    "hintEasy": "Calm",
+    "hintMedium": "Decorated",
+    "hintHard": "Eyebrow",
+    "categories": ["Current Managers", "Champions League Winners"]
   },
   {
     "id": "manager-4",
     "name": "Mikel Arteta",
     "type": "manager",
-    "hintEasy": "Arsenal's intense former captain",
-    "hintMedium": "Learned under Guardiola as an assistant",
-    "hintHard": "Took Arsenal back to title contention",
-    "categories": [
-      "Current Managers",
-      "Premier League"
-    ]
+    "hintEasy": "Structured",
+    "hintMedium": "Disciple",
+    "hintHard": "Intensity",
+    "categories": ["Current Managers", "Premier League"]
   },
   {
     "id": "manager-5",
     "name": "Hansi Flick",
     "type": "manager",
-    "hintEasy": "German coach who won a treble with Bayern",
-    "hintMedium": "Now manages a Spanish giant",
-    "hintHard": "Known for attacking, high-press football",
-    "categories": [
-      "Current Managers"
-    ]
+    "hintEasy": "Systematic",
+    "hintMedium": "Understated",
+    "hintHard": "Treble",
+    "categories": ["Current Managers"]
   },
   {
     "id": "manager-6",
     "name": "Xabi Alonso",
     "type": "manager",
-    "hintEasy": "Former midfielder turned title-winning coach",
-    "hintMedium": "Led an unbeaten Bundesliga season",
-    "hintHard": "Now manages a Spanish giant",
-    "categories": [
-      "Current Managers"
-    ]
+    "hintEasy": "Unbeaten",
+    "hintMedium": "Elegant",
+    "hintHard": "Prodigy",
+    "categories": ["Current Managers"]
   },
   {
     "id": "manager-7",
     "name": "Unai Emery",
     "type": "manager",
-    "hintEasy": "Spanish coach famous for Europa League success",
-    "hintMedium": "Took an unfancied club into the Champions League",
-    "hintHard": "Won the Europa League multiple times",
-    "categories": [
-      "Current Managers"
-    ]
+    "hintEasy": "Methodical",
+    "hintMedium": "Setpieces",
+    "hintHard": "Underdog",
+    "categories": ["Current Managers"]
   },
   {
     "id": "manager-8",
     "name": "Thomas Tuchel",
     "type": "manager",
-    "hintEasy": "German coach who won the Champions League with Chelsea",
-    "hintMedium": "Now in charge of the England national team",
-    "hintHard": "Known for tactical flexibility",
-    "categories": [
-      "Current Managers",
-      "Champions League Winners"
-    ]
+    "hintEasy": "Flexible",
+    "hintMedium": "Confrontational",
+    "hintHard": "Nomadic",
+    "categories": ["Current Managers", "Champions League Winners"]
   },
   {
     "id": "manager-9",
     "name": "Erik ten Hag",
     "type": "manager",
-    "hintEasy": "Dutch coach who won an FA Cup at Old Trafford",
-    "hintMedium": "Previously dominated Dutch football with Ajax",
-    "hintHard": "Known for his demanding standards",
-    "categories": [
-      "Current Managers"
-    ]
+    "hintEasy": "Principled",
+    "hintMedium": "Demanding",
+    "hintHard": "Stubborn",
+    "categories": ["Current Managers"]
   },
   {
     "id": "manager-10",
     "name": "Ange Postecoglou",
     "type": "manager",
-    "hintEasy": "Australian coach known for attacking philosophy",
-    "hintMedium": "Took Celtic to domestic dominance",
-    "hintHard": "Famous quote about 'live by the sword'",
-    "categories": [
-      "Current Managers"
-    ]
+    "hintEasy": "Relentless",
+    "hintMedium": "Attacking",
+    "hintHard": "Unyielding",
+    "categories": ["Current Managers"]
   },
   {
     "id": "manager-11",
     "name": "Roberto De Zerbi",
     "type": "manager",
-    "hintEasy": "Italian coach known for playing out from the back",
-    "hintMedium": "Made his name at a south coast English club",
-    "hintHard": "Praised for bold possession football",
-    "categories": [
-      "Current Managers"
-    ]
+    "hintEasy": "Intricate",
+    "hintMedium": "Goalkeeper",
+    "hintHard": "Brave",
+    "categories": ["Current Managers"]
   },
   {
     "id": "manager-12",
     "name": "Diego Simeone",
     "type": "manager",
-    "hintEasy": "Argentine coach famous for fiery touchline passion",
-    "hintMedium": "Built a gritty identity at Atletico Madrid",
-    "hintHard": "Former World Cup playing midfielder",
-    "categories": [
-      "Current Managers"
-    ]
+    "hintEasy": "Passion",
+    "hintMedium": "Resilience",
+    "hintHard": "Combative",
+    "categories": ["Current Managers"]
   },
   {
     "id": "manager-13",
     "name": "Luis Enrique",
     "type": "manager",
-    "hintEasy": "Spanish coach who won a treble with Barcelona",
-    "hintMedium": "Now leads a French giant",
-    "hintHard": "Former Barcelona and Spain captain as a player",
-    "categories": [
-      "Current Managers",
-      "Champions League Winners"
-    ]
+    "hintEasy": "Demanding",
+    "hintMedium": "Revolutionary",
+    "hintHard": "Obsessive",
+    "categories": ["Current Managers", "Champions League Winners"]
   },
   {
     "id": "manager-14",
     "name": "Julian Nagelsmann",
     "type": "manager",
-    "hintEasy": "Youngest ever Bundesliga title-winning coach",
-    "hintMedium": "Now leads the German national team",
-    "hintHard": "Known as a tactical wunderkind",
-    "categories": [
-      "Current Managers"
-    ]
+    "hintEasy": "Wunderkind",
+    "hintMedium": "Hybrid",
+    "hintHard": "Youthful",
+    "categories": ["Current Managers"]
   },
   {
     "id": "manager-15",
     "name": "Sir Alex Ferguson",
     "type": "manager",
-    "hintEasy": "Manchester United's most successful manager ever",
-    "hintMedium": "Won 13 Premier League titles",
-    "hintHard": "Famous for the 'hairdryer treatment'",
-    "categories": [
-      "Historic Managers",
-      "Champions League Winners"
-    ]
+    "hintEasy": "Hairdryer",
+    "hintMedium": "Dynasty",
+    "hintHard": "Intimidation",
+    "categories": ["Historic Managers", "Champions League Winners"]
   },
   {
     "id": "manager-16",
     "name": "Arsene Wenger",
     "type": "manager",
-    "hintEasy": "Revolutionized English football nutrition and tactics",
-    "hintMedium": "Led Arsenal's unbeaten 'Invincibles' season",
-    "hintHard": "Managed Arsenal for over two decades",
-    "categories": [
-      "Historic Managers"
-    ]
+    "hintEasy": "Philosopher",
+    "hintMedium": "Revolutionary",
+    "hintHard": "Stubborn",
+    "categories": ["Historic Managers"]
   },
   {
     "id": "manager-17",
     "name": "Jose Mourinho",
     "type": "manager",
-    "hintEasy": "Self-proclaimed 'Special One'",
-    "hintMedium": "Won the Champions League with two different clubs",
-    "hintHard": "Famous for a touchline sprint celebration in 2004",
-    "categories": [
-      "Historic Managers",
-      "Champions League Winners"
-    ]
+    "hintEasy": "Arrogant",
+    "hintMedium": "Siege",
+    "hintHard": "Mindgames",
+    "categories": ["Historic Managers", "Champions League Winners"]
   },
   {
     "id": "manager-18",
     "name": "Pep Guardiola",
     "type": "manager",
-    "hintEasy": "Won six trophies in his first season at Barcelona",
-    "hintMedium": "Architect of the famous 2009 Barca team",
-    "hintHard": "Former Spain international midfielder",
-    "categories": [
-      "Historic Managers"
-    ]
+    "hintEasy": "Tiki-taka",
+    "hintMedium": "Dominant",
+    "hintHard": "Visionary",
+    "categories": ["Historic Managers"]
   },
   {
     "id": "manager-19",
     "name": "Johan Cruyff",
     "type": "manager",
-    "hintEasy": "Built Barcelona's legendary 'Dream Team'",
-    "hintMedium": "Pioneered the philosophy now known as tiki-taka",
-    "hintHard": "Dutch legend who shaped Ajax's academy",
-    "categories": [
-      "Historic Managers"
-    ]
+    "hintEasy": "Philosophy",
+    "hintMedium": "Total",
+    "hintHard": "Architect",
+    "categories": ["Historic Managers"]
   },
   {
     "id": "manager-20",
     "name": "Brian Clough",
     "type": "manager",
-    "hintEasy": "Led unfashionable Nottingham Forest to back-to-back titles",
-    "hintMedium": "Famous for outspoken confidence",
-    "hintHard": "Never managed the England national team despite calls",
-    "categories": [
-      "Historic Managers",
-      "Champions League Winners"
-    ]
+    "hintEasy": "Outspoken",
+    "hintMedium": "Maverick",
+    "hintHard": "Underdog",
+    "categories": ["Historic Managers", "Champions League Winners"]
   },
   {
     "id": "manager-21",
     "name": "Bill Shankly",
     "type": "manager",
-    "hintEasy": "Built the foundations of Liverpool's modern dynasty",
-    "hintMedium": "Famous quote about football being 'more important than life'",
-    "hintHard": "Scottish manager who transformed a struggling club",
-    "categories": [
-      "Historic Managers"
-    ]
+    "hintEasy": "Religion",
+    "hintMedium": "Rebuilder",
+    "hintHard": "Zealot",
+    "categories": ["Historic Managers"]
   },
   {
     "id": "manager-22",
     "name": "Bob Paisley",
     "type": "manager",
-    "hintEasy": "Liverpool's most decorated manager by trophy count",
-    "hintMedium": "Won three European Cups",
-    "hintHard": "Famously understated personality",
-    "categories": [
-      "Historic Managers",
-      "Champions League Winners"
-    ]
+    "hintEasy": "Understated",
+    "hintMedium": "Reluctant",
+    "hintHard": "Consecutive",
+    "categories": ["Historic Managers", "Champions League Winners"]
   },
   {
     "id": "manager-23",
     "name": "Helenio Herrera",
     "type": "manager",
-    "hintEasy": "Pioneered the defensive 'catenaccio' system",
-    "hintMedium": "Led Inter Milan to back-to-back European Cups",
-    "hintHard": "Argentine-French tactical innovator",
-    "categories": [
-      "Historic Managers"
-    ]
+    "hintEasy": "Catenaccio",
+    "hintMedium": "Motivator",
+    "hintHard": "Psychological",
+    "categories": ["Historic Managers"]
   },
   {
     "id": "manager-24",
     "name": "Rinus Michels",
     "type": "manager",
-    "hintEasy": "Father of 'Total Football'",
-    "hintMedium": "Led the Netherlands to a World Cup final",
-    "hintHard": "Shaped Ajax's golden era in the 1970s",
-    "categories": [
-      "Historic Managers"
-    ]
+    "hintEasy": "Architect",
+    "hintMedium": "Disciplinarian",
+    "hintHard": "Revolutionary",
+    "categories": ["Historic Managers"]
   },
   {
     "id": "manager-25",
     "name": "Marcello Lippi",
     "type": "manager",
-    "hintEasy": "Led Italy to World Cup glory in 2006",
-    "hintMedium": "Dominant Juventus coach in the 1990s",
-    "hintHard": "Known for a calm, authoritative presence",
-    "categories": [
-      "Historic Managers",
-      "World Cup Winners"
-    ]
+    "hintEasy": "Authoritative",
+    "hintMedium": "Cigar",
+    "hintHard": "Disciplined",
+    "categories": ["Historic Managers", "World Cup Winners"]
   },
   {
     "id": "manager-26",
     "name": "Vicente del Bosque",
     "type": "manager",
-    "hintEasy": "Led Spain to a World Cup and back-to-back Euros",
-    "hintMedium": "Won Champions Leagues as Real Madrid boss",
-    "hintHard": "Known for a quiet, modest demeanor",
-    "categories": [
-      "Historic Managers",
-      "World Cup Winners"
-    ]
+    "hintEasy": "Humble",
+    "hintMedium": "Patient",
+    "hintHard": "Moustache",
+    "categories": ["Historic Managers", "World Cup Winners"]
   },
   {
     "id": "manager-27",
     "name": "Luiz Felipe Scolari",
     "type": "manager",
-    "hintEasy": "Led Brazil to World Cup glory in 2002",
-    "hintMedium": "Famous for fiery man-management",
-    "hintHard": "Also managed Chelsea and Portugal",
-    "categories": [
-      "Historic Managers",
-      "World Cup Winners"
-    ]
+    "hintEasy": "Motivator",
+    "hintMedium": "Physical",
+    "hintHard": "Passionate",
+    "categories": ["Historic Managers", "World Cup Winners"]
   },
   {
     "id": "manager-28",
     "name": "Aime Jacquet",
     "type": "manager",
-    "hintEasy": "Led France to its first World Cup on home soil",
-    "hintMedium": "Built the 1998 golden generation",
-    "hintHard": "Faced heavy media criticism before the triumph",
-    "categories": [
-      "Historic Managers",
-      "World Cup Winners"
-    ]
+    "hintEasy": "Doubted",
+    "hintMedium": "Vindicated",
+    "hintHard": "Organised",
+    "categories": ["Historic Managers", "World Cup Winners"]
   },
   {
     "id": "manager-29",
     "name": "Joachim Low",
     "type": "manager",
-    "hintEasy": "Led Germany to World Cup glory in 2014",
-    "hintMedium": "Oversaw a famous 7-1 semi-final win",
-    "hintHard": "Long-serving German national team boss",
-    "categories": [
-      "Historic Managers",
-      "World Cup Winners"
-    ]
+    "hintEasy": "Longevity",
+    "hintMedium": "Systematic",
+    "hintHard": "Detached",
+    "categories": ["Historic Managers", "World Cup Winners"]
   },
   {
     "id": "manager-30",
     "name": "Didier Deschamps",
     "type": "manager",
-    "hintEasy": "Won the World Cup as both player and manager",
-    "hintMedium": "Captained France to glory in 1998",
-    "hintHard": "Led France to another title in 2018",
-    "categories": [
-      "Historic Managers",
-      "World Cup Winners"
-    ]
+    "hintEasy": "Double",
+    "hintMedium": "Pragmatic",
+    "hintHard": "Watercarrier",
+    "categories": ["Historic Managers", "World Cup Winners"]
   },
   {
     "id": "manager-31",
     "name": "Vicente del Bosque",
     "type": "manager",
-    "hintEasy": "Won two Champions Leagues with Real Madrid",
-    "hintMedium": "Later led Spain's golden generation",
-    "hintHard": "Known for calm, patient leadership",
-    "categories": [
-      "Champions League Winners"
-    ]
+    "hintEasy": "Collector",
+    "hintMedium": "Trustworthy",
+    "hintHard": "Serene",
+    "categories": ["Champions League Winners"]
   },
   {
     "id": "manager-32",
     "name": "Ottmar Hitzfeld",
     "type": "manager",
-    "hintEasy": "Won the Champions League with two different German clubs",
-    "hintMedium": "Swiss-German tactical mastermind",
-    "hintHard": "Later managed the Switzerland national team",
-    "categories": [
-      "Champions League Winners"
-    ]
+    "hintEasy": "Serial",
+    "hintMedium": "Methodical",
+    "hintHard": "Consistent",
+    "categories": ["Champions League Winners"]
   },
   {
     "id": "manager-33",
     "name": "Frank Rijkaard",
     "type": "manager",
-    "hintEasy": "Built the foundations of Barcelona's later dominance",
-    "hintMedium": "Former Dutch World Cup finalist as a player",
-    "hintHard": "Brought Ronaldinho-era flair to Barcelona",
-    "categories": [
-      "Historic Managers"
-    ]
+    "hintEasy": "Redemption",
+    "hintMedium": "Relaxed",
+    "hintHard": "Transformation",
+    "categories": ["Historic Managers"]
   },
   {
     "id": "manager-34",
     "name": "Fabio Capello",
     "type": "manager",
-    "hintEasy": "Dominant title-winning coach across multiple countries",
-    "hintMedium": "Managed Real Madrid, Milan, and England",
-    "hintHard": "Known for a strict disciplinarian approach",
-    "categories": [
-      "Historic Managers"
-    ]
+    "hintEasy": "Strict",
+    "hintMedium": "Nomadic",
+    "hintHard": "Authoritarian",
+    "categories": ["Historic Managers"]
   },
   {
     "id": "manager-35",
     "name": "Giovanni Trapattoni",
     "type": "manager",
-    "hintEasy": "Won league titles in four different countries",
-    "hintMedium": "Famous outspoken press conferences",
-    "hintHard": "Long, decorated career across Europe",
-    "categories": [
-      "Historic Managers"
-    ]
+    "hintEasy": "Emotional",
+    "hintMedium": "Veteran",
+    "hintHard": "Defensive",
+    "categories": ["Historic Managers"]
   },
   {
     "id": "manager-36",
     "name": "Marcelo Bielsa",
     "type": "manager",
-    "hintEasy": "Argentine coach famous for relentless pressing",
-    "hintMedium": "Nicknamed 'El Loco' for his intensity",
-    "hintHard": "Influenced a generation of modern coaches",
-    "categories": [
-      "Historic Managers"
-    ]
+    "hintEasy": "Obsessive",
+    "hintMedium": "Romantic",
+    "hintHard": "Intense",
+    "categories": ["Historic Managers"]
   },
   {
     "id": "manager-37",
     "name": "Antonio Conte",
     "type": "manager",
-    "hintEasy": "Italian coach famous for intense touchline energy",
-    "hintMedium": "Won titles in England and Italy",
-    "hintHard": "Known for a back-three tactical system",
-    "categories": [
-      "Current Managers"
-    ]
+    "hintEasy": "Aggressive",
+    "hintMedium": "Perfectionist",
+    "hintHard": "Confrontational",
+    "categories": ["Current Managers"]
   },
   {
     "id": "manager-38",
     "name": "Massimiliano Allegri",
     "type": "manager",
-    "hintEasy": "Pragmatic Italian coach with multiple Serie A titles",
-    "hintMedium": "Long association with Juventus",
-    "hintHard": "Known for defensive solidity",
-    "categories": [
-      "Current Managers"
-    ]
+    "hintEasy": "Pragmatic",
+    "hintMedium": "Cynical",
+    "hintHard": "Adaptable",
+    "categories": ["Current Managers"]
   },
   {
     "id": "manager-39",
     "name": "Zinedine Zidane",
     "type": "manager",
-    "hintEasy": "Won three straight Champions Leagues as a coach",
-    "hintMedium": "Former World Cup winning playmaker",
-    "hintHard": "Surprisingly successful debut managerial spell",
-    "categories": [
-      "Historic Managers",
-      "Champions League Winners"
-    ]
+    "hintEasy": "Serene",
+    "hintMedium": "Instinctive",
+    "hintHard": "Surprising",
+    "categories": ["Historic Managers", "Champions League Winners"]
   },
   {
     "id": "manager-40",
     "name": "Sir Bobby Robson",
     "type": "manager",
-    "hintEasy": "Beloved English coach who led England to a World Cup semi",
-    "hintMedium": "Managed top clubs across multiple countries",
-    "hintHard": "Mentored a young Mourinho as a translator",
-    "categories": [
-      "Historic Managers"
-    ]
+    "hintEasy": "Beloved",
+    "hintMedium": "Passionate",
+    "hintHard": "Loyal",
+    "categories": ["Historic Managers"]
   },
   {
     "id": "manager-41",
     "name": "Ottmar Hitzfeld",
     "type": "manager",
-    "hintEasy": "Won European Cups with Dortmund and Bayern",
-    "hintMedium": "Known as 'The General' in Germany",
-    "hintHard": "Swiss national team manager later in career",
-    "categories": [
-      "Historic Managers"
-    ]
+    "hintEasy": "Reliable",
+    "hintMedium": "Quiet",
+    "hintHard": "Dortmund",
+    "categories": ["Historic Managers"]
   },
   {
     "id": "manager-42",
     "name": "Louis van Gaal",
     "type": "manager",
-    "hintEasy": "Won titles with Ajax, Barcelona, and Bayern",
-    "hintMedium": "Famous for blunt honesty in interviews",
-    "hintHard": "Led the Netherlands to a World Cup semi-final",
-    "categories": [
-      "Historic Managers"
-    ]
+    "hintEasy": "Arrogant",
+    "hintMedium": "Stubborn",
+    "hintHard": "Principled",
+    "categories": ["Historic Managers"]
   },
   {
     "id": "manager-43",
     "name": "Sven-Goran Eriksson",
     "type": "manager",
-    "hintEasy": "First foreign manager of the England national team",
-    "hintMedium": "Known for a calm, measured demeanor",
-    "hintHard": "Led England to consecutive quarter-finals",
-    "categories": [
-      "Historic Managers"
-    ]
+    "hintEasy": "Composed",
+    "hintMedium": "Scandal",
+    "hintHard": "Pioneer",
+    "categories": ["Historic Managers"]
   }
 ]
