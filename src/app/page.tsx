@@ -22,17 +22,20 @@ export default function HomePage() {
   }, []);
 
   return (
-    <main className="flex-1 flex flex-col hud-bg safe-top safe-bottom relative overflow-hidden">
+    <main className="flex-1 flex flex-col safe-top safe-bottom relative overflow-hidden">
 
-      {/* Subtle grid background */}
+      {/* Stadium background image */}
       <div
-        className="absolute inset-0 opacity-[0.04] pointer-events-none"
+        className="absolute inset-0 z-0"
         style={{
-          backgroundImage:
-            "linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)",
-          backgroundSize: "40px 40px",
+          backgroundImage: "url('/stadium.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
       />
+
+      {/* Dark overlay so text/UI stays readable */}
+      <div className="absolute inset-0 z-0 bg-black/55" />
 
       {/* Top bar */}
       <div className="flex justify-between items-center p-5 relative z-10">
