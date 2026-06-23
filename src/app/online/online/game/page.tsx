@@ -70,9 +70,9 @@ function useCountdown(seconds: number, running: boolean, onEnd?: () => void) {
 export default function OnlineGamePage() {
   const router = useRouter();
 
-  const playerId = sessionStorage.getItem("online_player_id") ?? "";
-  const roomId = sessionStorage.getItem("online_room_id") ?? "";
-  const isHost = sessionStorage.getItem("online_is_host") === "true";
+  const playerId = typeof window !== "undefined" ? sessionStorage.getItem("online_player_id") ?? "" : "";
+  const roomId = typeof window !== "undefined" ? sessionStorage.getItem("online_room_id") ?? "" : "";
+  const isHost = typeof window !== "undefined" ? sessionStorage.getItem("online_is_host") === "true" : false;
 
   const [room, setRoom] = useState<RoomRow | null>(null);
   const [players, setPlayers] = useState<PlayerRow[]>([]);
