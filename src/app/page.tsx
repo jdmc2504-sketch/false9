@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Shield, Users, Zap, Settings, Lock, X } from "lucide-react";
+import { Shield, Users, Zap, Settings, Lock, X, Wifi, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Onboarding } from "@/components/onboarding";
 import { getHasOnboarded } from "@/lib/storage";
@@ -32,13 +31,12 @@ export default function HomePage() {
         }}
       />
 
-      {/* Dark overlay so text/UI stays readable */}
+      {/* Dark overlay */}
       <div className="absolute inset-0 z-0 bg-black/55" />
 
       {/* Top bar */}
       <div className="flex justify-between items-center p-5 relative z-10">
         <div className="hud-badge">Beta v1.0</div>
-
         <motion.button
           whileTap={{ scale: 0.88 }}
           onClick={() => setShowSettings(true)}
@@ -72,19 +70,45 @@ export default function HomePage() {
           </p>
         </motion.div>
 
+        {/* Play mode buttons */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
-          className="w-full max-w-xs mb-10"
+          className="w-full max-w-xs flex flex-col gap-3 mb-10"
         >
-          <Link href="/create" className="block">
-            <Button size="lg" className="w-full text-base">
-              Start Game
-            </Button>
-          </Link>
+          {/* Local play */}
+          <motion.button
+            whileTap={{ scale: 0.97 }}
+            onClick={() => router.push("/create")}
+            className="neon-card px-5 py-4 flex items-center gap-4 text-left w-full"
+          >
+            <div className="w-11 h-11 rounded-xl bg-pitch/20 flex items-center justify-center shrink-0">
+              <Smartphone size={20} className="text-pitch" />
+            </div>
+            <div>
+              <p className="font-black text-sm uppercase tracking-wide">Local Play</p>
+              <p className="text-xs text-muted">Pass the phone around</p>
+            </div>
+          </motion.button>
+
+          {/* Online play */}
+          <motion.button
+            whileTap={{ scale: 0.97 }}
+            onClick={() => router.push("/online")}
+            className="neon-card px-5 py-4 flex items-center gap-4 text-left w-full"
+          >
+            <div className="w-11 h-11 rounded-xl bg-accent/20 flex items-center justify-center shrink-0">
+              <Wifi size={20} className="text-accent" />
+            </div>
+            <div>
+              <p className="font-black text-sm uppercase tracking-wide">Online Play</p>
+              <p className="text-xs text-muted">Play on your own devices</p>
+            </div>
+          </motion.button>
         </motion.div>
 
+        {/* Stat cards */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -92,7 +116,7 @@ export default function HomePage() {
           className="grid grid-cols-3 gap-3 w-full max-w-xs"
         >
           {[
-            { icon: Users, label: "3–12",  sub: "Players"  },
+            { icon: Users,  label: "3–12",  sub: "Players"  },
             { icon: Shield, label: "4",     sub: "Modes"    },
             { icon: Zap,    label: "220+",  sub: "Entities" },
           ].map(({ icon: Icon, label, sub }) => (
@@ -112,31 +136,23 @@ export default function HomePage() {
         </p>
       </div>
 
-      {/* Settings bottom sheet */}
+      {/* Settings sheet */}
       <AnimatePresence>
         {showSettings && (
           <>
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
               onClick={() => setShowSettings(false)}
             />
-
             <motion.div
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "100%" }}
+              initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }}
               transition={{ type: "spring", stiffness: 380, damping: 34 }}
               className="fixed bottom-0 inset-x-0 z-50 p-4 safe-bottom"
             >
               <div className="neon-card p-2 max-w-sm mx-auto">
-
                 <div className="flex items-center justify-between px-3 py-2.5 mb-1">
-                  <p className="text-xs font-black uppercase tracking-[0.25em] text-muted">
-                    Settings
-                  </p>
+                  <p className="text-xs font-black uppercase tracking-[0.25em] text-muted">Settings</p>
                   <motion.button
                     whileTap={{ scale: 0.9 }}
                     onClick={() => setShowSettings(false)}
@@ -145,7 +161,6 @@ export default function HomePage() {
                     <X size={13} className="text-muted" />
                   </motion.button>
                 </div>
-
                 <motion.button
                   whileTap={{ scale: 0.98 }}
                   onClick={() => { setShowSettings(false); router.push("/admin"); }}
@@ -159,7 +174,6 @@ export default function HomePage() {
                     <p className="text-xs text-muted">Add or edit content</p>
                   </div>
                 </motion.button>
-
               </div>
             </motion.div>
           </>
