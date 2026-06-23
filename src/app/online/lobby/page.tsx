@@ -288,7 +288,7 @@ export default function LobbyPage() {
             size="lg"
             className="w-full"
             onClick={handleReady}
-            variant={isReady ? "secondary" : "default"}
+            variant={isReady ? "secondary" : "primary"}
           >
             {isReady ? "✓ Ready" : "Ready Up"}
           </Button>
