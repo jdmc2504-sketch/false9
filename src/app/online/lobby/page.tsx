@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Copy, Check, ChevronLeft, Play } from "lucide-react";
@@ -12,39 +12,19 @@ import { setReady, startGame, kickPlayer, transferHost, leaveRoom, endRoom } fro
 import { supabase } from "@/lib/supabase";
 import type { GameMode, Difficulty } from "@/types";
 
+// Module-level variables — survive re-renders, no closure issues
+let _roomId = "";
+let _playerId = "";
+let _isHost = false;
+
 export default function LobbyPage() {
   const router = useRouter();
-
-  // Store everything in refs so interval always has fresh values
-  const playerIdRef = useRef("");
-  const roomIdRef = useRef("");
-  const isHostRef = useRef(false);
-  const routerRef = useRef(router);
-
-  useEffect(() => {
-    routerRef.current = router;
-  }, [router]);
-
-  // Read sessionStorage on client only
-  useEffect(() => {
-    playerIdRef.current = sessionStorage.getItem("online_player_id") ?? "";
-    roomIdRef.current = sessionStorage.getItem("online_room_id") ?? "";
-    isHostRef.current = sessionStorage.getItem("online_is_host") === "true";
-
-    if (!playerIdRef.current || !roomIdRef.current) {
-      router.replace("/online");
-    }
-
-    // Auto-ready host
-    if (isHostRef.current && playerIdRef.current) {
-      setReady(playerIdRef.current, true);
-    }
-  }, [router]);
 
   const [players, setPlayers] = useState<OnlinePlayer[]>([]);
   const [roomCode, setRoomCode] = useState("");
   const [copied, setCopied] = useState(false);
   const [isReady, setIsReady] = useState(false);
+  const [isHost, setIsHost] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [starting, setStarting] = useState(false);
   const [mode, setMode] = useState<GameMode>("player");
@@ -52,15 +32,32 @@ export default function LobbyPage() {
   const [difficulty, setDifficulty] = useState<Difficulty>("medium");
   const [showSettings, setShowSettings] = useState(false);
 
-  // Plain interval — reads refs directly, no stale closures possible
+  // Init session on mount
   useEffect(() => {
+    _playerId = sessionStorage.getItem("online_player_id") ?? "";
+    _roomId = sessionStorage.getItem("online_room_id") ?? "";
+    _isHost = sessionStorage.getItem("online_is_host") === "true";
+
+    if (!_playerId || !_roomId) {
+      router.replace("/online");
+      return;
+    }
+
+    setIsHost(_isHost);
+
+    // Auto-ready host
+    if (_isHost) {
+      setIsReady(true);
+      setReady(_playerId, true).catch(console.error);
+    }
+
+    // Start polling
     async function poll() {
-      const rid = roomIdRef.current;
-      if (!rid) return;
+      if (!_roomId) return;
 
       const [{ data: playersData }, { data: roomData }] = await Promise.all([
-        supabase.from("players").select("*").eq("room_id", rid).order("created_at"),
-        supabase.from("rooms").select("code, phase, status").eq("id", rid).single(),
+        supabase.from("players").select("*").eq("room_id", _roomId).order("created_at"),
+        supabase.from("rooms").select("code, phase, status").eq("id", _roomId).single(),
       ]);
 
       if (playersData) setPlayers(playersData as OnlinePlayer[]);
@@ -68,24 +65,24 @@ export default function LobbyPage() {
       if (roomData) {
         setRoomCode(roomData.code);
         if (roomData.phase === "reveal" && roomData.status === "active") {
-          routerRef.current.push("/online/game");
+          router.push("/online/game");
         }
         if (roomData.status === "ended") {
-          routerRef.current.replace("/");
+          router.replace("/");
         }
       }
     }
 
-    // Run immediately then every 1.5s
     poll();
-    const id = setInterval(poll, 1500);
-    return () => clearInterval(id);
-  }, []); // empty deps — refs handle freshness
+    const interval = setInterval(poll, 1500);
+    return () => clearInterval(interval);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function handleReady() {
     const next = !isReady;
     setIsReady(next);
-    await setReady(playerIdRef.current, next);
+    await setReady(_playerId, next);
   }
 
   async function handleStart() {
@@ -93,7 +90,7 @@ export default function LobbyPage() {
     setError(null);
     try {
       await startGame({
-        roomId: roomIdRef.current,
+        roomId: _roomId,
         mode,
         difficulty,
         filters: { categories, entityTypes: [] },
@@ -105,19 +102,20 @@ export default function LobbyPage() {
   }
 
   async function handleKick(targetId: string) {
-    await kickPlayer(targetId, roomIdRef.current);
-    await endRoom(roomIdRef.current);
+    await kickPlayer(targetId, _roomId);
+    await endRoom(_roomId);
   }
 
   async function handleTransferHost(targetId: string) {
-    await transferHost(targetId, roomIdRef.current);
+    await transferHost(targetId, _roomId);
     sessionStorage.setItem("online_is_host", "false");
-    isHostRef.current = false;
+    _isHost = false;
+    setIsHost(false);
   }
 
   async function handleLeave() {
-    await leaveRoom(playerIdRef.current, roomIdRef.current);
-    if (isHostRef.current) await endRoom(roomIdRef.current);
+    await leaveRoom(_playerId, _roomId);
+    if (_isHost) await endRoom(_roomId);
     router.replace("/");
   }
 
@@ -130,7 +128,6 @@ export default function LobbyPage() {
   const connectedPlayers = players.filter((p) => p.connected);
   const allReady = connectedPlayers.length >= 3 && connectedPlayers.every((p) => p.is_ready);
   const readyCount = connectedPlayers.filter((p) => p.is_ready).length;
-  const isHost = isHostRef.current;
   const filterGroups = FILTER_GROUPS_BY_MODE[mode] ?? [];
 
   return (
@@ -166,7 +163,7 @@ export default function LobbyPage() {
           </p>
           <PlayerList
             players={players}
-            currentPlayerId={playerIdRef.current}
+            currentPlayerId={_playerId}
             isHost={isHost}
             onKick={handleKick}
             onTransferHost={handleTransferHost}
