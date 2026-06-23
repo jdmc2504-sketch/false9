@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Copy, Check, ChevronLeft, Play } from "lucide-react";
@@ -28,14 +28,15 @@ export default function LobbyPage() {
 
   const [playerId] = useState(() => typeof window !== "undefined" ? sessionStorage.getItem("online_player_id") ?? "" : "");
   const [roomId] = useState(() => typeof window !== "undefined" ? sessionStorage.getItem("online_room_id") ?? "" : "");
-  const [roomCode] = useState(() => typeof window !== "undefined" ? sessionStorage.getItem("online_room_code") ?? "" : "");
   const [isHost] = useState(() => typeof window !== "undefined" ? sessionStorage.getItem("online_is_host") === "true" : false);
 
   const [players, setPlayers] = useState<OnlinePlayer[]>([]);
+  const [roomCode, setRoomCode] = useState(() => typeof window !== "undefined" ? sessionStorage.getItem("online_room_code") ?? "" : "");
   const [copied, setCopied] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [starting, setStarting] = useState(false);
+  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Settings (host only)
   const [mode, setMode] = useState<GameMode>("player");
@@ -56,10 +57,44 @@ export default function LobbyPage() {
     if (data) setPlayers(data as OnlinePlayer[]);
   }, [roomId]);
 
+  // Fetch room code from DB (needed for joiners who don't have it in sessionStorage)
+  const fetchRoom = useCallback(async () => {
+    const { data } = await supabase
+      .from("rooms")
+      .select("code, phase, status")
+      .eq("id", roomId)
+      .single();
+    if (data) {
+      setRoomCode(data.code);
+      sessionStorage.setItem("online_room_code", data.code);
+      if (data.phase === "reveal" && data.status === "active") {
+        router.push("/online/game");
+      }
+      if (data.status === "ended") {
+        router.replace("/");
+      }
+    }
+  }, [roomId, router]);
+
+  // Initial fetch
   useEffect(() => {
     fetchPlayers();
-  }, [fetchPlayers]);
+    fetchRoom();
+  }, [fetchPlayers, fetchRoom]);
 
+  // Poll every 2 seconds as fallback for realtime
+  useEffect(() => {
+    if (!roomId) return;
+    pollRef.current = setInterval(() => {
+      fetchPlayers();
+      fetchRoom();
+    }, 2000);
+    return () => {
+      if (pollRef.current) clearInterval(pollRef.current);
+    };
+  }, [roomId, fetchPlayers, fetchRoom]);
+
+  // Realtime subscriptions (primary, polling is fallback)
   useEffect(() => {
     if (!roomId) return;
 
@@ -69,7 +104,6 @@ export default function LobbyPage() {
         event: "*",
         schema: "public",
         table: "players",
-        filter: `room_id=eq.${roomId}`,
       }, () => fetchPlayers())
       .subscribe();
 
@@ -79,23 +113,14 @@ export default function LobbyPage() {
         event: "UPDATE",
         schema: "public",
         table: "rooms",
-        filter: `id=eq.${roomId}`,
-      }, (payload) => {
-        const room = payload.new as { phase: string; status: string };
-        if (room.phase === "reveal" && room.status === "active") {
-          router.push("/online/game");
-        }
-        if (room.status === "ended") {
-          router.replace("/");
-        }
-      })
+      }, () => fetchRoom())
       .subscribe();
 
     return () => {
       supabase.removeChannel(playerSub);
       supabase.removeChannel(roomSub);
     };
-  }, [roomId, router, fetchPlayers]);
+  }, [roomId, router, fetchPlayers, fetchRoom]);
 
   async function handleReady() {
     const next = !isReady;
@@ -165,7 +190,9 @@ export default function LobbyPage() {
         <div className="neon-card p-4 flex items-center justify-between">
           <div>
             <p className="text-xs font-black uppercase tracking-widest text-muted mb-1">Room Code</p>
-            <p className="text-4xl font-black tracking-[0.3em] text-pitch neon-text">{roomCode}</p>
+            <p className="text-4xl font-black tracking-[0.3em] text-pitch neon-text">
+              {roomCode || "..."}
+            </p>
             <p className="text-xs text-muted mt-1">Share this with your friends</p>
           </div>
           <motion.button
@@ -213,7 +240,6 @@ export default function LobbyPage() {
                   exit={{ opacity: 0, height: 0 }}
                   className="flex flex-col gap-4 overflow-hidden"
                 >
-                  {/* Mode */}
                   <div>
                     <p className="text-xs font-bold uppercase tracking-wider text-muted mb-2">Mode</p>
                     <div className="flex flex-wrap gap-2">
@@ -228,7 +254,6 @@ export default function LobbyPage() {
                     </div>
                   </div>
 
-                  {/* Filters */}
                   {filterGroups.map((group) => (
                     <div key={group.label}>
                       <p className="text-xs font-bold uppercase tracking-wider text-muted mb-2">
@@ -251,7 +276,6 @@ export default function LobbyPage() {
                     </div>
                   ))}
 
-                  {/* Difficulty */}
                   <div>
                     <p className="text-xs font-bold uppercase tracking-wider text-muted mb-2">Difficulty</p>
                     <div className="flex flex-wrap gap-2">
