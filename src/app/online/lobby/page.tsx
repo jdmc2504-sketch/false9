@@ -12,19 +12,18 @@ import { setReady, startGame, kickPlayer, transferHost, leaveRoom, endRoom } fro
 import { supabase } from "@/lib/supabase";
 import type { GameMode, Difficulty } from "@/types";
 
-// Module-level variables — survive re-renders, no closure issues
-let _roomId = "";
-let _playerId = "";
-let _isHost = false;
-
 export default function LobbyPage() {
   const router = useRouter();
+
+  const [mounted, setMounted] = useState(false);
+  const [playerId, setPlayerId] = useState("");
+  const [roomId, setRoomId] = useState("");
+  const [isHost, setIsHost] = useState(false);
 
   const [players, setPlayers] = useState<OnlinePlayer[]>([]);
   const [roomCode, setRoomCode] = useState("");
   const [copied, setCopied] = useState(false);
   const [isReady, setIsReady] = useState(false);
-  const [isHost, setIsHost] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [starting, setStarting] = useState(false);
   const [mode, setMode] = useState<GameMode>("player");
@@ -32,32 +31,36 @@ export default function LobbyPage() {
   const [difficulty, setDifficulty] = useState<Difficulty>("medium");
   const [showSettings, setShowSettings] = useState(false);
 
-  // Init session on mount
+  // Step 1: hydrate from sessionStorage after mount
   useEffect(() => {
-    _playerId = sessionStorage.getItem("online_player_id") ?? "";
-    _roomId = sessionStorage.getItem("online_room_id") ?? "";
-    _isHost = sessionStorage.getItem("online_is_host") === "true";
+    const pid = sessionStorage.getItem("online_player_id") ?? "";
+    const rid = sessionStorage.getItem("online_room_id") ?? "";
+    const host = sessionStorage.getItem("online_is_host") === "true";
 
-    if (!_playerId || !_roomId) {
+    if (!pid || !rid) {
       router.replace("/online");
       return;
     }
 
-    setIsHost(_isHost);
+    setPlayerId(pid);
+    setRoomId(rid);
+    setIsHost(host);
+    setMounted(true);
 
-    // Auto-ready host
-    if (_isHost) {
+    if (host) {
       setIsReady(true);
-      setReady(_playerId, true).catch(console.error);
+      setReady(pid, true).catch(console.error);
     }
+  }, [router]);
 
-    // Start polling
+  // Step 2: only start polling once we have roomId from state
+  useEffect(() => {
+    if (!mounted || !roomId) return;
+
     async function poll() {
-      if (!_roomId) return;
-
       const [{ data: playersData }, { data: roomData }] = await Promise.all([
-        supabase.from("players").select("*").eq("room_id", _roomId).order("created_at"),
-        supabase.from("rooms").select("code, phase, status").eq("id", _roomId).single(),
+        supabase.from("players").select("*").eq("room_id", roomId).order("created_at"),
+        supabase.from("rooms").select("code, phase, status").eq("id", roomId).single(),
       ]);
 
       if (playersData) setPlayers(playersData as OnlinePlayer[]);
@@ -76,25 +79,19 @@ export default function LobbyPage() {
     poll();
     const interval = setInterval(poll, 1500);
     return () => clearInterval(interval);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [mounted, roomId, router]);
 
   async function handleReady() {
     const next = !isReady;
     setIsReady(next);
-    await setReady(_playerId, next);
+    await setReady(playerId, next);
   }
 
   async function handleStart() {
     setStarting(true);
     setError(null);
     try {
-      await startGame({
-        roomId: _roomId,
-        mode,
-        difficulty,
-        filters: { categories, entityTypes: [] },
-      });
+      await startGame({ roomId, mode, difficulty, filters: { categories, entityTypes: [] } });
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "Failed to start");
       setStarting(false);
@@ -102,20 +99,19 @@ export default function LobbyPage() {
   }
 
   async function handleKick(targetId: string) {
-    await kickPlayer(targetId, _roomId);
-    await endRoom(_roomId);
+    await kickPlayer(targetId, roomId);
+    await endRoom(roomId);
   }
 
   async function handleTransferHost(targetId: string) {
-    await transferHost(targetId, _roomId);
+    await transferHost(targetId, roomId);
     sessionStorage.setItem("online_is_host", "false");
-    _isHost = false;
     setIsHost(false);
   }
 
   async function handleLeave() {
-    await leaveRoom(_playerId, _roomId);
-    if (_isHost) await endRoom(_roomId);
+    await leaveRoom(playerId, roomId);
+    if (isHost) await endRoom(roomId);
     router.replace("/");
   }
 
@@ -129,6 +125,14 @@ export default function LobbyPage() {
   const allReady = connectedPlayers.length >= 3 && connectedPlayers.every((p) => p.is_ready);
   const readyCount = connectedPlayers.filter((p) => p.is_ready).length;
   const filterGroups = FILTER_GROUPS_BY_MODE[mode] ?? [];
+
+  if (!mounted) {
+    return (
+      <main className="flex-1 flex items-center justify-center hud-bg">
+        <p className="text-muted text-sm font-bold uppercase tracking-widest">Loading…</p>
+      </main>
+    );
+  }
 
   return (
     <main className="flex-1 flex flex-col hud-bg safe-top safe-bottom">
@@ -163,7 +167,7 @@ export default function LobbyPage() {
           </p>
           <PlayerList
             players={players}
-            currentPlayerId={_playerId}
+            currentPlayerId={playerId}
             isHost={isHost}
             onKick={handleKick}
             onTransferHost={handleTransferHost}
@@ -194,7 +198,6 @@ export default function LobbyPage() {
                       ))}
                     </div>
                   </div>
-
                   {filterGroups.map((group) => (
                     <div key={group.label}>
                       <p className="text-xs font-bold uppercase tracking-wider text-muted mb-2">{group.label}</p>
@@ -207,7 +210,6 @@ export default function LobbyPage() {
                       </div>
                     </div>
                   ))}
-
                   <div>
                     <p className="text-xs font-bold uppercase tracking-wider text-muted mb-2">Difficulty</p>
                     <div className="flex flex-wrap gap-2">
@@ -243,11 +245,7 @@ export default function LobbyPage() {
         {isHost && (
           <Button size="lg" className="w-full" onClick={handleStart} disabled={!allReady || starting}>
             <Play size={16} className="mr-2" />
-            {starting
-              ? "Starting..."
-              : allReady
-              ? "Start Game"
-              : `Waiting (${readyCount}/${connectedPlayers.length} ready)`}
+            {starting ? "Starting..." : allReady ? "Start Game" : `Waiting (${readyCount}/${connectedPlayers.length} ready)`}
           </Button>
         )}
       </div>
