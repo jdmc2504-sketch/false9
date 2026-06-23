@@ -1,38 +1,30 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Copy, Check, ChevronLeft, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Chip } from "@/components/ui/chip";
 import { PlayerList, type OnlinePlayer } from "@/components/online/player-list";
-import {
-  GAME_MODES,
-  FILTER_GROUPS_BY_MODE,
-  DIFFICULTIES,
-} from "@/lib/mode-meta";
-import {
-  setReady,
-  startGame,
-  kickPlayer,
-  transferHost,
-  leaveRoom,
-  endRoom,
-} from "@/lib/room";
+import { GAME_MODES, FILTER_GROUPS_BY_MODE, DIFFICULTIES } from "@/lib/mode-meta";
+import { setReady, startGame, kickPlayer, transferHost, leaveRoom, endRoom } from "@/lib/room";
 import { supabase } from "@/lib/supabase";
 import type { GameMode, Difficulty } from "@/types";
 
+// Read sessionStorage once at module level — avoids stale closure issues
+function getSession() {
+  if (typeof window === "undefined") return { playerId: "", roomId: "", isHost: false };
+  return {
+    playerId: sessionStorage.getItem("online_player_id") ?? "",
+    roomId: sessionStorage.getItem("online_room_id") ?? "",
+    isHost: sessionStorage.getItem("online_is_host") === "true",
+  };
+}
+
 export default function LobbyPage() {
   const router = useRouter();
-
-  const playerIdRef = useRef(typeof window !== "undefined" ? sessionStorage.getItem("online_player_id") ?? "" : "");
-  const roomIdRef = useRef(typeof window !== "undefined" ? sessionStorage.getItem("online_room_id") ?? "" : "");
-  const isHostRef = useRef(typeof window !== "undefined" ? sessionStorage.getItem("online_is_host") === "true" : false);
-
-  const [playerId] = useState(playerIdRef.current);
-  const [roomId] = useState(roomIdRef.current);
-  const [isHost] = useState(isHostRef.current);
+  const { playerId, roomId, isHost } = getSession();
 
   const [players, setPlayers] = useState<OnlinePlayer[]>([]);
   const [roomCode, setRoomCode] = useState("");
@@ -40,7 +32,6 @@ export default function LobbyPage() {
   const [isReady, setIsReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [starting, setStarting] = useState(false);
-
   const [mode, setMode] = useState<GameMode>("player");
   const [categories, setCategories] = useState<string[]>([]);
   const [difficulty, setDifficulty] = useState<Difficulty>("medium");
@@ -50,78 +41,53 @@ export default function LobbyPage() {
     if (!playerId || !roomId) router.replace("/online");
   }, [playerId, roomId, router]);
 
-  // Use refs so polling callbacks always have fresh roomId
-  const roomIdForPoll = useRef(roomId);
-  const routerRef = useRef(router);
-  useEffect(() => { roomIdForPoll.current = roomId; }, [roomId]);
-  useEffect(() => { routerRef.current = router; }, [router]);
-
   const fetchAll = useCallback(async () => {
-    const rid = roomIdForPoll.current;
-    if (!rid) return;
+    if (!roomId) return;
 
     const [{ data: playersData }, { data: roomData }] = await Promise.all([
-      supabase.from("players").select("*").eq("room_id", rid).order("created_at"),
-      supabase.from("rooms").select("code, phase, status").eq("id", rid).single(),
+      supabase.from("players").select("*").eq("room_id", roomId).order("created_at"),
+      supabase.from("rooms").select("code, phase, status").eq("id", roomId).single(),
     ]);
 
-    if (playersData) setPlayers(playersData as OnlinePlayer[]);
+    if (playersData) {
+      setPlayers(playersData as OnlinePlayer[]);
+    }
 
     if (roomData) {
       setRoomCode(roomData.code);
-      if (typeof window !== "undefined") {
-        sessionStorage.setItem("online_room_code", roomData.code);
-      }
       if (roomData.phase === "reveal" && roomData.status === "active") {
-        routerRef.current.push("/online/game");
+        router.push("/online/game");
       }
       if (roomData.status === "ended") {
-        routerRef.current.replace("/");
+        router.replace("/");
       }
     }
-  }, []);
+  }, [roomId, router]);
 
-  // Initial fetch
+  // Fetch immediately on mount
   useEffect(() => {
     fetchAll();
   }, [fetchAll]);
 
-  // Poll every 1.5 seconds — reliable fallback
-  useEffect(() => {
-    const interval = setInterval(fetchAll, 1500);
-    return () => clearInterval(interval);
-  }, [fetchAll]);
-
-  // Realtime as bonus on top of polling
+  // Poll every 1.5 seconds
   useEffect(() => {
     if (!roomId) return;
-
-    const channel = supabase
-      .channel(`lobby-${roomId}-${Date.now()}`)
-      .on("postgres_changes", { event: "*", schema: "public", table: "players" }, fetchAll)
-      .on("postgres_changes", { event: "*", schema: "public", table: "rooms" }, fetchAll)
-      .subscribe();
-
-    return () => { supabase.removeChannel(channel); };
+    const id = setInterval(fetchAll, 1500);
+    return () => clearInterval(id);
   }, [roomId, fetchAll]);
 
   async function handleReady() {
     const next = !isReady;
     setIsReady(next);
     await setReady(playerId, next);
-    await fetchAll();
+    fetchAll();
   }
 
   async function handleStart() {
     setStarting(true);
     setError(null);
     try {
-      await startGame({
-        roomId,
-        mode,
-        difficulty,
-        filters: { categories, entityTypes: [] },
-      });
+      await startGame({ roomId, mode, difficulty, filters: { categories, entityTypes: [] } });
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "Failed to start");
       setStarting(false);
@@ -157,11 +123,8 @@ export default function LobbyPage() {
   return (
     <main className="flex-1 flex flex-col hud-bg safe-top safe-bottom">
       <div className="flex items-center justify-between p-5">
-        <motion.button
-          whileTap={{ scale: 0.88 }}
-          onClick={handleLeave}
-          className="neon-card w-10 h-10 rounded-xl flex items-center justify-center"
-        >
+        <motion.button whileTap={{ scale: 0.88 }} onClick={handleLeave}
+          className="neon-card w-10 h-10 rounded-xl flex items-center justify-center">
           <ChevronLeft size={18} />
         </motion.button>
         <p className="text-xs font-black uppercase tracking-[0.25em] text-muted">Lobby</p>
@@ -174,16 +137,11 @@ export default function LobbyPage() {
         <div className="neon-card p-4 flex items-center justify-between">
           <div>
             <p className="text-xs font-black uppercase tracking-widest text-muted mb-1">Room Code</p>
-            <p className="text-4xl font-black tracking-[0.3em] text-pitch neon-text">
-              {roomCode || "..."}
-            </p>
+            <p className="text-4xl font-black tracking-[0.3em] text-pitch neon-text">{roomCode || "..."}</p>
             <p className="text-xs text-muted mt-1">Share this with your friends</p>
           </div>
-          <motion.button
-            whileTap={{ scale: 0.88 }}
-            onClick={copyCode}
-            className="neon-card w-12 h-12 rounded-xl flex items-center justify-center"
-          >
+          <motion.button whileTap={{ scale: 0.88 }} onClick={copyCode}
+            className="neon-card w-12 h-12 rounded-xl flex items-center justify-center">
             {copied ? <Check size={18} className="text-pitch" /> : <Copy size={18} className="text-muted" />}
           </motion.button>
         </div>
@@ -207,54 +165,34 @@ export default function LobbyPage() {
           <div className="neon-card p-4 flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <p className="text-xs font-black uppercase tracking-widest text-muted">Game Settings</p>
-              <motion.button
-                whileTap={{ scale: 0.9 }}
-                onClick={() => setShowSettings((s) => !s)}
-                className="text-xs font-black text-pitch uppercase tracking-wide"
-              >
+              <motion.button whileTap={{ scale: 0.9 }} onClick={() => setShowSettings((s) => !s)}
+                className="text-xs font-black text-pitch uppercase tracking-wide">
                 {showSettings ? "Hide" : "Edit"}
               </motion.button>
             </div>
 
             <AnimatePresence>
               {showSettings && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="flex flex-col gap-4 overflow-hidden"
-                >
+                <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }} className="flex flex-col gap-4 overflow-hidden">
                   <div>
                     <p className="text-xs font-bold uppercase tracking-wider text-muted mb-2">Mode</p>
                     <div className="flex flex-wrap gap-2">
                       {GAME_MODES.map((m) => (
-                        <Chip
-                          key={m.id}
-                          label={`${m.emoji} ${m.label}`}
-                          selected={mode === m.id}
-                          onClick={() => { setMode(m.id); setCategories([]); }}
-                        />
+                        <Chip key={m.id} label={`${m.emoji} ${m.label}`} selected={mode === m.id}
+                          onClick={() => { setMode(m.id); setCategories([]); }} />
                       ))}
                     </div>
                   </div>
 
                   {filterGroups.map((group) => (
                     <div key={group.label}>
-                      <p className="text-xs font-bold uppercase tracking-wider text-muted mb-2">
-                        {group.label}
-                      </p>
+                      <p className="text-xs font-bold uppercase tracking-wider text-muted mb-2">{group.label}</p>
                       <div className="flex flex-wrap gap-2">
                         {group.options.map((opt) => (
-                          <Chip
-                            key={opt}
-                            label={opt}
-                            selected={categories.includes(opt)}
-                            onClick={() =>
-                              setCategories((prev) =>
-                                prev.includes(opt) ? prev.filter((c) => c !== opt) : [...prev, opt]
-                              )
-                            }
-                          />
+                          <Chip key={opt} label={opt} selected={categories.includes(opt)}
+                            onClick={() => setCategories((prev) =>
+                              prev.includes(opt) ? prev.filter((c) => c !== opt) : [...prev, opt])} />
                         ))}
                       </div>
                     </div>
@@ -264,12 +202,8 @@ export default function LobbyPage() {
                     <p className="text-xs font-bold uppercase tracking-wider text-muted mb-2">Difficulty</p>
                     <div className="flex flex-wrap gap-2">
                       {DIFFICULTIES.map((d) => (
-                        <Chip
-                          key={d.id}
-                          label={d.label}
-                          selected={difficulty === d.id}
-                          onClick={() => setDifficulty(d.id)}
-                        />
+                        <Chip key={d.id} label={d.label} selected={difficulty === d.id}
+                          onClick={() => setDifficulty(d.id)} />
                       ))}
                     </div>
                   </div>
@@ -287,28 +221,17 @@ export default function LobbyPage() {
           </div>
         )}
 
-        {error && (
-          <p className="text-danger text-sm font-bold text-center">{error}</p>
-        )}
+        {error && <p className="text-danger text-sm font-bold text-center">{error}</p>}
 
         {!isHost && (
-          <Button
-            size="lg"
-            className="w-full"
-            onClick={handleReady}
-            variant={isReady ? "secondary" : "primary"}
-          >
+          <Button size="lg" className="w-full" onClick={handleReady}
+            variant={isReady ? "secondary" : "primary"}>
             {isReady ? "✓ Ready" : "Ready Up"}
           </Button>
         )}
 
         {isHost && (
-          <Button
-            size="lg"
-            className="w-full"
-            onClick={handleStart}
-            disabled={!allReady || starting}
-          >
+          <Button size="lg" className="w-full" onClick={handleStart} disabled={!allReady || starting}>
             <Play size={16} className="mr-2" />
             {starting ? "Starting..." : allReady ? "Start Game" : `Waiting (${connectedPlayers.filter(p => p.is_ready).length}/${connectedPlayers.length} ready)`}
           </Button>
