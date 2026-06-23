@@ -77,11 +77,22 @@ body {
   box-shadow: 0 0 20px color-mix(in srgb, var(--accent) 40%, transparent);
 }
 
-/* ── Dramatic gradient background ── */
+/* ── Inner screens: blurred stadium background ── */
+/* Home screen handles its own background, so hud-bg is only for inner pages */
 .hud-bg {
-  background-image:
-    radial-gradient(ellipse at 10% 0%, color-mix(in srgb, var(--accent) 12%, transparent) 0%, transparent 55%),
-    radial-gradient(ellipse at 90% 100%, color-mix(in srgb, var(--pitch) 10%, transparent) 0%, transparent 55%);
+  position: relative;
+  isolation: isolate;
+}
+
+.hud-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: url('/stadium.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: blur(18px) brightness(0.12);
 }
 
 /* ── HUD pill badge ── */
