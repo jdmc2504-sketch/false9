@@ -26,19 +26,21 @@ import type { GameMode, Difficulty } from "@/types";
 export default function LobbyPage() {
   const router = useRouter();
 
-  const [playerId] = useState(() => typeof window !== "undefined" ? sessionStorage.getItem("online_player_id") ?? "" : "");
-  const [roomId] = useState(() => typeof window !== "undefined" ? sessionStorage.getItem("online_room_id") ?? "" : "");
-  const [isHost] = useState(() => typeof window !== "undefined" ? sessionStorage.getItem("online_is_host") === "true" : false);
+  const playerIdRef = useRef(typeof window !== "undefined" ? sessionStorage.getItem("online_player_id") ?? "" : "");
+  const roomIdRef = useRef(typeof window !== "undefined" ? sessionStorage.getItem("online_room_id") ?? "" : "");
+  const isHostRef = useRef(typeof window !== "undefined" ? sessionStorage.getItem("online_is_host") === "true" : false);
+
+  const [playerId] = useState(playerIdRef.current);
+  const [roomId] = useState(roomIdRef.current);
+  const [isHost] = useState(isHostRef.current);
 
   const [players, setPlayers] = useState<OnlinePlayer[]>([]);
-  const [roomCode, setRoomCode] = useState(() => typeof window !== "undefined" ? sessionStorage.getItem("online_room_code") ?? "" : "");
+  const [roomCode, setRoomCode] = useState("");
   const [copied, setCopied] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [starting, setStarting] = useState(false);
-  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Settings (host only)
   const [mode, setMode] = useState<GameMode>("player");
   const [categories, setCategories] = useState<string[]>([]);
   const [difficulty, setDifficulty] = useState<Difficulty>("medium");
@@ -48,84 +50,66 @@ export default function LobbyPage() {
     if (!playerId || !roomId) router.replace("/online");
   }, [playerId, roomId, router]);
 
-  const fetchPlayers = useCallback(async () => {
-    const { data } = await supabase
-      .from("players")
-      .select("*")
-      .eq("room_id", roomId)
-      .order("created_at");
-    if (data) setPlayers(data as OnlinePlayer[]);
-  }, [roomId]);
+  // Use refs so polling callbacks always have fresh roomId
+  const roomIdForPoll = useRef(roomId);
+  const routerRef = useRef(router);
+  useEffect(() => { roomIdForPoll.current = roomId; }, [roomId]);
+  useEffect(() => { routerRef.current = router; }, [router]);
 
-  // Fetch room code from DB (needed for joiners who don't have it in sessionStorage)
-  const fetchRoom = useCallback(async () => {
-    const { data } = await supabase
-      .from("rooms")
-      .select("code, phase, status")
-      .eq("id", roomId)
-      .single();
-    if (data) {
-      setRoomCode(data.code);
-      sessionStorage.setItem("online_room_code", data.code);
-      if (data.phase === "reveal" && data.status === "active") {
-        router.push("/online/game");
+  const fetchAll = useCallback(async () => {
+    const rid = roomIdForPoll.current;
+    if (!rid) return;
+
+    const [{ data: playersData }, { data: roomData }] = await Promise.all([
+      supabase.from("players").select("*").eq("room_id", rid).order("created_at"),
+      supabase.from("rooms").select("code, phase, status").eq("id", rid).single(),
+    ]);
+
+    if (playersData) setPlayers(playersData as OnlinePlayer[]);
+
+    if (roomData) {
+      setRoomCode(roomData.code);
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("online_room_code", roomData.code);
       }
-      if (data.status === "ended") {
-        router.replace("/");
+      if (roomData.phase === "reveal" && roomData.status === "active") {
+        routerRef.current.push("/online/game");
+      }
+      if (roomData.status === "ended") {
+        routerRef.current.replace("/");
       }
     }
-  }, [roomId, router]);
+  }, []);
 
   // Initial fetch
   useEffect(() => {
-    fetchPlayers();
-    fetchRoom();
-  }, [fetchPlayers, fetchRoom]);
+    fetchAll();
+  }, [fetchAll]);
 
-  // Poll every 2 seconds as fallback for realtime
+  // Poll every 1.5 seconds — reliable fallback
   useEffect(() => {
-    if (!roomId) return;
-    pollRef.current = setInterval(() => {
-      fetchPlayers();
-      fetchRoom();
-    }, 2000);
-    return () => {
-      if (pollRef.current) clearInterval(pollRef.current);
-    };
-  }, [roomId, fetchPlayers, fetchRoom]);
+    const interval = setInterval(fetchAll, 1500);
+    return () => clearInterval(interval);
+  }, [fetchAll]);
 
-  // Realtime subscriptions (primary, polling is fallback)
+  // Realtime as bonus on top of polling
   useEffect(() => {
     if (!roomId) return;
 
-    const playerSub = supabase
-      .channel(`lobby-players-${roomId}`)
-      .on("postgres_changes", {
-        event: "*",
-        schema: "public",
-        table: "players",
-      }, () => fetchPlayers())
+    const channel = supabase
+      .channel(`lobby-${roomId}-${Date.now()}`)
+      .on("postgres_changes", { event: "*", schema: "public", table: "players" }, fetchAll)
+      .on("postgres_changes", { event: "*", schema: "public", table: "rooms" }, fetchAll)
       .subscribe();
 
-    const roomSub = supabase
-      .channel(`lobby-room-${roomId}`)
-      .on("postgres_changes", {
-        event: "UPDATE",
-        schema: "public",
-        table: "rooms",
-      }, () => fetchRoom())
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(playerSub);
-      supabase.removeChannel(roomSub);
-    };
-  }, [roomId, router, fetchPlayers, fetchRoom]);
+    return () => { supabase.removeChannel(channel); };
+  }, [roomId, fetchAll]);
 
   async function handleReady() {
     const next = !isReady;
     setIsReady(next);
     await setReady(playerId, next);
+    await fetchAll();
   }
 
   async function handleStart() {
