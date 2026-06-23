@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Copy, Check, ChevronLeft, Play } from "lucide-react";
@@ -15,14 +15,31 @@ import type { GameMode, Difficulty } from "@/types";
 export default function LobbyPage() {
   const router = useRouter();
 
-  // Read from sessionStorage inside component, inside useRef so it's stable
-  const sessionRef = useRef({
-    playerId: typeof window !== "undefined" ? sessionStorage.getItem("online_player_id") ?? "" : "",
-    roomId: typeof window !== "undefined" ? sessionStorage.getItem("online_room_id") ?? "" : "",
-    isHost: typeof window !== "undefined" ? sessionStorage.getItem("online_is_host") === "true" : false,
-  });
+  // Store everything in refs so interval always has fresh values
+  const playerIdRef = useRef("");
+  const roomIdRef = useRef("");
+  const isHostRef = useRef(false);
+  const routerRef = useRef(router);
 
-  const { playerId, roomId, isHost } = sessionRef.current;
+  useEffect(() => {
+    routerRef.current = router;
+  }, [router]);
+
+  // Read sessionStorage on client only
+  useEffect(() => {
+    playerIdRef.current = sessionStorage.getItem("online_player_id") ?? "";
+    roomIdRef.current = sessionStorage.getItem("online_room_id") ?? "";
+    isHostRef.current = sessionStorage.getItem("online_is_host") === "true";
+
+    if (!playerIdRef.current || !roomIdRef.current) {
+      router.replace("/online");
+    }
+
+    // Auto-ready host
+    if (isHostRef.current && playerIdRef.current) {
+      setReady(playerIdRef.current, true);
+    }
+  }, [router]);
 
   const [players, setPlayers] = useState<OnlinePlayer[]>([]);
   const [roomCode, setRoomCode] = useState("");
@@ -35,63 +52,52 @@ export default function LobbyPage() {
   const [difficulty, setDifficulty] = useState<Difficulty>("medium");
   const [showSettings, setShowSettings] = useState(false);
 
-  // Auto-ready the host on mount
+  // Plain interval — reads refs directly, no stale closures possible
   useEffect(() => {
-    if (isHost && playerId) {
-      setIsReady(true);
-      setReady(playerId, true);
-    }
-  }, [isHost, playerId]);
+    async function poll() {
+      const rid = roomIdRef.current;
+      if (!rid) return;
 
-  useEffect(() => {
-    if (!playerId || !roomId) router.replace("/online");
-  }, [playerId, roomId, router]);
+      const [{ data: playersData }, { data: roomData }] = await Promise.all([
+        supabase.from("players").select("*").eq("room_id", rid).order("created_at"),
+        supabase.from("rooms").select("code, phase, status").eq("id", rid).single(),
+      ]);
 
-  const fetchAll = useCallback(async () => {
-    const rid = typeof window !== "undefined" ? sessionStorage.getItem("online_room_id") ?? "" : "";
-    if (!rid) return;
+      if (playersData) setPlayers(playersData as OnlinePlayer[]);
 
-    const [{ data: playersData }, { data: roomData }] = await Promise.all([
-      supabase.from("players").select("*").eq("room_id", rid).order("created_at"),
-      supabase.from("rooms").select("code, phase, status").eq("id", rid).single(),
-    ]);
-
-    if (playersData) setPlayers(playersData as OnlinePlayer[]);
-
-    if (roomData) {
-      setRoomCode(roomData.code);
-      if (roomData.phase === "reveal" && roomData.status === "active") {
-        router.push("/online/game");
-      }
-      if (roomData.status === "ended") {
-        router.replace("/");
+      if (roomData) {
+        setRoomCode(roomData.code);
+        if (roomData.phase === "reveal" && roomData.status === "active") {
+          routerRef.current.push("/online/game");
+        }
+        if (roomData.status === "ended") {
+          routerRef.current.replace("/");
+        }
       }
     }
-  }, [router]);
 
-  // Fetch on mount
-  useEffect(() => {
-    fetchAll();
-  }, [fetchAll]);
-
-  // Poll every 1.5 seconds — always reads fresh roomId from sessionStorage
-  useEffect(() => {
-    const id = setInterval(fetchAll, 1500);
+    // Run immediately then every 1.5s
+    poll();
+    const id = setInterval(poll, 1500);
     return () => clearInterval(id);
-  }, [fetchAll]);
+  }, []); // empty deps — refs handle freshness
 
   async function handleReady() {
     const next = !isReady;
     setIsReady(next);
-    await setReady(playerId, next);
-    fetchAll();
+    await setReady(playerIdRef.current, next);
   }
 
   async function handleStart() {
     setStarting(true);
     setError(null);
     try {
-      await startGame({ roomId, mode, difficulty, filters: { categories, entityTypes: [] } });
+      await startGame({
+        roomId: roomIdRef.current,
+        mode,
+        difficulty,
+        filters: { categories, entityTypes: [] },
+      });
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "Failed to start");
       setStarting(false);
@@ -99,18 +105,19 @@ export default function LobbyPage() {
   }
 
   async function handleKick(targetId: string) {
-    await kickPlayer(targetId, roomId);
-    await endRoom(roomId);
+    await kickPlayer(targetId, roomIdRef.current);
+    await endRoom(roomIdRef.current);
   }
 
   async function handleTransferHost(targetId: string) {
-    await transferHost(targetId, roomId);
+    await transferHost(targetId, roomIdRef.current);
     sessionStorage.setItem("online_is_host", "false");
+    isHostRef.current = false;
   }
 
   async function handleLeave() {
-    await leaveRoom(playerId, roomId);
-    if (isHost) await endRoom(roomId);
+    await leaveRoom(playerIdRef.current, roomIdRef.current);
+    if (isHostRef.current) await endRoom(roomIdRef.current);
     router.replace("/");
   }
 
@@ -121,9 +128,9 @@ export default function LobbyPage() {
   }
 
   const connectedPlayers = players.filter((p) => p.connected);
-  // Game can start when all connected players are ready (host is auto-readied)
   const allReady = connectedPlayers.length >= 3 && connectedPlayers.every((p) => p.is_ready);
   const readyCount = connectedPlayers.filter((p) => p.is_ready).length;
+  const isHost = isHostRef.current;
   const filterGroups = FILTER_GROUPS_BY_MODE[mode] ?? [];
 
   return (
@@ -159,7 +166,7 @@ export default function LobbyPage() {
           </p>
           <PlayerList
             players={players}
-            currentPlayerId={playerId}
+            currentPlayerId={playerIdRef.current}
             isHost={isHost}
             onKick={handleKick}
             onTransferHost={handleTransferHost}
@@ -229,7 +236,6 @@ export default function LobbyPage() {
 
         {error && <p className="text-danger text-sm font-bold text-center">{error}</p>}
 
-        {/* Guests ready up */}
         {!isHost && (
           <Button size="lg" className="w-full" onClick={handleReady}
             variant={isReady ? "secondary" : "primary"}>
@@ -237,7 +243,6 @@ export default function LobbyPage() {
           </Button>
         )}
 
-        {/* Host start button */}
         {isHost && (
           <Button size="lg" className="w-full" onClick={handleStart} disabled={!allReady || starting}>
             <Play size={16} className="mr-2" />
@@ -245,7 +250,7 @@ export default function LobbyPage() {
               ? "Starting..."
               : allReady
               ? "Start Game"
-              : `Waiting for players (${readyCount}/${connectedPlayers.length} ready)`}
+              : `Waiting (${readyCount}/${connectedPlayers.length} ready)`}
           </Button>
         )}
       </div>
