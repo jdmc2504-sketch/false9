@@ -26,10 +26,10 @@ import type { GameMode, Difficulty } from "@/types";
 export default function LobbyPage() {
   const router = useRouter();
 
-  const [playerId] = useState(() => sessionStorage.getItem("online_player_id") ?? "");
-  const [roomId] = useState(() => sessionStorage.getItem("online_room_id") ?? "");
-  const [roomCode] = useState(() => sessionStorage.getItem("online_room_code") ?? "");
-  const [isHost] = useState(() => sessionStorage.getItem("online_is_host") === "true");
+  const [playerId] = useState(() => typeof window !== "undefined" ? sessionStorage.getItem("online_player_id") ?? "" : "");
+  const [roomId] = useState(() => typeof window !== "undefined" ? sessionStorage.getItem("online_room_id") ?? "" : "");
+  const [roomCode] = useState(() => typeof window !== "undefined" ? sessionStorage.getItem("online_room_code") ?? "" : "");
+  const [isHost] = useState(() => typeof window !== "undefined" ? sessionStorage.getItem("online_is_host") === "true" : false);
 
   const [players, setPlayers] = useState<OnlinePlayer[]>([]);
   const [copied, setCopied] = useState(false);
@@ -288,7 +288,7 @@ export default function LobbyPage() {
             size="lg"
             className="w-full"
             onClick={handleReady}
-            variant={isReady ? "secondary" : "primary"}
+            variant={isReady ? "secondary" : "default"}
           >
             {isReady ? "✓ Ready" : "Ready Up"}
           </Button>
