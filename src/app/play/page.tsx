@@ -24,6 +24,7 @@ function useCountdown(seconds: number, running: boolean, resetKey: number) {
   const ref = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Reset remaining when resetKey changes
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional timer reset on Play Again
   useEffect(() => { setRemaining(seconds); }, [resetKey, seconds]);
 
   useEffect(() => {
