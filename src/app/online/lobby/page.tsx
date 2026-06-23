@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Copy, Check, ChevronLeft, Play } from "lucide-react";
@@ -12,19 +12,17 @@ import { setReady, startGame, kickPlayer, transferHost, leaveRoom, endRoom } fro
 import { supabase } from "@/lib/supabase";
 import type { GameMode, Difficulty } from "@/types";
 
-// Read sessionStorage once at module level — avoids stale closure issues
-function getSession() {
-  if (typeof window === "undefined") return { playerId: "", roomId: "", isHost: false };
-  return {
-    playerId: sessionStorage.getItem("online_player_id") ?? "",
-    roomId: sessionStorage.getItem("online_room_id") ?? "",
-    isHost: sessionStorage.getItem("online_is_host") === "true",
-  };
-}
-
 export default function LobbyPage() {
   const router = useRouter();
-  const { playerId, roomId, isHost } = getSession();
+
+  // Read from sessionStorage inside component, inside useRef so it's stable
+  const sessionRef = useRef({
+    playerId: typeof window !== "undefined" ? sessionStorage.getItem("online_player_id") ?? "" : "",
+    roomId: typeof window !== "undefined" ? sessionStorage.getItem("online_room_id") ?? "" : "",
+    isHost: typeof window !== "undefined" ? sessionStorage.getItem("online_is_host") === "true" : false,
+  });
+
+  const { playerId, roomId, isHost } = sessionRef.current;
 
   const [players, setPlayers] = useState<OnlinePlayer[]>([]);
   const [roomCode, setRoomCode] = useState("");
@@ -37,21 +35,28 @@ export default function LobbyPage() {
   const [difficulty, setDifficulty] = useState<Difficulty>("medium");
   const [showSettings, setShowSettings] = useState(false);
 
+  // Auto-ready the host on mount
+  useEffect(() => {
+    if (isHost && playerId) {
+      setIsReady(true);
+      setReady(playerId, true);
+    }
+  }, [isHost, playerId]);
+
   useEffect(() => {
     if (!playerId || !roomId) router.replace("/online");
   }, [playerId, roomId, router]);
 
   const fetchAll = useCallback(async () => {
-    if (!roomId) return;
+    const rid = typeof window !== "undefined" ? sessionStorage.getItem("online_room_id") ?? "" : "";
+    if (!rid) return;
 
     const [{ data: playersData }, { data: roomData }] = await Promise.all([
-      supabase.from("players").select("*").eq("room_id", roomId).order("created_at"),
-      supabase.from("rooms").select("code, phase, status").eq("id", roomId).single(),
+      supabase.from("players").select("*").eq("room_id", rid).order("created_at"),
+      supabase.from("rooms").select("code, phase, status").eq("id", rid).single(),
     ]);
 
-    if (playersData) {
-      setPlayers(playersData as OnlinePlayer[]);
-    }
+    if (playersData) setPlayers(playersData as OnlinePlayer[]);
 
     if (roomData) {
       setRoomCode(roomData.code);
@@ -62,19 +67,18 @@ export default function LobbyPage() {
         router.replace("/");
       }
     }
-  }, [roomId, router]);
+  }, [router]);
 
-  // Fetch immediately on mount
+  // Fetch on mount
   useEffect(() => {
     fetchAll();
   }, [fetchAll]);
 
-  // Poll every 1.5 seconds
+  // Poll every 1.5 seconds — always reads fresh roomId from sessionStorage
   useEffect(() => {
-    if (!roomId) return;
     const id = setInterval(fetchAll, 1500);
     return () => clearInterval(id);
-  }, [roomId, fetchAll]);
+  }, [fetchAll]);
 
   async function handleReady() {
     const next = !isReady;
@@ -117,7 +121,9 @@ export default function LobbyPage() {
   }
 
   const connectedPlayers = players.filter((p) => p.connected);
+  // Game can start when all connected players are ready (host is auto-readied)
   const allReady = connectedPlayers.length >= 3 && connectedPlayers.every((p) => p.is_ready);
+  const readyCount = connectedPlayers.filter((p) => p.is_ready).length;
   const filterGroups = FILTER_GROUPS_BY_MODE[mode] ?? [];
 
   return (
@@ -223,6 +229,7 @@ export default function LobbyPage() {
 
         {error && <p className="text-danger text-sm font-bold text-center">{error}</p>}
 
+        {/* Guests ready up */}
         {!isHost && (
           <Button size="lg" className="w-full" onClick={handleReady}
             variant={isReady ? "secondary" : "primary"}>
@@ -230,10 +237,15 @@ export default function LobbyPage() {
           </Button>
         )}
 
+        {/* Host start button */}
         {isHost && (
           <Button size="lg" className="w-full" onClick={handleStart} disabled={!allReady || starting}>
             <Play size={16} className="mr-2" />
-            {starting ? "Starting..." : allReady ? "Start Game" : `Waiting (${connectedPlayers.filter(p => p.is_ready).length}/${connectedPlayers.length} ready)`}
+            {starting
+              ? "Starting..."
+              : allReady
+              ? "Start Game"
+              : `Waiting for players (${readyCount}/${connectedPlayers.length} ready)`}
           </Button>
         )}
       </div>
