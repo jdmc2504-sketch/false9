@@ -43,12 +43,10 @@ export default function LobbyPage() {
   const [difficulty, setDifficulty] = useState<Difficulty>("medium");
   const [showSettings, setShowSettings] = useState(false);
 
-  // Redirect if no session
   useEffect(() => {
     if (!playerId || !roomId) router.replace("/online");
   }, [playerId, roomId, router]);
 
-  // Fetch players initially
   const fetchPlayers = useCallback(async () => {
     const { data } = await supabase
       .from("players")
@@ -62,7 +60,6 @@ export default function LobbyPage() {
     fetchPlayers();
   }, [fetchPlayers]);
 
-  // Realtime subscriptions
   useEffect(() => {
     if (!roomId) return;
 
@@ -124,7 +121,6 @@ export default function LobbyPage() {
 
   async function handleKick(targetId: string) {
     await kickPlayer(targetId, roomId);
-    // If game is active, end it
     await endRoom(roomId);
   }
 
@@ -151,7 +147,6 @@ export default function LobbyPage() {
 
   return (
     <main className="flex-1 flex flex-col hud-bg safe-top safe-bottom">
-      {/* Header */}
       <div className="flex items-center justify-between p-5">
         <motion.button
           whileTap={{ scale: 0.88 }}
@@ -225,11 +220,10 @@ export default function LobbyPage() {
                       {GAME_MODES.map((m) => (
                         <Chip
                           key={m.id}
+                          label={`${m.emoji} ${m.label}`}
                           selected={mode === m.id}
                           onClick={() => { setMode(m.id); setCategories([]); }}
-                        >
-                          {m.emoji} {m.label}
-                        </Chip>
+                        />
                       ))}
                     </div>
                   </div>
@@ -244,15 +238,14 @@ export default function LobbyPage() {
                         {group.options.map((opt) => (
                           <Chip
                             key={opt}
+                            label={opt}
                             selected={categories.includes(opt)}
                             onClick={() =>
                               setCategories((prev) =>
                                 prev.includes(opt) ? prev.filter((c) => c !== opt) : [...prev, opt]
                               )
                             }
-                          >
-                            {opt}
-                          </Chip>
+                          />
                         ))}
                       </div>
                     </div>
@@ -265,11 +258,10 @@ export default function LobbyPage() {
                       {DIFFICULTIES.map((d) => (
                         <Chip
                           key={d.id}
+                          label={d.label}
                           selected={difficulty === d.id}
                           onClick={() => setDifficulty(d.id)}
-                        >
-                          {d.label}
-                        </Chip>
+                        />
                       ))}
                     </div>
                   </div>
@@ -277,7 +269,6 @@ export default function LobbyPage() {
               )}
             </AnimatePresence>
 
-            {/* Summary when collapsed */}
             {!showSettings && (
               <p className="text-sm font-bold">
                 {GAME_MODES.find((m) => m.id === mode)?.emoji}{" "}
@@ -292,7 +283,6 @@ export default function LobbyPage() {
           <p className="text-danger text-sm font-bold text-center">{error}</p>
         )}
 
-        {/* Ready / Start */}
         {!isHost && (
           <Button
             size="lg"
@@ -312,7 +302,7 @@ export default function LobbyPage() {
             disabled={!allReady || starting}
           >
             <Play size={16} className="mr-2" />
-            {starting ? "Starting..." : allReady ? "Start Game" : `Waiting for players (${connectedPlayers.filter(p => p.is_ready).length}/${connectedPlayers.length} ready)`}
+            {starting ? "Starting..." : allReady ? "Start Game" : `Waiting (${connectedPlayers.filter(p => p.is_ready).length}/${connectedPlayers.length} ready)`}
           </Button>
         )}
       </div>
