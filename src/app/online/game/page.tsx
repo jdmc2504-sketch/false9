@@ -67,6 +67,7 @@ export default function OnlineGamePage() {
   const playerIdRef = useRef("");
   const roomIdRef = useRef("");
   const isHostRef = useRef(false);
+  const prevPhaseRef = useRef("");
 
   const [playerId, setPlayerId] = useState("");
   const [isHost, setIsHost] = useState(false);
@@ -101,38 +102,52 @@ export default function OnlineGamePage() {
           supabase.from("players").select("*").eq("room_id", rid).order("created_at"),
         ]);
 
-        if (roomData) {
-          setRoom(roomData as RoomRow);
+        if (playersData) {
+          setPlayers(playersData as PlayerRow[]);
 
-          // Update isHost from DB in case host was transferred
-          if (playersData) {
-            const me = (playersData as PlayerRow[]).find((p) => p.id === playerIdRef.current);
-            if (me) {
-              const nowHost = me.is_host;
+          const myRow = (playersData as PlayerRow[]).find((p) => p.id === playerIdRef.current);
+          if (myRow) {
+            // If I was kicked, redirect home
+            if (!myRow.connected) {
+              routerRef.current.replace("/");
+              return;
+            }
+
+            setMe(myRow);
+            setHasVoted(myRow.has_voted);
+
+            // Update host status from DB
+            const nowHost = myRow.is_host;
+            if (nowHost !== isHostRef.current) {
               isHostRef.current = nowHost;
               setIsHost(nowHost);
               sessionStorage.setItem("online_is_host", nowHost ? "true" : "false");
             }
           }
+        }
+
+        if (roomData) {
+          const prevPhase = prevPhaseRef.current;
+          const newPhase = roomData.phase;
+
+          // Detect phase transition to reveal (play again) — reset client state
+          if (prevPhase === "results" && newPhase === "reveal") {
+            setRevealHidden(false);
+            setSelectedVote(null);
+            setHasVoted(false);
+          }
+
+          prevPhaseRef.current = newPhase;
+          setRoom(roomData as RoomRow);
 
           if (roomData.status === "ended") {
             routerRef.current.replace("/");
             return;
           }
 
-          // If room goes back to lobby (change settings), redirect everyone
           if (roomData.status === "lobby") {
             routerRef.current.replace("/online/lobby");
             return;
-          }
-        }
-
-        if (playersData) {
-          setPlayers(playersData as PlayerRow[]);
-          const myRow = (playersData as PlayerRow[]).find((p) => p.id === playerIdRef.current);
-          if (myRow) {
-            setMe(myRow);
-            setHasVoted(myRow.has_voted);
           }
         }
       } catch (e) {
@@ -166,10 +181,11 @@ export default function OnlineGamePage() {
   }
 
   async function handlePlayAgain() {
+    await playAgain(roomIdRef.current);
+    // Host resets their own state — others reset via phase transition detection
     setRevealHidden(false);
     setSelectedVote(null);
     setHasVoted(false);
-    await playAgain(roomIdRef.current);
   }
 
   async function handleLeave() {
