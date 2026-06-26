@@ -15,11 +15,9 @@ import type { GameMode, Difficulty } from "@/types";
 export default function LobbyPage() {
   const router = useRouter();
 
-  const [mounted, setMounted] = useState(false);
   const [playerId, setPlayerId] = useState("");
   const [roomId, setRoomId] = useState("");
   const [isHost, setIsHost] = useState(false);
-
   const [players, setPlayers] = useState<OnlinePlayer[]>([]);
   const [roomCode, setRoomCode] = useState("");
   const [copied, setCopied] = useState(false);
@@ -31,55 +29,88 @@ export default function LobbyPage() {
   const [difficulty, setDifficulty] = useState<Difficulty>("medium");
   const [showSettings, setShowSettings] = useState(false);
 
-  // Step 1: hydrate from sessionStorage after mount
   useEffect(() => {
     const pid = sessionStorage.getItem("online_player_id") ?? "";
     const rid = sessionStorage.getItem("online_room_id") ?? "";
     const host = sessionStorage.getItem("online_is_host") === "true";
 
-    if (!pid || !rid) {
-      router.replace("/online");
-      return;
-    }
+    if (!pid || !rid) { router.replace("/online"); return; }
 
     setPlayerId(pid);
     setRoomId(rid);
     setIsHost(host);
-    setMounted(true);
 
     if (host) {
       setIsReady(true);
       setReady(pid, true).catch(console.error);
     }
-  }, [router]);
 
-  // Step 2: only start polling once we have roomId from state
-  useEffect(() => {
-    if (!mounted || !roomId) return;
-
-    async function poll() {
-      const [{ data: playersData }, { data: roomData }] = await Promise.all([
-        supabase.from("players").select("*").eq("room_id", roomId).order("created_at"),
-        supabase.from("rooms").select("code, phase, status").eq("id", roomId).single(),
+    // Fetch initial state
+    async function init() {
+      const [{ data: pd }, { data: rd }] = await Promise.all([
+        supabase.from("players").select("*").eq("room_id", rid).order("created_at"),
+        supabase.from("rooms").select("code,phase,status").eq("id", rid).single(),
       ]);
-
-      if (playersData) setPlayers(playersData as OnlinePlayer[]);
-
-      if (roomData) {
-        setRoomCode(roomData.code);
-        if (roomData.phase === "reveal" && roomData.status === "active") {
-          router.push("/online/game");
-        }
-        if (roomData.status === "ended") {
-          router.replace("/");
-        }
+      if (pd) setPlayers(pd as OnlinePlayer[]);
+      if (rd) {
+        setRoomCode(rd.code);
+        if (rd.phase === "reveal" && rd.status === "active") router.push("/online/game");
+        if (rd.status === "ended") router.replace("/");
       }
     }
+    init();
 
-    poll();
-    const interval = setInterval(poll, 1500);
-    return () => clearInterval(interval);
-  }, [mounted, roomId, router]);
+    // Supabase broadcast channel — WebSocket based
+    const channel = supabase.channel(`room:${rid}`, {
+      config: { broadcast: { self: true } },
+    });
+
+    // Listen for any player changes
+    channel
+      .on("postgres_changes", {
+        event: "*",
+        schema: "public",
+        table: "players",
+        filter: `room_id=eq.${rid}`,
+      }, async () => {
+        const { data } = await supabase
+          .from("players")
+          .select("*")
+          .eq("room_id", rid)
+          .order("created_at");
+        if (data) setPlayers(data as OnlinePlayer[]);
+      })
+      .on("postgres_changes", {
+        event: "UPDATE",
+        schema: "public",
+        table: "rooms",
+        filter: `id=eq.${rid}`,
+      }, async (payload) => {
+        const r = payload.new as { code: string; phase: string; status: string };
+        setRoomCode(r.code);
+        if (r.phase === "reveal" && r.status === "active") router.push("/online/game");
+        if (r.status === "ended") router.replace("/");
+      })
+      .subscribe((status) => {
+        console.log("Supabase channel status:", status);
+      });
+
+    // Fallback poll every 3 seconds in case WebSocket misses anything
+    const interval = setInterval(async () => {
+      const { data } = await supabase
+        .from("players")
+        .select("*")
+        .eq("room_id", rid)
+        .order("created_at");
+      if (data) setPlayers(data as OnlinePlayer[]);
+    }, 3000);
+
+    return () => {
+      supabase.removeChannel(channel);
+      clearInterval(interval);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function handleReady() {
     const next = !isReady;
@@ -126,14 +157,6 @@ export default function LobbyPage() {
   const readyCount = connectedPlayers.filter((p) => p.is_ready).length;
   const filterGroups = FILTER_GROUPS_BY_MODE[mode] ?? [];
 
-  if (!mounted) {
-    return (
-      <main className="flex-1 flex items-center justify-center hud-bg">
-        <p className="text-muted text-sm font-bold uppercase tracking-widest">Loading…</p>
-      </main>
-    );
-  }
-
   return (
     <main className="flex-1 flex flex-col hud-bg safe-top safe-bottom">
       <div className="flex items-center justify-between p-5">
@@ -147,7 +170,6 @@ export default function LobbyPage() {
 
       <div className="flex-1 overflow-y-auto px-5 pb-6 no-scrollbar flex flex-col gap-5">
 
-        {/* Room code */}
         <div className="neon-card p-4 flex items-center justify-between">
           <div>
             <p className="text-xs font-black uppercase tracking-widest text-muted mb-1">Room Code</p>
@@ -160,7 +182,6 @@ export default function LobbyPage() {
           </motion.button>
         </div>
 
-        {/* Players */}
         <div>
           <p className="text-xs font-black uppercase tracking-widest text-muted mb-3">
             Players ({connectedPlayers.length})
@@ -174,7 +195,6 @@ export default function LobbyPage() {
           />
         </div>
 
-        {/* Settings — host only */}
         {isHost && (
           <div className="neon-card p-4 flex flex-col gap-4">
             <div className="flex items-center justify-between">
@@ -184,7 +204,6 @@ export default function LobbyPage() {
                 {showSettings ? "Hide" : "Edit"}
               </motion.button>
             </div>
-
             <AnimatePresence>
               {showSettings && (
                 <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }}
@@ -222,7 +241,6 @@ export default function LobbyPage() {
                 </motion.div>
               )}
             </AnimatePresence>
-
             {!showSettings && (
               <p className="text-sm font-bold">
                 {GAME_MODES.find((m) => m.id === mode)?.emoji}{" "}
