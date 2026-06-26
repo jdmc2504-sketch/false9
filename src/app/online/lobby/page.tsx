@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Copy, Check, ChevronLeft, Play } from "lucide-react";
@@ -14,14 +14,16 @@ import type { GameMode, Difficulty } from "@/types";
 
 export default function LobbyPage() {
   const router = useRouter();
+  const routerRef = useRef(router);
+  useEffect(() => { routerRef.current = router; }, [router]);
 
-  const [playerId, setPlayerId] = useState("");
-  const [roomId, setRoomId] = useState("");
-  const [isHost, setIsHost] = useState(false);
   const [players, setPlayers] = useState<OnlinePlayer[]>([]);
   const [roomCode, setRoomCode] = useState("");
   const [copied, setCopied] = useState(false);
   const [isReady, setIsReady] = useState(false);
+  const [isHost, setIsHost] = useState(false);
+  const [playerId, setPlayerId] = useState("");
+  const [roomId, setRoomId] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [starting, setStarting] = useState(false);
   const [mode, setMode] = useState<GameMode>("player");
@@ -29,100 +31,88 @@ export default function LobbyPage() {
   const [difficulty, setDifficulty] = useState<Difficulty>("medium");
   const [showSettings, setShowSettings] = useState(false);
 
+  // Store in refs for use inside interval
+  const playerIdRef = useRef("");
+  const roomIdRef = useRef("");
+  const isHostRef = useRef(false);
+
   useEffect(() => {
+    // Read sessionStorage
     const pid = sessionStorage.getItem("online_player_id") ?? "";
     const rid = sessionStorage.getItem("online_room_id") ?? "";
     const host = sessionStorage.getItem("online_is_host") === "true";
 
-    if (!pid || !rid) { router.replace("/online"); return; }
+    if (!pid || !rid) {
+      routerRef.current.replace("/online");
+      return;
+    }
 
+    // Set refs
+    playerIdRef.current = pid;
+    roomIdRef.current = rid;
+    isHostRef.current = host;
+
+    // Set state for rendering
     setPlayerId(pid);
     setRoomId(rid);
     setIsHost(host);
 
+    // Auto-ready host
     if (host) {
       setIsReady(true);
       setReady(pid, true).catch(console.error);
     }
 
-    // Fetch initial state
-    async function init() {
-      const [{ data: pd }, { data: rd }] = await Promise.all([
-        supabase.from("players").select("*").eq("room_id", rid).order("created_at"),
-        supabase.from("rooms").select("code,phase,status").eq("id", rid).single(),
-      ]);
-      if (pd) setPlayers(pd as OnlinePlayer[]);
-      if (rd) {
-        setRoomCode(rd.code);
-        if (rd.phase === "reveal" && rd.status === "active") router.push("/online/game");
-        if (rd.status === "ended") router.replace("/");
+    // Poll function — uses refs, never stale
+    async function poll() {
+      const currentRoomId = roomIdRef.current;
+      if (!currentRoomId) return;
+
+      try {
+        const [{ data: pd }, { data: rd }] = await Promise.all([
+          supabase.from("players").select("*").eq("room_id", currentRoomId).order("created_at"),
+          supabase.from("rooms").select("code,phase,status").eq("id", currentRoomId).single(),
+        ]);
+
+        if (pd) setPlayers(pd as OnlinePlayer[]);
+
+        if (rd) {
+          setRoomCode(rd.code);
+          if (rd.phase === "reveal" && rd.status === "active") {
+            routerRef.current.push("/online/game");
+          }
+          if (rd.status === "ended") {
+            routerRef.current.replace("/");
+          }
+        }
+      } catch (e) {
+        console.error("Poll error:", e);
       }
     }
-    init();
 
-    // Supabase broadcast channel — WebSocket based
-    const channel = supabase.channel(`room:${rid}`, {
-      config: { broadcast: { self: true } },
-    });
+    // Run immediately then every 1.5s
+    poll();
+    const interval = setInterval(poll, 1500);
 
-    // Listen for any player changes
-    channel
-      .on("postgres_changes", {
-        event: "*",
-        schema: "public",
-        table: "players",
-        filter: `room_id=eq.${rid}`,
-      }, async () => {
-        const { data } = await supabase
-          .from("players")
-          .select("*")
-          .eq("room_id", rid)
-          .order("created_at");
-        if (data) setPlayers(data as OnlinePlayer[]);
-      })
-      .on("postgres_changes", {
-        event: "UPDATE",
-        schema: "public",
-        table: "rooms",
-        filter: `id=eq.${rid}`,
-      }, async (payload) => {
-        const r = payload.new as { code: string; phase: string; status: string };
-        setRoomCode(r.code);
-        if (r.phase === "reveal" && r.status === "active") router.push("/online/game");
-        if (r.status === "ended") router.replace("/");
-      })
-      .subscribe((status) => {
-        console.log("Supabase channel status:", status);
-      });
-
-    // Fallback poll every 3 seconds in case WebSocket misses anything
-    const interval = setInterval(async () => {
-      const { data } = await supabase
-        .from("players")
-        .select("*")
-        .eq("room_id", rid)
-        .order("created_at");
-      if (data) setPlayers(data as OnlinePlayer[]);
-    }, 3000);
-
-    return () => {
-      supabase.removeChannel(channel);
-      clearInterval(interval);
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    return () => clearInterval(interval);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function handleReady() {
     const next = !isReady;
     setIsReady(next);
-    await setReady(playerId, next);
+    await setReady(playerIdRef.current, next);
   }
 
   async function handleStart() {
     setStarting(true);
     setError(null);
     try {
-      await startGame({ roomId, mode, difficulty, filters: { categories, entityTypes: [] } });
+      await startGame({
+        roomId: roomIdRef.current,
+        mode,
+        difficulty,
+        filters: { categories, entityTypes: [] },
+      });
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "Failed to start");
       setStarting(false);
@@ -130,20 +120,21 @@ export default function LobbyPage() {
   }
 
   async function handleKick(targetId: string) {
-    await kickPlayer(targetId, roomId);
-    await endRoom(roomId);
+    await kickPlayer(targetId, roomIdRef.current);
+    await endRoom(roomIdRef.current);
   }
 
   async function handleTransferHost(targetId: string) {
-    await transferHost(targetId, roomId);
+    await transferHost(targetId, roomIdRef.current);
     sessionStorage.setItem("online_is_host", "false");
+    isHostRef.current = false;
     setIsHost(false);
   }
 
   async function handleLeave() {
-    await leaveRoom(playerId, roomId);
-    if (isHost) await endRoom(roomId);
-    router.replace("/");
+    await leaveRoom(playerIdRef.current, roomIdRef.current);
+    if (isHostRef.current) await endRoom(roomIdRef.current);
+    routerRef.current.replace("/");
   }
 
   function copyCode() {
