@@ -23,7 +23,6 @@ export default function LobbyPage() {
   const [isReady, setIsReady] = useState(false);
   const [isHost, setIsHost] = useState(false);
   const [playerId, setPlayerId] = useState("");
-  const [roomId, setRoomId] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [starting, setStarting] = useState(false);
   const [mode, setMode] = useState<GameMode>("player");
@@ -31,39 +30,28 @@ export default function LobbyPage() {
   const [difficulty, setDifficulty] = useState<Difficulty>("medium");
   const [showSettings, setShowSettings] = useState(false);
 
-  // Store in refs for use inside interval
   const playerIdRef = useRef("");
   const roomIdRef = useRef("");
   const isHostRef = useRef(false);
 
   useEffect(() => {
-    // Read sessionStorage
     const pid = sessionStorage.getItem("online_player_id") ?? "";
     const rid = sessionStorage.getItem("online_room_id") ?? "";
     const host = sessionStorage.getItem("online_is_host") === "true";
 
-    if (!pid || !rid) {
-      routerRef.current.replace("/online");
-      return;
-    }
+    if (!pid || !rid) { routerRef.current.replace("/online"); return; }
 
-    // Set refs
     playerIdRef.current = pid;
     roomIdRef.current = rid;
     isHostRef.current = host;
-
-    // Set state for rendering
     setPlayerId(pid);
-    setRoomId(rid);
     setIsHost(host);
 
-    // Auto-ready host
     if (host) {
       setIsReady(true);
       setReady(pid, true).catch(console.error);
     }
 
-    // Poll function — uses refs, never stale
     async function poll() {
       const currentRoomId = roomIdRef.current;
       if (!currentRoomId) return;
@@ -74,7 +62,20 @@ export default function LobbyPage() {
           supabase.from("rooms").select("code,phase,status").eq("id", currentRoomId).single(),
         ]);
 
-        if (pd) setPlayers(pd as OnlinePlayer[]);
+        if (pd) {
+          setPlayers(pd as OnlinePlayer[]);
+          // Update host status from DB in case it was transferred
+          const me = (pd as OnlinePlayer[]).find((p) => p.id === playerIdRef.current);
+          if (me && me.is_host !== isHostRef.current) {
+            isHostRef.current = me.is_host;
+            setIsHost(me.is_host);
+            sessionStorage.setItem("online_is_host", me.is_host ? "true" : "false");
+            if (me.is_host) {
+              setIsReady(true);
+              setReady(playerIdRef.current, true).catch(console.error);
+            }
+          }
+        }
 
         if (rd) {
           setRoomCode(rd.code);
@@ -90,10 +91,8 @@ export default function LobbyPage() {
       }
     }
 
-    // Run immediately then every 1.5s
     poll();
     const interval = setInterval(poll, 1500);
-
     return () => clearInterval(interval);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -120,15 +119,27 @@ export default function LobbyPage() {
   }
 
   async function handleKick(targetId: string) {
+    // Mark player as disconnected
     await kickPlayer(targetId, roomIdRef.current);
-    await endRoom(roomIdRef.current);
+    // Only end room if game is already active
+    const { data: room } = await supabase
+      .from("rooms")
+      .select("status")
+      .eq("id", roomIdRef.current)
+      .single();
+    if (room && room.status !== "lobby") {
+      await endRoom(roomIdRef.current);
+    }
   }
 
   async function handleTransferHost(targetId: string) {
     await transferHost(targetId, roomIdRef.current);
+    // Update local state — poll will confirm from DB
     sessionStorage.setItem("online_is_host", "false");
     isHostRef.current = false;
     setIsHost(false);
+    setIsReady(false);
+    await setReady(playerIdRef.current, false);
   }
 
   async function handleLeave() {
