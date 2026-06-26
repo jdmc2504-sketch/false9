@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Home, RotateCcw, Settings } from "lucide-react";
@@ -36,30 +36,22 @@ interface PlayerRow {
   connected: boolean;
 }
 
-// Countdown hook
 function useCountdown(seconds: number, running: boolean, onEnd?: () => void) {
   const [remaining, setRemaining] = useState(seconds);
-  const ref = useRef<ReturnType<typeof setInterval> | null>(null);
   const endRef = useRef(onEnd);
   endRef.current = onEnd;
 
-  useEffect(() => {
-    setRemaining(seconds);
-  }, [seconds, running]);
+  useEffect(() => { setRemaining(seconds); }, [seconds, running]);
 
   useEffect(() => {
     if (!running) return;
-    ref.current = setInterval(() => {
+    const id = setInterval(() => {
       setRemaining((r) => {
-        if (r <= 1) {
-          clearInterval(ref.current!);
-          endRef.current?.();
-          return 0;
-        }
+        if (r <= 1) { clearInterval(id); endRef.current?.(); return 0; }
         return r - 1;
       });
     }, 1000);
-    return () => { if (ref.current) clearInterval(ref.current); };
+    return () => clearInterval(id);
   }, [running]);
 
   const mm = String(Math.floor(remaining / 60)).padStart(2, "0");
@@ -69,11 +61,15 @@ function useCountdown(seconds: number, running: boolean, onEnd?: () => void) {
 
 export default function OnlineGamePage() {
   const router = useRouter();
+  const routerRef = useRef(router);
+  useEffect(() => { routerRef.current = router; }, [router]);
 
-  const playerId = typeof window !== "undefined" ? sessionStorage.getItem("online_player_id") ?? "" : "";
-  const roomId = typeof window !== "undefined" ? sessionStorage.getItem("online_room_id") ?? "" : "";
-  const isHost = typeof window !== "undefined" ? sessionStorage.getItem("online_is_host") === "true" : false;
+  const playerIdRef = useRef("");
+  const roomIdRef = useRef("");
+  const isHostRef = useRef(false);
 
+  const [playerId, setPlayerId] = useState("");
+  const [isHost, setIsHost] = useState(false);
   const [room, setRoom] = useState<RoomRow | null>(null);
   const [players, setPlayers] = useState<PlayerRow[]>([]);
   const [me, setMe] = useState<PlayerRow | null>(null);
@@ -82,91 +78,109 @@ export default function OnlineGamePage() {
   const [revealHidden, setRevealHidden] = useState(false);
   const [showChangeSettings, setShowChangeSettings] = useState(false);
 
-  // Redirect if no session
   useEffect(() => {
-    if (!playerId || !roomId) router.replace("/online");
-  }, [playerId, roomId, router]);
+    const pid = sessionStorage.getItem("online_player_id") ?? "";
+    const rid = sessionStorage.getItem("online_room_id") ?? "";
+    const host = sessionStorage.getItem("online_is_host") === "true";
 
-  const fetchAll = useCallback(async () => {
-    const [{ data: roomData }, { data: playersData }] = await Promise.all([
-      supabase.from("rooms").select("*").eq("id", roomId).single(),
-      supabase.from("players").select("*").eq("room_id", roomId).order("created_at"),
-    ]);
-    if (roomData) setRoom(roomData as RoomRow);
-    if (playersData) {
-      setPlayers(playersData as PlayerRow[]);
-      const myRow = (playersData as PlayerRow[]).find((p) => p.id === playerId);
-      if (myRow) {
-        setMe(myRow);
-        setHasVoted(myRow.has_voted);
+    if (!pid || !rid) { routerRef.current.replace("/online"); return; }
+
+    playerIdRef.current = pid;
+    roomIdRef.current = rid;
+    isHostRef.current = host;
+    setPlayerId(pid);
+    setIsHost(host);
+
+    async function poll() {
+      const rid = roomIdRef.current;
+      if (!rid) return;
+
+      try {
+        const [{ data: roomData }, { data: playersData }] = await Promise.all([
+          supabase.from("rooms").select("*").eq("id", rid).single(),
+          supabase.from("players").select("*").eq("room_id", rid).order("created_at"),
+        ]);
+
+        if (roomData) {
+          setRoom(roomData as RoomRow);
+
+          // Update isHost from DB in case host was transferred
+          if (playersData) {
+            const me = (playersData as PlayerRow[]).find((p) => p.id === playerIdRef.current);
+            if (me) {
+              const nowHost = me.is_host;
+              isHostRef.current = nowHost;
+              setIsHost(nowHost);
+              sessionStorage.setItem("online_is_host", nowHost ? "true" : "false");
+            }
+          }
+
+          if (roomData.status === "ended") {
+            routerRef.current.replace("/");
+            return;
+          }
+
+          // If room goes back to lobby (change settings), redirect everyone
+          if (roomData.status === "lobby") {
+            routerRef.current.replace("/online/lobby");
+            return;
+          }
+        }
+
+        if (playersData) {
+          setPlayers(playersData as PlayerRow[]);
+          const myRow = (playersData as PlayerRow[]).find((p) => p.id === playerIdRef.current);
+          if (myRow) {
+            setMe(myRow);
+            setHasVoted(myRow.has_voted);
+          }
+        }
+      } catch (e) {
+        console.error("Poll error:", e);
       }
     }
-  }, [roomId, playerId]);
 
-  useEffect(() => { fetchAll(); }, [fetchAll]);
+    poll();
+    const interval = setInterval(poll, 1500);
+    return () => clearInterval(interval);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Realtime
-  useEffect(() => {
-    if (!roomId) return;
-
-    const roomSub = supabase
-      .channel(`game-room-${roomId}`)
-      .on("postgres_changes", {
-        event: "UPDATE", schema: "public", table: "rooms", filter: `id=eq.${roomId}`,
-      }, (payload) => {
-        const r = payload.new as RoomRow;
-        setRoom(r);
-        if (r.status === "ended") router.replace("/");
-      })
-      .subscribe();
-
-    const playerSub = supabase
-      .channel(`game-players-${roomId}`)
-      .on("postgres_changes", {
-        event: "*", schema: "public", table: "players", filter: `room_id=eq.${roomId}`,
-      }, () => fetchAll())
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(roomSub);
-      supabase.removeChannel(playerSub);
-    };
-  }, [roomId, router, fetchAll]);
-
-  // Auto-show results when all voted
+  // Auto-show results when all voted (host only)
   useEffect(() => {
     if (!room || room.phase !== "voting" || !isHost) return;
     const connected = players.filter((p) => p.connected);
     if (connected.length > 0 && connected.every((p) => p.has_voted)) {
-      showResults(roomId);
+      showResults(roomIdRef.current);
     }
-  }, [players, room, isHost, roomId]);
+  }, [players, room, isHost]);
 
   async function handleVote(targetId: string) {
     if (hasVoted) return;
     setSelectedVote(targetId);
     setHasVoted(true);
-    await submitVote(playerId, targetId, roomId);
+    await submitVote(playerIdRef.current, targetId, roomIdRef.current);
   }
 
   async function handleStartVoting() {
-    await startVoting(roomId);
+    await startVoting(roomIdRef.current);
   }
 
   async function handlePlayAgain() {
-    await playAgain(roomId);
+    setRevealHidden(false);
+    setSelectedVote(null);
+    setHasVoted(false);
+    await playAgain(roomIdRef.current);
   }
 
   async function handleLeave() {
-    await leaveRoom(playerId, roomId);
-    if (isHost) await endRoom(roomId);
-    router.replace("/");
+    await leaveRoom(playerIdRef.current, roomIdRef.current);
+    if (isHostRef.current) await endRoom(roomIdRef.current);
+    routerRef.current.replace("/");
   }
 
-  // Voting timer auto-lock
   const votingRunning = room?.phase === "voting";
   useCountdown(120, votingRunning, async () => {
-    if (isHost) await showResults(roomId);
+    if (isHostRef.current) await showResults(roomIdRef.current);
   });
   const { display: timerDisplay, remaining: timerRemaining } = useCountdown(120, votingRunning);
 
@@ -196,18 +210,13 @@ export default function OnlineGamePage() {
         <div className="flex-1 flex flex-col items-center justify-center px-6 gap-6">
           <AnimatePresence mode="wait">
             {!revealHidden ? (
-              <motion.div
-                key="reveal"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                className="w-full max-w-sm"
-              >
+              <motion.div key="reveal" initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}
+                className="w-full max-w-sm">
                 <div className="neon-card p-6 flex flex-col items-center gap-4 text-center">
                   <p className="text-xs font-black uppercase tracking-widest text-muted">
                     {me.avatar} {me.name}
                   </p>
-
                   {me.role === "false9" ? (
                     <>
                       <div className="w-16 h-16 rounded-2xl bg-danger/20 flex items-center justify-center">
@@ -218,9 +227,7 @@ export default function OnlineGamePage() {
                           You are the False 9
                         </p>
                         <p className="text-xs text-muted mb-3">Your hint:</p>
-                        <p className="text-xl font-black text-pitch neon-text">
-                          {me.reveal_text}
-                        </p>
+                        <p className="text-xl font-black text-pitch neon-text">{me.reveal_text}</p>
                       </div>
                     </>
                   ) : (
@@ -229,38 +236,24 @@ export default function OnlineGamePage() {
                         <span className="text-3xl">⚽</span>
                       </div>
                       <div>
-                        <p className="text-muted text-xs uppercase tracking-widest mb-2">
-                          The answer is
-                        </p>
-                        <p className="text-3xl font-black text-pitch neon-text">
-                          {me.reveal_text}
-                        </p>
+                        <p className="text-muted text-xs uppercase tracking-widest mb-2">The answer is</p>
+                        <p className="text-3xl font-black text-pitch neon-text">{me.reveal_text}</p>
                         <p className="text-xs text-muted mt-2">Find the False 9 who doesn't know this</p>
                       </div>
                     </>
                   )}
-
-                  <Button
-                    size="lg"
-                    className="w-full mt-2"
-                    onClick={() => setRevealHidden(true)}
-                  >
+                  <Button size="lg" className="w-full mt-2" onClick={() => setRevealHidden(true)}>
                     Hide & I'm Done
                   </Button>
                 </div>
               </motion.div>
             ) : (
-              <motion.div
-                key="hidden"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="w-full max-w-sm flex flex-col items-center gap-4"
-              >
+              <motion.div key="hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                className="w-full max-w-sm flex flex-col items-center gap-4">
                 <div className="neon-card p-6 text-center w-full">
                   <p className="text-pitch font-black text-lg uppercase mb-1">Role Hidden ✓</p>
                   <p className="text-sm text-muted">Waiting for everyone to check their role…</p>
                 </div>
-
                 {isHost && (
                   <Button size="lg" className="w-full" onClick={handleStartVoting}>
                     Start Voting
@@ -277,7 +270,6 @@ export default function OnlineGamePage() {
   // ── Voting phase ──────────────────────────────────────────────
   if (room.phase === "voting") {
     const urgentTimer = timerRemaining <= 30;
-
     return (
       <main className="flex-1 flex flex-col hud-bg safe-top safe-bottom">
         <div className="flex items-center justify-between p-5">
@@ -298,31 +290,23 @@ export default function OnlineGamePage() {
               {hasVoted ? "Vote locked in — waiting for others" : "Who is the False 9?"}
             </p>
           </div>
-
           {connectedPlayers.map((player) => {
             const isMe = player.id === playerId;
             const isVoted = selectedVote === player.id;
-
             return (
-              <motion.button
-                key={player.id}
+              <motion.button key={player.id}
                 whileTap={!isMe && !hasVoted ? { scale: 0.97 } : {}}
                 onClick={() => !isMe && !hasVoted && handleVote(player.id)}
                 disabled={isMe || hasVoted}
-                className={`
-                  neon-card px-4 py-4 flex items-center gap-3 w-full text-left transition-all
+                className={`neon-card px-4 py-4 flex items-center gap-3 w-full text-left transition-all
                   ${isVoted ? "border-pitch bg-pitch/10" : ""}
-                  ${isMe ? "opacity-50" : ""}
-                `}
-              >
+                  ${isMe ? "opacity-50" : ""}`}>
                 <span className="text-2xl">{player.avatar}</span>
                 <div className="flex-1">
                   <p className="font-black text-sm uppercase tracking-wide">
                     {player.name} {isMe && "(you)"}
                   </p>
-                  <p className="text-xs text-muted">
-                    {player.has_voted ? "✓ Voted" : "Thinking…"}
-                  </p>
+                  <p className="text-xs text-muted">{player.has_voted ? "✓ Voted" : "Thinking…"}</p>
                 </div>
                 {isVoted && <span className="text-pitch font-black text-xs uppercase">Your vote</span>}
               </motion.button>
@@ -335,14 +319,10 @@ export default function OnlineGamePage() {
 
   // ── Results phase ──────────────────────────────────────────────
   if (room.phase === "results") {
-    // Tally votes
     const voteCounts: Record<string, number> = {};
     connectedPlayers.forEach((p) => {
-      if (p.voted_for) {
-        voteCounts[p.voted_for] = (voteCounts[p.voted_for] || 0) + 1;
-      }
+      if (p.voted_for) voteCounts[p.voted_for] = (voteCounts[p.voted_for] || 0) + 1;
     });
-
     const maxVotes = Math.max(0, ...Object.values(voteCounts));
     const mostVoted = connectedPlayers.filter((p) => (voteCounts[p.id] || 0) === maxVotes && maxVotes > 0);
     const false9Players = connectedPlayers.filter((p) => p.role === "false9");
@@ -360,12 +340,8 @@ export default function OnlineGamePage() {
         </div>
 
         <div className="flex-1 overflow-y-auto px-5 pb-6 no-scrollbar flex flex-col gap-4">
-          {/* Outcome banner */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className={`neon-card p-5 text-center ${groupWon ? "bg-pitch/10 border-pitch" : "bg-danger/10 border-danger"}`}
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+            className={`neon-card p-5 text-center ${groupWon ? "bg-pitch/10 border-pitch" : "bg-danger/10 border-danger"}`}>
             <p className="text-4xl mb-2">{groupWon ? "🎉" : "🕵️"}</p>
             <p className={`text-xl font-black uppercase tracking-tight ${groupWon ? "text-pitch neon-text" : "text-danger"}`}>
               {groupWon ? "Caught!" : "False 9 Escapes!"}
@@ -375,11 +351,10 @@ export default function OnlineGamePage() {
             </p>
           </motion.div>
 
-          {/* The False 9 revealed */}
           <div>
             <p className="text-xs font-black uppercase tracking-widest text-muted mb-2">The False 9</p>
             {false9Players.map((p) => (
-              <div key={p.id} className="neon-card px-4 py-3 flex items-center gap-3 border-danger/40">
+              <div key={p.id} className="neon-card px-4 py-3 flex items-center gap-3">
                 <span className="text-2xl">{p.avatar}</span>
                 <p className="font-black text-sm uppercase">{p.name}</p>
                 <span className="ml-auto text-danger text-xs font-black uppercase">False 9</span>
@@ -387,7 +362,6 @@ export default function OnlineGamePage() {
             ))}
           </div>
 
-          {/* Vote breakdown */}
           <div>
             <p className="text-xs font-black uppercase tracking-widest text-muted mb-2">Who Voted For Who</p>
             <div className="flex flex-col gap-2">
@@ -406,11 +380,10 @@ export default function OnlineGamePage() {
             </div>
           </div>
 
-          {/* Vote tally */}
           <div>
             <p className="text-xs font-black uppercase tracking-widest text-muted mb-2">Vote Tally</p>
             <div className="flex flex-col gap-2">
-              {connectedPlayers
+              {[...connectedPlayers]
                 .sort((a, b) => (voteCounts[b.id] || 0) - (voteCounts[a.id] || 0))
                 .map((p) => (
                   <div key={p.id} className={`neon-card px-4 py-3 flex items-center gap-3 ${mostVoted.find(m => m.id === p.id) ? "border-pitch" : ""}`}>
@@ -424,19 +397,14 @@ export default function OnlineGamePage() {
             </div>
           </div>
 
-          {/* Actions — host only */}
           {isHost && (
             <div className="flex flex-col gap-3 mt-2">
               <Button size="lg" className="w-full" onClick={handlePlayAgain}>
                 <RotateCcw size={16} className="mr-2" />
                 Play Again
               </Button>
-              <Button
-                size="lg"
-                variant="secondary"
-                className="w-full"
-                onClick={() => setShowChangeSettings(true)}
-              >
+              <Button size="lg" variant="secondary" className="w-full"
+                onClick={() => setShowChangeSettings(true)}>
                 <Settings size={16} className="mr-2" />
                 Change Settings
               </Button>
@@ -454,34 +422,31 @@ export default function OnlineGamePage() {
           )}
         </div>
 
-        {/* Change settings sheet — redirects to lobby flow */}
         <AnimatePresence>
           {showChangeSettings && (
             <>
-              <motion.div
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                 className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
-                onClick={() => setShowChangeSettings(false)}
-              />
-              <motion.div
-                initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }}
+                onClick={() => setShowChangeSettings(false)} />
+              <motion.div initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }}
                 transition={{ type: "spring", stiffness: 380, damping: 34 }}
-                className="fixed bottom-0 inset-x-0 z-50 p-4 safe-bottom"
-              >
+                className="fixed bottom-0 inset-x-0 z-50 p-4 safe-bottom">
                 <div className="neon-card p-4 max-w-sm mx-auto flex flex-col gap-3">
                   <p className="text-xs font-black uppercase tracking-widest text-muted text-center">
                     Change Settings
                   </p>
                   <p className="text-sm text-muted text-center">
-                    Go back to the lobby to change mode, filters and difficulty. Players stay in the room.
+                    Returns everyone to the lobby. Players stay in the room.
                   </p>
                   <Button size="lg" className="w-full" onClick={async () => {
-                    await supabase.from("rooms").update({ phase: "lobby", status: "lobby" }).eq("id", roomId);
-                    router.push("/online/lobby");
+                    await supabase.from("rooms")
+                      .update({ phase: "lobby", status: "lobby" })
+                      .eq("id", roomIdRef.current);
                   }}>
                     Go to Lobby
                   </Button>
-                  <Button size="lg" variant="secondary" className="w-full" onClick={() => setShowChangeSettings(false)}>
+                  <Button size="lg" variant="secondary" className="w-full"
+                    onClick={() => setShowChangeSettings(false)}>
                     Cancel
                   </Button>
                 </div>
