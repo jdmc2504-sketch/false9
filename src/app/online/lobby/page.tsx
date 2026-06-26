@@ -63,6 +63,12 @@ export default function LobbyPage() {
         ]);
 
         if (pd) {
+          // Check if this player was kicked
+          const kicked = (pd as OnlinePlayer[]).find((p) => p.id === playerIdRef.current);
+          if (kicked && !kicked.connected) {
+            routerRef.current.replace("/");
+            return;
+          }
           setPlayers(pd as OnlinePlayer[]);
           // Update host status from DB in case it was transferred
           const me = (pd as OnlinePlayer[]).find((p) => p.id === playerIdRef.current);
