@@ -1,11 +1,16 @@
 // ============================================================================
 // False9 Service Worker — minimal app-shell caching for offline + PWA installs.
-// Hand-written (instead of next-pwa) for compatibility with the Next.js
-// version used in this project and to keep behavior easy to reason about.
 // ============================================================================
-
-const CACHE_NAME = "false9-cache-v1";
+const CACHE_NAME = "false9-cache-v2";
 const APP_SHELL = ["/", "/manifest.json", "/icons/icon-192.png", "/icons/icon-512.png"];
+
+function isUncacheable(url) {
+  return (
+    url.includes("supabase.co") ||
+    url.includes("/online") ||
+    url.includes("_next/data")
+  );
+}
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -23,10 +28,17 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
-// Network-first for navigations, cache-first for static assets.
 self.addEventListener("fetch", (event) => {
   const { request } = event;
+  const url = request.url;
+
   if (request.method !== "GET") return;
+
+  // Never cache Supabase API calls, online routes, or Next.js data fetches
+  if (isUncacheable(url)) {
+    event.respondWith(fetch(request));
+    return;
+  }
 
   if (request.mode === "navigate") {
     event.respondWith(
