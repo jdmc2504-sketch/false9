@@ -53,11 +53,11 @@ export async function createRoom(hostId: string): Promise<{ roomId: string; code
 
 /** Join an existing room by code, returns roomId or throws */
 export async function joinRoomByCode(code: string): Promise<string> {
-  const { data, error } = await supabase
+const { data, error } = await supabase
     .from("rooms")
     .select("id, status")
     .eq("code", code.toUpperCase())
-    .single();
+    .maybeSingle();
 
   if (error || !data) throw new Error("Room not found. Check the code and try again.");
   if (data.status !== "lobby") throw new Error("This game has already started.");
